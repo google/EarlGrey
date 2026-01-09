@@ -453,11 +453,15 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
 }
 
 - (BOOL)activitySheetPresentWithError:(NSError **)error {
+  return [self activitySheetWithError:error] != nil;
+}
+
+- (XCUIElement *)activitySheetWithError:(NSError **)error {
   GREYError *localError;
   XCUIApplication *currentApplication = [[XCUIApplication alloc] init];
   double timeoutInSeconds = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-  BOOL result =
-      [GetActivitySheetElement(currentApplication) waitForExistenceWithTimeout:timeoutInSeconds];
+  XCUIElement *activitySheet = GetActivitySheetElement(currentApplication);
+  BOOL result = [activitySheet waitForExistenceWithTimeout:timeoutInSeconds];
   // Acts as a defensive check for EarlGrey synchronization. For iOS 16, the matcher would just be
   // grey_kindOfClassName(@"_UIActivityContentCollectionView").
   [[EarlGrey selectElementWithMatcher:[GREYMatchers activitySheetPresentMatcher]]
@@ -468,9 +472,9 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
         GREYErrorMake(kGREYActivitySheetHandlingErrorDomain,
                       GREYActivitySheetHandlingSheetNotPresent, @"Activity Sheet not present");
     GREYHandleInteractionError(localError, error);
-    return NO;
+    return nil;
   }
-  return YES;
+  return activitySheet;
 }
 
 - (BOOL)activitySheetAbsentWithError:(NSError **)error {
@@ -483,8 +487,9 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
     return YES;
   }
 
-  XCUIApplication *currentApplication = [[XCUIApplication alloc] init];
-  if (![GetActivitySheetElement(currentApplication) exists]) {
+  XCUIApplication *application = [[XCUIApplication alloc] init];
+  double timeoutInSeconds = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
+  if ([GetActivitySheetElement(application) waitForNonExistenceWithTimeout:timeoutInSeconds]) {
     return YES;
   }
 
@@ -498,10 +503,9 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   GREYError *localError;
   BOOL sheetPresent = [self activitySheetPresentWithError:&localError];
   if (sheetPresent) {
-    XCUIApplication *currentApplication = [[XCUIApplication alloc] init];
+    XCUIApplication *application = [[XCUIApplication alloc] init];
     double timeoutInSeconds = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-    sheetPresent =
-        [currentApplication.otherElements[URL] waitForExistenceWithTimeout:timeoutInSeconds];
+    sheetPresent = [application.otherElements[URL] waitForExistenceWithTimeout:timeoutInSeconds];
   }
   if (!sheetPresent) {
     NSString *description =
@@ -515,13 +519,40 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
 }
 
 - (void)tapElementInActivitySheetWithID:(NSString *)identifier error:(NSError **)error {
-  XCUIApplication *currentApplication = [[XCUIApplication alloc] init];
+  [[self elementInActivitySheetWithID:identifier type:XCUIElementTypeAny error:error] tap];
+}
 
-  XCUIElement *activitySheet = GetActivitySheetElement(currentApplication);
-  XCUIElement *element = [activitySheet descendantsMatchingType:XCUIElementTypeAny][identifier];
-  if ([element exists]) {
-    [element tap];
-    return;
+- (BOOL)tapButtonInActivitySheetWithId:(NSString *)identifier error:(NSError **)error {
+  XCUIElement *button = [self buttonInActivitySheetWithID:identifier error:error];
+  [button tap];
+  return button != nil;
+}
+
+- (BOOL)buttonPresentInActivitySheetWithId:(NSString *)identifier error:(NSError **)error {
+  return [self buttonInActivitySheetWithID:identifier error:error] != nil;
+}
+
+- (XCUIElement *)buttonInActivitySheetWithID:(NSString *)identifier error:(NSError **)error {
+  if ([identifier isEqualToString:@"Close"]) {
+    return [self elementInActivitySheetWithID:identifier type:XCUIElementTypeButton error:error];
+  }
+  return [self elementInActivitySheetWithID:identifier type:XCUIElementTypeStaticText error:error];
+}
+
+- (XCUIElement *)elementInActivitySheetWithID:(NSString *)identifier
+                                         type:(XCUIElementType)type
+                                        error:(NSError **)error {
+  XCUIElement *activitySheet = [self activitySheetWithError:error];
+  if (!activitySheet) {
+    return nil;
+  }
+
+  XCUIElementQuery *activityTexts = [activitySheet descendantsMatchingType:type];
+  XCUIElement *element = [activityTexts elementMatchingType:type identifier:identifier];
+
+  double timeoutInSeconds = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
+  if ([element waitForExistenceWithTimeout:timeoutInSeconds]) {
+    return element;
   }
 
   NSString *description = [NSString
@@ -530,48 +561,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
       GREYErrorMake(kGREYActivitySheetHandlingErrorDomain,
                     GREYActivitySheetHandlingSheetElementNotPresent, description);
   GREYHandleInteractionError(localError, error);
-}
-
-- (BOOL)tapButtonInActivitySheetWithId:(NSString *)identifier error:(NSError **)error {
-  BOOL buttonPresent = [self buttonPresentInActivitySheetWithId:identifier error:error];
-  if (buttonPresent) {
-    XCUIApplication *currentApplication = [[XCUIApplication alloc] init];
-    XCUIElement *activitySheet = GetActivitySheetElement(currentApplication);
-    XCUIElementType type = XCUIElementTypeStaticText;
-    if ([identifier isEqualToString:@"Close"]) {
-      type = XCUIElementTypeButton;
-    }
-    XCUIElementQuery *activityTexts = [activitySheet descendantsMatchingType:type];
-    XCUIElement *button = [activityTexts elementMatchingType:type identifier:identifier];
-    [button tap];
-  }
-  return buttonPresent;
-}
-
-- (BOOL)buttonPresentInActivitySheetWithId:(NSString *)identifier
-                                     error:(NSError **)error API_AVAILABLE(ios(17)) {
-  GREYError *localError;
-  BOOL sheetPresent = [self activitySheetPresentWithError:error];
-  if (sheetPresent) {
-    XCUIApplication *currentApplication = [[XCUIApplication alloc] init];
-    XCUIElement *activitySheet = GetActivitySheetElement(currentApplication);
-    XCUIElementType type = XCUIElementTypeStaticText;
-    if ([identifier isEqualToString:@"Close"]) {
-      type = XCUIElementTypeButton;
-    }
-    XCUIElementQuery *activityTexts = [activitySheet descendantsMatchingType:type];
-    XCUIElement *button = [activityTexts elementMatchingType:type identifier:identifier];
-    if (button && [button exists]) {
-      return YES;
-    } else {
-      NSString *description = [NSString
-          stringWithFormat:@"Activity Sheet button not present with identifier: %@", identifier];
-      localError = GREYErrorMake(kGREYActivitySheetHandlingErrorDomain,
-                                 GREYActivitySheetHandlingSheetButtonNotPresent, description);
-      GREYHandleInteractionError(localError, error);
-    }
-  }
-  return NO;
+  return nil;
 }
 
 - (BOOL)closeActivitySheetWithError:(NSError **)error {

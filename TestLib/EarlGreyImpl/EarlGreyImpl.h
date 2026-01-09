@@ -373,7 +373,8 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  * @param[out] error      An NSError populated with any steps that show more information about a
  *                        negative result.
  */
-- (void)tapElementInActivitySheetWithID:(NSString *)identifier error:(NSError **)error;
+- (void)tapElementInActivitySheetWithID:(NSString *)identifier
+                                  error:(NSError **)error API_AVAILABLE(ios(17));
 
 /**
  * @return A BOOL specifying if an activity sheet was closed by tapping on the sheet's close button.
