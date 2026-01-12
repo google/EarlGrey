@@ -276,6 +276,11 @@ extension GREYInteraction {
     return self.__assert(with: matcher(), error: error)
   }
 
+  /// Asynchronous version of `assert`.
+  ///
+  ///
+  /// - Parameter matcher: The matcher to be asserted.
+  /// - Returns: The current GREYInteraction instance.
   @available(iOS 13, *)
   @discardableResult public func assert(_ matcher: @autoclosure () -> GREYMatcher) async throws
     -> GREYInteraction
@@ -295,6 +300,11 @@ extension GREYInteraction {
     return self.__perform(action, error: error)
   }
 
+  /// Asynchronous version of `perform`.
+  ///
+  ///
+  /// - Parameter action: The action to be performed.
+  /// - Returns: The current GREYInteraction instance.
   @available(iOS 13, *)
   @discardableResult public func perform(_ action: GREYAction) async throws -> GREYInteraction {
     // Use `!` to invoke the optional __perform(_:) because the method always exists in test.
