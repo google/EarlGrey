@@ -40,24 +40,21 @@
   [self openTestViewNamed:@"Scroll Views"];
   id<GREYMatcher> matcher =
       grey_allOf(GREYAccessibilityLabel(@"Label 2"), GREYSufficientlyVisible(), nil);
-  CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-  [[GREYConfiguration sharedConfiguration] setValue:@(1)
-                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  NSError *error;
-  [[[EarlGrey selectElementWithMatcher:matcher]
-         usingSearchAction:GREYScrollInDirection(kGREYDirectionDown, 50)
-      onElementWithMatcher:GREYAccessibilityLabel(@"Upper Scroll View")]
-      assertWithMatcher:GREYSufficientlyVisible()
-                  error:&error];
-  [[GREYConfiguration sharedConfiguration] setValue:@(interactionTimeout)
-                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  XCTAssertNotNil(error);
-  NSString *timeoutText = @"Interaction timed out after 1 seconds while searching for element.";
-  XCTAssertTrue(
-      [error.description containsString:timeoutText],
-      @"Error's description: %@ for a search action timing out did not contain timeout info: %@.",
-      error.description, timeoutText);
-  XCTAssertFalse([error.description containsString:@"Stack Trace:"]);
+  GREYExecuteBlockWithConfigurationOverride(kGREYConfigKeyInteractionTimeoutDuration, @(1), ^{
+    NSError *error;
+    [[[EarlGrey selectElementWithMatcher:matcher]
+           usingSearchAction:GREYScrollInDirection(kGREYDirectionDown, 50)
+        onElementWithMatcher:GREYAccessibilityLabel(@"Upper Scroll View")]
+        assertWithMatcher:GREYSufficientlyVisible()
+                    error:&error];
+    XCTAssertNotNil(error);
+    NSString *timeoutText = @"Interaction timed out after 1 seconds while searching for element.";
+    XCTAssertTrue(
+        [error.description containsString:timeoutText],
+        @"Error's description: %@ for a search action timing out did not contain timeout info: %@.",
+        error.description, timeoutText);
+    XCTAssertFalse([error.description containsString:@"Stack Trace:"]);
+  });
 }
 
 /**
@@ -186,20 +183,16 @@
 - (void)testRotationDescriptionGlossary {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:nil];
   [self openTestViewNamed:@"Basic Views"];
-  CFTimeInterval originalInteractionTimeout =
-      GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-  [[GREYConfiguration sharedConfiguration] setValue:@(0.0)
-                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  [[GREYHostApplicationDistantObject sharedInstance] induceNonTactileActionTimeoutInTheApp];
-  NSError *error;
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:&error];
+  GREYExecuteBlockWithConfigurationOverride(kGREYConfigKeyInteractionTimeoutDuration, @(0.0), ^{
+    [[GREYHostApplicationDistantObject sharedInstance] induceNonTactileActionTimeoutInTheApp];
+    NSError *error;
+    [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:&error];
 
-  NSString *idlingResourceString = @"The following idling resources are busy.";
-  XCTAssertTrue([error.description containsString:idlingResourceString]);
-  XCTAssertFalse([error.description containsString:@"Stack Trace:"]);
-  XCTAssertFalse([error.userInfo[kErrorFailureReasonKey] containsString:@"idlingResourceString"]);
-  [[GREYConfiguration sharedConfiguration] setValue:@(originalInteractionTimeout)
-                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+    NSString *idlingResourceString = @"The following idling resources are busy.";
+    XCTAssertTrue([error.description containsString:idlingResourceString]);
+    XCTAssertFalse([error.description containsString:@"Stack Trace:"]);
+    XCTAssertFalse([error.userInfo[kErrorFailureReasonKey] containsString:@"idlingResourceString"]);
+  });
   // Ensure that the application has idled.
   GREYWaitForAppToIdle(@"Wait for app to idle");
 }
@@ -256,18 +249,14 @@
   [self openTestViewNamed:@"Animations"];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationControl")]
       performAction:GREYTap()];
-  double originalTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-  [[GREYConfiguration sharedConfiguration] setValue:@(1)
-                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  NSError *error;
-  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
-      assertWithMatcher:GREYText(@"Paused")
-                  error:&error];
-
-  [[GREYConfiguration sharedConfiguration] setValue:@(originalTimeout)
-                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  XCTAssertEqual([self grey_hierarchyOccurrencesInErrorDescription:error.description],
-                 (NSUInteger)1);
+  GREYExecuteBlockWithConfigurationOverride(kGREYConfigKeyInteractionTimeoutDuration, @(1), ^{
+    NSError *error;
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
+        assertWithMatcher:GREYText(@"Paused")
+                    error:&error];
+    XCTAssertEqual([self grey_hierarchyOccurrencesInErrorDescription:error.description],
+                   (NSUInteger)1);
+  });
 }
 
 - (void)testSimpleErrorDoesNotContainHierarchy {

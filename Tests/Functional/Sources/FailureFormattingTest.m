@@ -229,17 +229,13 @@
  * action failure.
  */
 - (void)testNotFoundActionErrorDescription {
-  CFTimeInterval originalInteractionTimeout =
-      GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-  [[GREYConfiguration sharedConfiguration] setValue:@(1)
-                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  NSString *jsStringAboveTimeout =
-      @"start = new Date().getTime(); while (new Date().getTime() < start + 3000);";
-  // JS action timeout greater than the threshold.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")]
-      performAction:GREYJavaScriptExecution(jsStringAboveTimeout, nil)];
-  [[GREYConfiguration sharedConfiguration] setValue:@(originalInteractionTimeout)
-                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+  GREYExecuteBlockWithConfigurationOverride(kGREYConfigKeyInteractionTimeoutDuration, @(1), ^{
+    NSString *jsStringAboveTimeout =
+        @"start = new Date().getTime(); while (new Date().getTime() < start + 3000);";
+    // JS action timeout greater than the threshold.
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")]
+        performAction:GREYJavaScriptExecution(jsStringAboveTimeout, nil)];
+  });
   NSString *expectedDetails = @"Interaction cannot continue because the "
                               @"desired element was not found.\n"
                               @"\n"
@@ -268,12 +264,12 @@
   [self openTestViewNamed:@"Scroll Views"];
   id<GREYMatcher> matcher =
       grey_allOf(GREYAccessibilityLabel(@"Label 2"), GREYSufficientlyVisible(), nil);
-  [[GREYConfiguration sharedConfiguration] setValue:@(1)
-                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  [[[EarlGrey selectElementWithMatcher:matcher]
-         usingSearchAction:GREYScrollInDirection(kGREYDirectionDown, 50)
-      onElementWithMatcher:GREYAccessibilityLabel(@"Upper Scroll View")]
-      assertWithMatcher:GREYSufficientlyVisible()];
+  GREYExecuteBlockWithConfigurationOverride(kGREYConfigKeyInteractionTimeoutDuration, @(1), ^{
+    [[[EarlGrey selectElementWithMatcher:matcher]
+           usingSearchAction:GREYScrollInDirection(kGREYDirectionDown, 50)
+        onElementWithMatcher:GREYAccessibilityLabel(@"Upper Scroll View")]
+        assertWithMatcher:GREYSufficientlyVisible()];
+  });
   NSString *expectedDetails =
       @"Interaction timed out after 1 seconds while searching "
       @"for element.\n"
@@ -466,12 +462,12 @@
  */
 - (void)testTimeoutForSynchronizationFailure {
   [self openTestViewNamed:@"Animations"];
-  [[GREYConfiguration sharedConfiguration] setValue:@(1)
-                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationControl")]
-      performAction:GREYTap()];
-  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
-      assertWithMatcher:GREYText(@"Paused")];
+  GREYExecuteBlockWithConfigurationOverride(kGREYConfigKeyInteractionTimeoutDuration, @(1), ^{
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationControl")]
+        performAction:GREYTap()];
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
+        assertWithMatcher:GREYText(@"Paused")];
+  });
   NSString *idlingResourceInfo = @"The following idling resources are busy.\n\n1.";
   XCTAssertTrue([_handler.details containsString:idlingResourceInfo],
                 @"Expected info does not appear in the actual exception details:\n\n"
@@ -486,53 +482,45 @@
 
 /** Ensures that the right description is printed when a synthetic event like rotation fails. */
 - (void)testSyntheticEventTimeout {
-  [[GREYConfiguration sharedConfiguration] setValue:@(0.0)
-                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  [self addTeardownBlock:^{
-    [[GREYConfiguration sharedConfiguration] setValue:@(30.0)
-                                         forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  }];
-  [[GREYHostApplicationDistantObject sharedInstance] induceNonTactileActionTimeoutInTheApp];
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
-  NSString *exceptionDetails = @"Application did not idle before rotating.\n\n"
-                               @"The following idling resources are busy.\n\n1. ";
-  XCTAssertTrue([_handler.details containsString:exceptionDetails],
-                @"Expected info does not appear in the actual exception details:\n\n"
-                @"========== expected info ===========\n%@\n\n"
-                @"========== actual exception details ==========\n%@",
-                exceptionDetails, _handler.details);
+  GREYExecuteBlockWithConfigurationOverride(kGREYConfigKeyInteractionTimeoutDuration, @(0.0), ^{
+    [[GREYHostApplicationDistantObject sharedInstance] induceNonTactileActionTimeoutInTheApp];
+    [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
+    NSString *exceptionDetails = @"Application did not idle before rotating.\n\n"
+                                 @"The following idling resources are busy.\n\n1. ";
+    XCTAssertTrue([_handler.details containsString:exceptionDetails],
+                  @"Expected info does not appear in the actual exception details:\n\n"
+                  @"========== expected info ===========\n%@\n\n"
+                  @"========== actual exception details ==========\n%@",
+                  exceptionDetails, _handler.details);
+  });
   // Ensure that the application has idled.
   GREYWaitForAppToIdle(@"Wait for app to idle");
 }
 
 /** Confirms GREYAppStateTracker doesn't provide stack trace without verbose logging. */
 - (void)testAppStateTrackingTimeoutWithoutVerboseLogging {
-  [[GREYConfiguration sharedConfiguration] setValue:@(0.0)
-                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  [self addTeardownBlock:^{
-    [[GREYConfiguration sharedConfiguration] setValue:@(30.0)
-                                         forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  }];
-  UIWindow *window = [[GREY_REMOTE_CLASS_IN_APP(UIWindow) alloc] init];
-  UIViewController *viewController = [[GREY_REMOTE_CLASS_IN_APP(UIViewController) alloc] init];
-  [viewController viewWillMoveToWindow:window];
-  [viewController viewWillAppear:NO];
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
-  NSString *expectedDetails = @"Waiting for viewDidAppear: call on the view controller. Please "
-                              @"ensure that this view controller and its subclasses call through "
-                              @"to their super's implementation. For more information";
-  XCTAssertTrue([_handler.details containsString:expectedDetails],
-                @"Expected info does not appear in the actual exception details:\n\n"
-                @"========== expected info ===========\n%@\n\n"
-                @"========== actual exception details ==========\n%@",
-                expectedDetails, _handler.details);
-  NSString *unexpectedDetails = @"Verbose Log: state assignment call stack";
-  XCTAssertFalse([_handler.details containsString:unexpectedDetails],
-                 @"Unexpected info appeared in the actual exception details:\n\n"
-                 @"========== unexpected info ===========\n%@\n\n"
-                 @"========== actual exception details ==========\n%@",
-                 unexpectedDetails, _handler.details);
-  [viewController viewDidAppear:NO];
+  GREYExecuteBlockWithConfigurationOverride(kGREYConfigKeyInteractionTimeoutDuration, @(0.0), ^{
+    UIWindow *window = [[GREY_REMOTE_CLASS_IN_APP(UIWindow) alloc] init];
+    UIViewController *viewController = [[GREY_REMOTE_CLASS_IN_APP(UIViewController) alloc] init];
+    [viewController viewWillMoveToWindow:window];
+    [viewController viewWillAppear:NO];
+    [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
+    NSString *expectedDetails = @"Waiting for viewDidAppear: call on the view controller. Please "
+                                @"ensure that this view controller and its subclasses call through "
+                                @"to their super's implementation. For more information";
+    XCTAssertTrue([_handler.details containsString:expectedDetails],
+                  @"Expected info does not appear in the actual exception details:\n\n"
+                  @"========== expected info ===========\n%@\n\n"
+                  @"========== actual exception details ==========\n%@",
+                  expectedDetails, _handler.details);
+    NSString *unexpectedDetails = @"Verbose Log: state assignment call stack";
+    XCTAssertFalse([_handler.details containsString:unexpectedDetails],
+                   @"Unexpected info appeared in the actual exception details:\n\n"
+                   @"========== unexpected info ===========\n%@\n\n"
+                   @"========== actual exception details ==========\n%@",
+                   unexpectedDetails, _handler.details);
+    [viewController viewDidAppear:NO];
+  });
 }
 
 /** Confirms GREYAppStateTracker provides stack trace with verbose logging. */
@@ -543,32 +531,29 @@
   [launchArguments addObject:[NSString stringWithFormat:@"%zd", kGREYVerboseLogTypeInteraction]];
   application.launchArguments = launchArguments;
   [application launch];
-  [[GREYConfiguration sharedConfiguration] setValue:@(0.0)
-                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-
-  [self addTeardownBlock:^{
-    [[GREYConfiguration sharedConfiguration] setValue:@(30.0)
-                                         forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-    [[[XCUIApplication alloc] init] launch];
-  }];
-  UIWindow *window = [[GREY_REMOTE_CLASS_IN_APP(UIWindow) alloc] init];
-  UIViewController *viewController = [[GREY_REMOTE_CLASS_IN_APP(UIViewController) alloc] init];
-  [viewController viewWillMoveToWindow:window];
-  [viewController viewWillAppear:NO];
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
-  NSString *expectedDetails = @"Verbose Log: state assignment call stack";
-  XCTAssertTrue([_handler.details containsString:expectedDetails],
-                @"Expected info does not appear in the actual exception details:\n\n"
-                @"========== expected info ===========\n%@\n\n"
-                @"========== actual exception details ==========\n%@",
-                expectedDetails, _handler.details);
-  expectedDetails = @"-[UIViewController(GREYApp) greyswizzled_viewWillAppear:]";
-  XCTAssertTrue([_handler.details containsString:expectedDetails],
-                @"Expected info does not appear in the actual exception details:\n\n"
-                @"========== expected info ===========\n%@\n\n"
-                @"========== actual exception details ==========\n%@",
-                expectedDetails, _handler.details);
-  [viewController viewDidAppear:NO];
+  GREYExecuteBlockWithConfigurationOverride(kGREYConfigKeyInteractionTimeoutDuration, @(0.0), ^{
+    [self addTeardownBlock:^{
+      [[[XCUIApplication alloc] init] launch];
+    }];
+    UIWindow *window = [[GREY_REMOTE_CLASS_IN_APP(UIWindow) alloc] init];
+    UIViewController *viewController = [[GREY_REMOTE_CLASS_IN_APP(UIViewController) alloc] init];
+    [viewController viewWillMoveToWindow:window];
+    [viewController viewWillAppear:NO];
+    [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
+    NSString *expectedDetails = @"Verbose Log: state assignment call stack";
+    XCTAssertTrue([_handler.details containsString:expectedDetails],
+                  @"Expected info does not appear in the actual exception details:\n\n"
+                  @"========== expected info ===========\n%@\n\n"
+                  @"========== actual exception details ==========\n%@",
+                  expectedDetails, _handler.details);
+    expectedDetails = @"-[UIViewController(GREYApp) greyswizzled_viewWillAppear:]";
+    XCTAssertTrue([_handler.details containsString:expectedDetails],
+                  @"Expected info does not appear in the actual exception details:\n\n"
+                  @"========== expected info ===========\n%@\n\n"
+                  @"========== actual exception details ==========\n%@",
+                  expectedDetails, _handler.details);
+    [viewController viewDidAppear:NO];
+  });
 }
 
 /* Ensures that the search action error prints out both wrapped error and underlying error. */
@@ -629,18 +614,17 @@
 
 /** Ensures the recovery suggestion for an NSTimer is present. */
 - (void)testTimerRecoveryLogPresent {
-  [[GREYConfiguration sharedConfiguration] setValue:@(1)
-                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  NSTimer *validTimer =
-      [GREY_REMOTE_CLASS_IN_APP(NSTimer) scheduledTimerWithTimeInterval:1.5
-                                                                repeats:NO
-                                                                  block:^(NSTimer *_Nonnull timer){
-                                                                      // No-op
-                                                                  }];
-  [[GREY_REMOTE_CLASS_IN_APP(NSRunLoop) currentRunLoop] addTimer:validTimer
-                                                         forMode:NSDefaultRunLoopMode];
-  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:GREYNotNil()];
-  [[GREYConfiguration sharedConfiguration] reset];
+  GREYExecuteBlockWithConfigurationOverride(kGREYConfigKeyInteractionTimeoutDuration, @(1), ^{
+    NSTimer *validTimer = [GREY_REMOTE_CLASS_IN_APP(NSTimer)
+        scheduledTimerWithTimeInterval:1.5
+                               repeats:NO
+                                 block:^(NSTimer *_Nonnull timer){
+                                     // No-op
+                                 }];
+    [[GREY_REMOTE_CLASS_IN_APP(NSRunLoop) currentRunLoop] addTimer:validTimer
+                                                           forMode:NSDefaultRunLoopMode];
+    [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:GREYNotNil()];
+  });
   NSString *timerSuggestion =
       @"You can ignore a timer by setting kNSTimerIgnoreTrackingKey:@(YES) as an associated object "
       @"on the NSTimer.";

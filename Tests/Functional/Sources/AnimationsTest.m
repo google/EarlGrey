@@ -26,21 +26,11 @@
 @interface AnimationsTest : BaseIntegrationTest
 @end
 
-@implementation AnimationsTest {
-  /** The original interaction timeout to reset at the end of a test case. */
-  double _originalTimeout;
-}
+@implementation AnimationsTest
 
 - (void)setUp {
   [super setUp];
-  _originalTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
   [self openTestViewNamed:@"Animations"];
-}
-
-- (void)tearDown {
-  [[GREYConfiguration sharedConfiguration] setValue:@(_originalTimeout)
-                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  [super tearDown];
 }
 
 - (void)testUIViewAnimation {
@@ -84,24 +74,24 @@
 - (void)testAnimatingElementInfoForAnimatingView {
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
       assertWithMatcher:GREYText(@"Stopped")];
-  [[GREYConfiguration sharedConfiguration] setValue:@(0.5)
-                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationControl")]
-      performAction:GREYTap()];
-  NSError *error;
-  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
-      assertWithMatcher:GREYText(@"Paused")
-                  error:&error];
-  XCTAssertNotNil(error);
+  GREYExecuteBlockWithConfigurationOverride(kGREYConfigKeyInteractionTimeoutDuration, @(0.5), ^{
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationControl")]
+        performAction:GREYTap()];
+    NSError *error;
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
+        assertWithMatcher:GREYText(@"Paused")
+                    error:&error];
+    XCTAssertNotNil(error);
 
-  NSString *animationHeaderString = @"**** Currently Animating Elements: ****";
-  NSString *animationViewString = @"UIView: <UIView";
-  NSString *animationInfoString = @"AnimationKey: moveView withAnimation: <CABasicAnimation: ";
-  NSString *windowInfoString = @"UIView: <UIWindow:";
-  XCTAssertTrue([error.description containsString:animationHeaderString]);
-  XCTAssertTrue([error.description containsString:animationViewString]);
-  XCTAssertTrue([error.description containsString:animationInfoString]);
-  XCTAssertFalse([error.description containsString:windowInfoString]);
+    NSString *animationHeaderString = @"**** Currently Animating Elements: ****";
+    NSString *animationViewString = @"UIView: <UIView";
+    NSString *animationInfoString = @"AnimationKey: moveView withAnimation: <CABasicAnimation: ";
+    NSString *windowInfoString = @"UIView: <UIWindow:";
+    XCTAssertTrue([error.description containsString:animationHeaderString]);
+    XCTAssertTrue([error.description containsString:animationViewString]);
+    XCTAssertTrue([error.description containsString:animationInfoString]);
+    XCTAssertFalse([error.description containsString:windowInfoString]);
+  });
 }
 
 /**
@@ -116,21 +106,21 @@
   UIView *viewWithAnimatingSublayer = [[GREYHostApplicationDistantObject sharedInstance]
       viewWithAnimatingSublayerAddedToView:mainWindow
                                 forKeyPath:@"anim0"];
-  [[GREYConfiguration sharedConfiguration] setValue:@(0.5)
-                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  NSError *error;
-  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
-      assertWithMatcher:GREYText(@"Paused")
-                  error:&error];
-  XCTAssertNotNil(error);
-  NSString *animationHeaderString = @"**** Currently Animating Elements: ****";
-  NSString *animationViewString = @"UIView: <UIView";
-  NSString *animationInfoString = @"AnimationKey: anim0 withAnimation: <CABasicAnimation: ";
-  NSString *windowInfoString = @"UIView: <UIWindow:";
-  XCTAssertTrue([error.description containsString:animationHeaderString]);
-  XCTAssertTrue([error.description containsString:animationViewString]);
-  XCTAssertTrue([error.description containsString:animationInfoString]);
-  XCTAssertFalse([error.description containsString:windowInfoString]);
+  GREYExecuteBlockWithConfigurationOverride(kGREYConfigKeyInteractionTimeoutDuration, @(0.5), ^{
+    NSError *error;
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
+        assertWithMatcher:GREYText(@"Paused")
+                    error:&error];
+    XCTAssertNotNil(error);
+    NSString *animationHeaderString = @"**** Currently Animating Elements: ****";
+    NSString *animationViewString = @"UIView: <UIView";
+    NSString *animationInfoString = @"AnimationKey: anim0 withAnimation: <CABasicAnimation: ";
+    NSString *windowInfoString = @"UIView: <UIWindow:";
+    XCTAssertTrue([error.description containsString:animationHeaderString]);
+    XCTAssertTrue([error.description containsString:animationViewString]);
+    XCTAssertTrue([error.description containsString:animationInfoString]);
+    XCTAssertFalse([error.description containsString:windowInfoString]);
+  });
   [viewWithAnimatingSublayer removeFromSuperview];
 }
 
@@ -149,19 +139,19 @@
   UIView *viewWithAnimatingSublayer1 = [[GREYHostApplicationDistantObject sharedInstance]
       viewWithAnimatingSublayerAddedToView:mainWindow
                                 forKeyPath:@"anim1"];
-  [[GREYConfiguration sharedConfiguration] setValue:@(0.5)
-                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  NSError *error;
-  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
-      assertWithMatcher:GREYText(@"Paused")
-                  error:&error];
-  XCTAssertNotNil(error);
-  NSString *windowInfoString = @"UIView: <UIWindow:";
-  NSString *animationInfoString0 = @"AnimationKey: anim0 withAnimation: <CABasicAnimation: ";
-  XCTAssertTrue([error.description containsString:animationInfoString0]);
-  NSString *animationInfoString1 = @"AnimationKey: anim1 withAnimation: <CABasicAnimation: ";
-  XCTAssertTrue([error.description containsString:animationInfoString1]);
-  XCTAssertFalse([error.description containsString:windowInfoString]);
+  GREYExecuteBlockWithConfigurationOverride(kGREYConfigKeyInteractionTimeoutDuration, @(0.5), ^{
+    NSError *error;
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
+        assertWithMatcher:GREYText(@"Paused")
+                    error:&error];
+    XCTAssertNotNil(error);
+    NSString *windowInfoString = @"UIView: <UIWindow:";
+    NSString *animationInfoString0 = @"AnimationKey: anim0 withAnimation: <CABasicAnimation: ";
+    XCTAssertTrue([error.description containsString:animationInfoString0]);
+    NSString *animationInfoString1 = @"AnimationKey: anim1 withAnimation: <CABasicAnimation: ";
+    XCTAssertTrue([error.description containsString:animationInfoString1]);
+    XCTAssertFalse([error.description containsString:windowInfoString]);
+  });
   [viewWithAnimatingSublayer0 removeFromSuperview];
   [viewWithAnimatingSublayer1 removeFromSuperview];
 }
@@ -180,19 +170,19 @@
   UIView *viewWithAnimatingSublayer1 = [[GREYHostApplicationDistantObject sharedInstance]
       viewWithAnimatingSublayerAddedToView:viewWithAnimatingSublayer0
                                 forKeyPath:@"anim1"];
-  [[GREYConfiguration sharedConfiguration] setValue:@(0.5)
-                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  NSError *error;
-  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
-      assertWithMatcher:GREYText(@"Paused")
-                  error:&error];
-  XCTAssertNotNil(error);
-  NSString *windowInfoString = @"UIView: <UIWindow:";
-  NSString *animationInfoString0 = @"AnimationKey: anim0 withAnimation: <CABasicAnimation: ";
-  XCTAssertTrue([error.description containsString:animationInfoString0]);
-  NSString *animationInfoString1 = @"AnimationKey: anim1 withAnimation: <CABasicAnimation: ";
-  XCTAssertTrue([error.description containsString:animationInfoString1]);
-  XCTAssertFalse([error.description containsString:windowInfoString]);
+  GREYExecuteBlockWithConfigurationOverride(kGREYConfigKeyInteractionTimeoutDuration, @(0.5), ^{
+    NSError *error;
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
+        assertWithMatcher:GREYText(@"Paused")
+                    error:&error];
+    XCTAssertNotNil(error);
+    NSString *windowInfoString = @"UIView: <UIWindow:";
+    NSString *animationInfoString0 = @"AnimationKey: anim0 withAnimation: <CABasicAnimation: ";
+    XCTAssertTrue([error.description containsString:animationInfoString0]);
+    NSString *animationInfoString1 = @"AnimationKey: anim1 withAnimation: <CABasicAnimation: ";
+    XCTAssertTrue([error.description containsString:animationInfoString1]);
+    XCTAssertFalse([error.description containsString:windowInfoString]);
+  });
   [viewWithAnimatingSublayer0 removeFromSuperview];
   [viewWithAnimatingSublayer1 removeFromSuperview];
 }
@@ -264,23 +254,23 @@
     [GREY_REMOTE_CLASS_IN_APP(UIView) printAnimationsBlockPointer:YES];
     [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"UIViewAnimationControl")]
         performAction:GREYTap()];
-    [[GREYConfiguration sharedConfiguration] setValue:@(0)
-                                         forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-    NSError *error;
-    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
-        assertWithMatcher:GREYText(@"UIView animation finished")
-                    error:&error];
+    GREYExecuteBlockWithConfigurationOverride(kGREYConfigKeyInteractionTimeoutDuration, @(0), ^{
+      NSError *error;
+      [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
+          assertWithMatcher:GREYText(@"UIView animation finished")
+                      error:&error];
 #if TARGET_OS_SIMULATOR
-    NSString *buttonBlockInfo = @"_beginTitleAnimation]_block_invoke";
-    XCTAssertTrue([error.debugDescription containsString:buttonBlockInfo],
-                  @"Error description (%@) should contain Button Animation Block (%@)",
-                  error.debugDescription, buttonBlockInfo);
+      NSString *buttonBlockInfo = @"_beginTitleAnimation]_block_invoke";
+      XCTAssertTrue([error.debugDescription containsString:buttonBlockInfo],
+                    @"Error description (%@) should contain Button Animation Block (%@)",
+                    error.debugDescription, buttonBlockInfo);
 #endif
-    NSString *targetBlockInfo =
-        @"-[AnimationViewController UIViewAnimationControlClicked:]_block_invoke";
-    XCTAssertTrue([error.debugDescription containsString:targetBlockInfo],
-                  @"Error description (%@) should contain Button Animation Target Block (%@)",
-                  error.debugDescription, targetBlockInfo);
+      NSString *targetBlockInfo =
+          @"-[AnimationViewController UIViewAnimationControlClicked:]_block_invoke";
+      XCTAssertTrue([error.debugDescription containsString:targetBlockInfo],
+                    @"Error description (%@) should contain Button Animation Target Block (%@)",
+                    error.debugDescription, targetBlockInfo);
+    });
     [GREY_REMOTE_CLASS_IN_APP(UIView) printAnimationsBlockPointer:NO];
   } else {
     XCTSkip(@"b/200649728: Skipped as block pointers are only printed for post iOS 13+.");

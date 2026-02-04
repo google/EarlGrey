@@ -267,12 +267,10 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"animateAnimatingViewButton")]
       performAction:GREYTap()];
   // Turn off sync so we can hide the animating view.
-  [[GREYConfiguration sharedConfiguration] setValue:@(NO)
-                                       forConfigKey:kGREYConfigKeySynchronizationEnabled];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"hideAnimatingViewButton")]
-      performAction:GREYTap()];
-  [[GREYConfiguration sharedConfiguration] setValue:@(YES)
-                                       forConfigKey:kGREYConfigKeySynchronizationEnabled];
+  GREYExecuteWithSynchronizationDisabled(^{
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"hideAnimatingViewButton")]
+        performAction:GREYTap()];
+  });
   // On hiding the view, EarlGrey should still be able to interact with it without turning off sync.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"hideAnimatingViewButton")]
       performAction:GREYTap()];

@@ -18,6 +18,8 @@
 
 #import "GREYConfiguration+Private.h"
 
+#import "GREYConfigKey.h"
+
 @implementation GREYConfiguration
 
 - (instancetype)init {
@@ -93,3 +95,19 @@
 }
 
 @end
+
+void GREYExecuteBlockWithConfigurationOverride(GREYConfigKey configKey, id value,
+                                               void (^blockToExecute)(void)) {
+  id originalValue = [[GREYConfiguration sharedConfiguration] valueForConfigKey:configKey];
+  [[GREYConfiguration sharedConfiguration] setValue:value forConfigKey:configKey];
+  @try {
+    blockToExecute();
+  } @finally {
+    [[GREYConfiguration sharedConfiguration] setValue:originalValue forConfigKey:configKey];
+  }
+}
+
+void GREYExecuteWithSynchronizationDisabled(void (^blockToExecute)(void)) {
+  GREYExecuteBlockWithConfigurationOverride(kGREYConfigKeySynchronizationEnabled, @(NO),
+                                            blockToExecute);
+}

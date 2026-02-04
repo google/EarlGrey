@@ -39,11 +39,6 @@
   [self openTestViewNamed:@"Typing Views"];
 }
 
-- (void)tearDown {
-  [[GREYConfiguration sharedConfiguration] reset];
-  [super tearDown];
-}
-
 - (void)testTypingAtBeginning {
   [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:GREYTypeText(@"Foo")] performAction:[GREYActions actionForTypeText:@"Bar"
@@ -610,14 +605,14 @@
 - (void)testCaretBlinkingAnimationNotTracked {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:GREYTypeText(@"Foo")];
-  GREYConfiguration *config = [GREYConfiguration sharedConfiguration];
-  [config setValue:@(3) forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      performAction:GREYClearText()
-              error:&error];
-  XCTAssertFalse([error.description containsString:@"UITextSelectionViewCaretBlinkAnimation"],
-                 @"Caret blinking animation should not be present");
+  GREYExecuteBlockWithConfigurationOverride(kGREYConfigKeyInteractionTimeoutDuration, @(3), ^{
+    NSError *error;
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
+        performAction:GREYClearText()
+                error:&error];
+    XCTAssertFalse([error.description containsString:@"UITextSelectionViewCaretBlinkAnimation"],
+                   @"Caret blinking animation should not be present");
+  });
 }
 
 - (void)testCursorNotPresent {

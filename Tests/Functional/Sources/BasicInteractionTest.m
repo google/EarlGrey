@@ -96,19 +96,18 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
   // Explicitly wait for the app to idle as there may be system animation still running.
   GREYWaitForAppToIdleWithError(nil);
 
-  GREYConfiguration *config = [GREYConfiguration sharedConfiguration];
-  NSNumber *originalTimeout = [config valueForConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  [config setValue:@(5) forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  // This matcher should at least 10(s) to match.
-  id<GREYMatcher> matcher =
-      [[GREYHostApplicationDistantObject sharedInstance] matcherThatTakesTime:10];
-  NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_allOf(GREYKeyWindow(), matcher, NULL)]
-      assertWithMatcher:GREYNotNil()
-                  error:&error];
-  XCTAssertNil(error, @"Interaction should finish successfully although matching takes longer than "
-                      @"interaction time out time which is 5(s).");
-  [config setValue:originalTimeout forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+  GREYExecuteBlockWithConfigurationOverride(kGREYConfigKeyInteractionTimeoutDuration, @(5), ^{
+    // This matcher should at least 10(s) to match.
+    id<GREYMatcher> matcher =
+        [[GREYHostApplicationDistantObject sharedInstance] matcherThatTakesTime:10];
+    NSError *error;
+    [[EarlGrey selectElementWithMatcher:grey_allOf(GREYKeyWindow(), matcher, NULL)]
+        assertWithMatcher:GREYNotNil()
+                    error:&error];
+    XCTAssertNil(error,
+                 @"Interaction should finish successfully although matching takes longer than "
+                 @"interaction time out time which is 5(s).");
+  });
 }
 
 /**
@@ -824,12 +823,10 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationControl")]
       performAction:GREYTap()];
   GREYWaitForAppToIdle(@"Wait for Animations");
-  [[GREYConfiguration sharedConfiguration] setValue:@(NO)
-                                       forConfigKey:kGREYConfigKeySynchronizationEnabled];
-  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
-      assertWithMatcher:GREYText(@"Paused")];
-  [[GREYConfiguration sharedConfiguration] setValue:@(YES)
-                                       forConfigKey:kGREYConfigKeySynchronizationEnabled];
+  GREYExecuteWithSynchronizationDisabled(^{
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
+        assertWithMatcher:GREYText(@"Paused")];
+  });
 }
 
 /**
@@ -840,12 +837,10 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationControl")]
       performAction:GREYTap()];
   GREYWaitForAppToIdleWithTimeout(5.0, @"Wait for Animations");
-  [[GREYConfiguration sharedConfiguration] setValue:@(NO)
-                                       forConfigKey:kGREYConfigKeySynchronizationEnabled];
-  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
-      assertWithMatcher:GREYText(@"Paused")];
-  [[GREYConfiguration sharedConfiguration] setValue:@(YES)
-                                       forConfigKey:kGREYConfigKeySynchronizationEnabled];
+  GREYExecuteWithSynchronizationDisabled(^{
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
+        assertWithMatcher:GREYText(@"Paused")];
+  });
 }
 
 /**
@@ -856,13 +851,11 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationControl")]
       performAction:GREYTap()];
   GREYWaitAndAssertBlock(@"Confirm Animations finished", ^void(void) {
-    [[GREYConfiguration sharedConfiguration] setValue:@(NO)
-                                         forConfigKey:kGREYConfigKeySynchronizationEnabled];
-    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
-        assertWithMatcher:GREYText(@"Paused")];
+    GREYExecuteWithSynchronizationDisabled(^{
+      [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
+          assertWithMatcher:GREYText(@"Paused")];
+    });
   });
-  [[GREYConfiguration sharedConfiguration] setValue:@(YES)
-                                       forConfigKey:kGREYConfigKeySynchronizationEnabled];
 }
 
 /**

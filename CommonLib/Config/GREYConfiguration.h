@@ -222,4 +222,22 @@ NS_ASSUME_NONNULL_BEGIN
 #define GREY_CONFIG_ARRAY(__configName) \
   [GREYConfiguration.sharedConfiguration arrayValueForConfigKey:(__configName)]
 
+/**
+ * Executes the given @c blockToExecute with the configuration @c configKey set to @c value.
+ * The original configuration value is restored after the block execution.
+ *
+ * @param configKey      The configuration key to override.
+ * @param value          The temporary value to set.
+ * @param blockToExecute The block to execute.
+ */
+GREY_EXPORT void GREYExecuteBlockWithConfigurationOverride(GREYConfigKey configKey, id value,
+                                                           void (^blockToExecute)(void));
+
+/**
+ * Executes the given @c blockToExecute with synchronization disabled.
+ *
+ * @param blockToExecute The block to execute.
+ */
+GREY_EXPORT void GREYExecuteWithSynchronizationDisabled(void (^blockToExecute)(void));
+
 NS_ASSUME_NONNULL_END

@@ -175,13 +175,11 @@
     [[GREYConfiguration sharedConfiguration] reset];
   }];
   [_application terminate];
-  [[GREYConfiguration sharedConfiguration] setValue:@(NO)
-                                       forConfigKey:kGREYConfigKeySynchronizationEnabled];
-  [_application launch];
-  BOOL changedSyncValue = GREY_CONFIG_BOOL(kGREYConfigKeySynchronizationEnabled);
-  XCTAssertFalse(changedSyncValue, @"Changed config value applied.");
-  [[GREYConfiguration sharedConfiguration] setValue:@(YES)
-                                       forConfigKey:kGREYConfigKeySynchronizationEnabled];
+  GREYExecuteWithSynchronizationDisabled(^{
+    [_application launch];
+    BOOL changedSyncValue = GREY_CONFIG_BOOL(kGREYConfigKeySynchronizationEnabled);
+    XCTAssertFalse(changedSyncValue, @"Changed config value applied.");
+  });
   PerformSampleEarlGreyStatement();
 }
 
