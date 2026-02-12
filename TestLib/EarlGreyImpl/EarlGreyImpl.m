@@ -524,8 +524,18 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
 
 - (BOOL)tapButtonInActivitySheetWithId:(NSString *)identifier error:(NSError **)error {
   XCUIElement *button = [self buttonInActivitySheetWithID:identifier error:error];
-  [button tap];
-  return button != nil;
+  if (!button) {
+    return NO;
+  }
+  // On iOS 26, the XCUIElement returned by searching a plain text identifier like "Save Image"
+  // is a StaticText (not the enclosing button), with has hittable set to false, making the tap call
+  // to throw an exception. Instead, tap the mid-point coordinate of the text label.
+  if (button.hittable) {
+    [button tap];
+  } else {
+    [[button coordinateWithNormalizedOffset:CGVectorMake(0.5, 0.5)] tap];
+  }
+  return YES;
 }
 
 - (BOOL)buttonPresentInActivitySheetWithId:(NSString *)identifier error:(NSError **)error {
