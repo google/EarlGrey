@@ -201,8 +201,11 @@
 - (void)testKeyboardDismissalError {
   NSError *error;
   XCTAssertFalse([EarlGrey dismissKeyboardWithError:&error]);
-  NSString *keyboardErrorString =
-      @"Failed to dismiss keyboard: The keyboard is not showing, so it cannot be dismissed.";
+  CFTimeInterval timeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
+  NSString *keyboardErrorString = [NSString
+      stringWithFormat:@"Failed to dismiss keyboard: The keyboard is not showing after waiting for "
+                       @"%g seconds, so it cannot be dismissed.",
+                       timeout];
   XCTAssertTrue([error.description containsString:keyboardErrorString]);
 }
 

@@ -29,7 +29,8 @@
 #import "GREYUIThreadExecutor+GREYApp.h"
 #import "GREYUIThreadExecutor.h"
 #import "GREYFatalAsserts.h"
-#import "GREYAppState.h"
+#import "GREYConfigKey.h"
+#import "GREYConfiguration.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "GREYAppleInternals.h"
@@ -59,11 +60,6 @@ static NSMutableCharacterSet *gAlphabeticKeyplaneCharacters;
  * Character identifiers for text modification keys, like shift, delete etc.
  */
 static NSDictionary *gModifierKeyIdentifierMapping;
-
-/**
- * Time to wait for the keyboard to appear or disappear.
- */
-static const NSTimeInterval kKeyboardWillAppearOrDisappearTimeout = 10.0;
 
 /**
  * Time to wait for a key in the keyplane.
@@ -288,7 +284,7 @@ __attribute__((constructor)) static void GREYSetupKeyboard(void) {
     return YES;
   }
   GREYRunLoopSpinner *runLoopSpinner = [[GREYRunLoopSpinner alloc] init];
-  runLoopSpinner.timeout = kKeyboardWillAppearOrDisappearTimeout;
+  runLoopSpinner.timeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
   runLoopSpinner.minRunLoopDrains = 0;
   BOOL result = [runLoopSpinner spinWithStopConditionBlock:^BOOL {
     return atomic_load(&gIsKeyboardShown);
@@ -300,13 +296,19 @@ __attribute__((constructor)) static void GREYSetupKeyboard(void) {
   __block NSError *synchError = nil;
   __block BOOL keyboardShown = NO;
   GREYUIThreadExecutor *sharedExecutor = [GREYUIThreadExecutor sharedInstance];
-  BOOL success = [sharedExecutor executeSyncWithTimeout:kKeyboardWillAppearOrDisappearTimeout
+  CFTimeInterval timeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
+  BOOL success = [sharedExecutor executeSyncWithTimeout:timeout
                                                   block:^{
                                                     keyboardShown = atomic_load(&gIsKeyboardShown);
                                                   }
                                                   error:&synchError];
   if (!success) {
-    *error = synchError;
+    NSString *description = [NSString
+        stringWithFormat:@"Failed to check if keyboard is shown because the app failed to idle "
+                         @"after waiting for %g seconds.",
+                         timeout];
+    I_GREYPopulateNestedError(error, kGREYInteractionErrorDomain, kGREYInteractionTimeoutErrorCode,
+                              description, synchError);
     return NO;
   } else {
     return keyboardShown;
@@ -316,28 +318,32 @@ __attribute__((constructor)) static void GREYSetupKeyboard(void) {
 + (BOOL)dismissKeyboardWithoutReturnKeyWithError:(NSError **)error {
   __block GREYError *executionError = nil;
   GREYUIThreadExecutor *sharedExecutor = [GREYUIThreadExecutor sharedInstance];
+  CFTimeInterval timeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
   // We do not check if the entire application has become idle but just enough for any minor UI
   // update to have finished. Hence the return value is not checked here.
-  [sharedExecutor executeSyncWithTimeout:kKeyboardWillAppearOrDisappearTimeout
-                                   block:^{
-                                     // Even though this is checked previously in the caller
-                                     // on the test side, check this again as the UI might
-                                     // have updated while the eDO call was being made.
-                                     NSString *errorReason =
-                                         @"The keyboard is not showing, so it cannot be dismissed.";
-                                     if (!atomic_load(&gIsKeyboardShown)) {
-                                       executionError = GREYErrorMakeWithHierarchy(
-                                           kGREYKeyboardDismissalErrorDomain,
-                                           GREYKeyboardDismissalFailedErrorCode, errorReason);
-                                     } else {
-                                       UIApplication *sharedApp = UIApplication.sharedApplication;
-                                       [sharedApp sendAction:@selector(resignFirstResponder)
-                                                          to:nil
-                                                        from:nil
-                                                    forEvent:nil];
-                                     }
-                                   }
-                                   error:&executionError];
+  [sharedExecutor
+      executeSyncWithTimeout:timeout
+                       block:^{
+                         // Even though this is checked previously in the caller
+                         // on the test side, check this again as the UI might
+                         // have updated while the eDO call was being made.
+                         NSString *errorReason = [NSString
+                             stringWithFormat:@"The keyboard is not showing after waiting for %g "
+                                              @"seconds, so it cannot be dismissed.",
+                                              timeout];
+                         if (!atomic_load(&gIsKeyboardShown)) {
+                           executionError = GREYErrorMakeWithHierarchy(
+                               kGREYKeyboardDismissalErrorDomain,
+                               GREYKeyboardDismissalFailedErrorCode, errorReason);
+                         } else {
+                           UIApplication *sharedApp = UIApplication.sharedApplication;
+                           [sharedApp sendAction:@selector(resignFirstResponder)
+                                              to:nil
+                                            from:nil
+                                        forEvent:nil];
+                         }
+                       }
+                       error:&executionError];
   if (executionError) {
     *error = executionError;
     return NO;
