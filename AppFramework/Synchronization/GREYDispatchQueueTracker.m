@@ -198,7 +198,7 @@ static Class gInterposerClass;
 
 @implementation GREYDispatchQueueTracker {
   __weak dispatch_queue_t _dispatchQueue;
-  __block atomic_int _pendingBlocks;
+  atomic_int _pendingBlocks;
 }
 
 + (void)load {
