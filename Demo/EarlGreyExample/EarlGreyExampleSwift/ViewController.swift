@@ -43,10 +43,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     view.addSubview(table)
 
     // Create constraints
-    let views = ["clickMe": clickMe, "send": send, "send2": send2, "table": table,
-                 "sendMessageView": sendMessageView]
-    let metrics = ["smallMargin": 10, "mediumMargin": 20, "largeMargin": 40, "buttonSize": 100,
-                   "tableSize": 320]
+    let views = [
+      "clickMe": clickMe, "send": send, "send2": send2, "table": table,
+      "sendMessageView": sendMessageView,
+    ]
+    let metrics = [
+      "smallMargin": 10, "mediumMargin": 20, "largeMargin": 40, "buttonSize": 100,
+      "tableSize": 320,
+    ]
     var allConstraints = [NSLayoutConstraint]()
     let verticalConstraints = NSLayoutConstraint.constraints(
       withVisualFormat: "V:|-largeMargin-[clickMe]-largeMargin-[send2]-largeMargin-[table]|",
@@ -56,19 +60,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     allConstraints += verticalConstraints
     let buttonsHorizontalConstraints = NSLayoutConstraint.constraints(
       withVisualFormat: "|-smallMargin-[clickMe(buttonSize)]-mediumMargin-[send(buttonSize)]",
-      options:.alignAllTop,
+      options: .alignAllTop,
       metrics: metrics,
       views: views)
     allConstraints += buttonsHorizontalConstraints
     let sendMessageViewConstraints = NSLayoutConstraint.constraints(
       withVisualFormat: "|-smallMargin-[send2(buttonSize)]",
-      options:.alignAllTop,
+      options: .alignAllTop,
       metrics: metrics,
       views: views)
     allConstraints += sendMessageViewConstraints
     let tableConstraints = NSLayoutConstraint.constraints(
       withVisualFormat: "|-smallMargin-[table(tableSize)]",
-      options:.alignAllTop,
+      options: .alignAllTop,
       metrics: metrics,
       views: views)
     allConstraints += tableConstraints
@@ -79,9 +83,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     let button = UIButton(type: .system)
     button.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
     button.backgroundColor = UIColor.green
-    button.setTitle(title, for: UIControlState())
-    button.addTarget(self, action: #selector(ViewController.buttonAction(_:)),
-        for: .touchUpInside)
+    button.setTitle(title, for: UIControl.State())
+    button.addTarget(
+      self, action: #selector(ViewController.buttonAction(_:)),
+      for: .touchUpInside)
     button.accessibilityIdentifier = title
     button.accessibilityLabel = title
     button.translatesAutoresizingMaskIntoConstraints = false
@@ -102,12 +107,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     tableView.translatesAutoresizingMaskIntoConstraints = false
     tableView.estimatedRowHeight = 85.0
-    tableView.rowHeight = UITableViewAutomaticDimension
+    tableView.rowHeight = UITableView.automaticDimension
     tableView.accessibilityIdentifier = "table"
     return tableView
   }
 
-  func numberOfSections(in tableView:UITableView) -> Int {
+  func numberOfSections(in tableView: UITableView) -> Int {
     return 1
   }
 
@@ -115,13 +120,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     return tableItems.count
   }
 
-  func tableView(_ tableView: UITableView,
-      cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell:UITableViewCell =
-        tableView.dequeueReusableCell(withIdentifier: "cell")! as UITableViewCell
+  func tableView(
+    _ tableView: UITableView,
+    cellForRowAt indexPath: IndexPath
+  ) -> UITableViewCell {
+    let cell: UITableViewCell =
+      tableView.dequeueReusableCell(withIdentifier: "cell")! as UITableViewCell
     // For cell 1 to 7, add a date
-    var cellID : String
-    if ((indexPath as NSIndexPath).row >= 1 && (indexPath as NSIndexPath).row <= 7) {
+    var cellID: String
+    if (indexPath as NSIndexPath).row >= 1 && (indexPath as NSIndexPath).row <= 7 {
       cellID = getDateForIndex((indexPath as NSIndexPath).row)
     } else {
       cellID = "Cell\(tableItems[(indexPath as NSIndexPath).row])"
@@ -136,7 +143,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var dateDeltaComponents = DateComponents()
     dateDeltaComponents.day = index
     date = (Calendar.current as NSCalendar).date(
-        byAdding: dateDeltaComponents, to: date, options: NSCalendar.Options(rawValue: 0))!
+      byAdding: dateDeltaComponents, to: date, options: NSCalendar.Options(rawValue: 0))!
     let formatter = DateFormatter()
     formatter.dateStyle = .long
     return formatter.string(from: date)

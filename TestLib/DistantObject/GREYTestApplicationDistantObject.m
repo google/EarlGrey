@@ -16,6 +16,7 @@
 
 #import "GREYTestApplicationDistantObject.h"
 #import <UIKit/UIKit.h>
+#import "GREYWaitToken.h"
 
 #include <stdatomic.h>
 #include <stddef.h>
@@ -374,7 +375,7 @@ __attribute__((constructor)) static void SetupTestDistantObject(void) {
     return NO;
   }
 
-  dispatch_semaphore_t waitLock = dispatch_semaphore_create(0);
+  GREYWaitToken *token = [[GREYWaitToken alloc] init];
   __block BOOL hostAlive = NO;
   NSData *request = [kHostPingRequestMessage dataUsingEncoding:NSUTF8StringEncoding];
   [channel sendData:request withCompletionHandler:nil];
@@ -384,12 +385,14 @@ __attribute__((constructor)) static void SetupTestDistantObject(void) {
           NSString *response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
           hostAlive = [response isEqualToString:kHostPingSuccessMessage];
         }
-        dispatch_semaphore_signal(waitLock);
+        [token signal];
       };
   [channel receiveDataWithQueue:queue handler:receiveHandler];
-  if (!dispatch_semaphore_wait(waitLock, dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC))) {
+
+  if ([token waitWithTimeout:1.0]) {
     [EDOChannelPool.sharedChannelPool addChannel:channel forPort:hostPort];
   }
+
   return hostAlive;
 }
 

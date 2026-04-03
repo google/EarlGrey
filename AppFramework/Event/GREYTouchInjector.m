@@ -18,6 +18,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #include <mach/mach_time.h>
+#include <math.h>
 #include <objc/runtime.h>
 
 #import "GREYIOHIDEventTypes.h"
@@ -27,6 +28,7 @@
 #import "GREYTouchInfo.h"
 #import "GREYConstants.h"
 #import "GREYLogger.h"
+#import "GREYWaitToken.h"
 
 /**
  * The time interval between frames, assuming a frame rate of 120 FPS.
@@ -142,7 +144,7 @@ static NSTimeInterval AdjustedDeliveryTimeDelta(GREYTouchInfo *touchInfo) {
     return;
   }
 
-  dispatch_semaphore_t waitTouches = dispatch_semaphore_create(0);
+  GREYWaitToken *token = [[GREYWaitToken alloc] init];
   dispatch_queue_t touchQueue = dispatch_get_main_queue();
 
   NSEnumerator<GREYTouchInfo *> *touchEnumerator = [touchesList objectEnumerator];
@@ -157,14 +159,14 @@ static NSTimeInterval AdjustedDeliveryTimeDelta(GREYTouchInfo *touchInfo) {
     }
 
     if (!touchInfo) {
-      dispatch_semaphore_signal(waitTouches);
+      [token signal];
     } else {
       do {
         NSException *injectException;
         if (![self grey_injectTouches:touchInfo
                        ongoingTouches:self->_ongoingTouches
                             exception:&injectException]) {
-          dispatch_semaphore_signal(waitTouches);
+          [token signal];
           [injectException raise];
         } else {
           touchInfo = touchEnumerator.nextObject;
@@ -179,9 +181,8 @@ static NSTimeInterval AdjustedDeliveryTimeDelta(GREYTouchInfo *touchInfo) {
     }
   };
   // Move the receiveHandler block to the heap by explicitly copying before assigning it to the
-  // weak pointer as in the latest clang compiler, it's possible the weak pointer can be invalid if
-  // the block hasn't been moved to the heap in time.
-  // https://reviews.llvm.org/D58514
+  // weak pointer as in the latest clang compiler, it's possible the weak pointer can be invalid
+  // if the block hasn't been moved to the heap in time. https://reviews.llvm.org/D58514
   touchProcessBlock = [touchProcessBlock copy];
   weakTouchProcessBlock = touchProcessBlock;
 
@@ -192,11 +193,7 @@ static NSTimeInterval AdjustedDeliveryTimeDelta(GREYTouchInfo *touchInfo) {
 
   // Now wait for it to finish.
   if (![NSThread isMainThread]) {
-    dispatch_time_t waitTimeout =
-        dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timeout * NSEC_PER_SEC));
-    if (dispatch_semaphore_wait(waitTouches, waitTimeout) != 0) {
-      GREYLog(@"Waiting on the touches to be delivered timed out.");
-    }
+    [token waitWithTimeout:timeout];
   } else {
     // Spin the runloop if it waits on the main thread.
     // There can be cases where the injection happens on the main thread so the code can handle
@@ -207,7 +204,7 @@ static NSTimeInterval AdjustedDeliveryTimeDelta(GREYTouchInfo *touchInfo) {
     runLoopSpinner.minRunLoopDrains = 0;
     runLoopSpinner.maxSleepInterval = DBL_MAX;
     [runLoopSpinner spinWithStopConditionBlock:^BOOL {
-      return dispatch_semaphore_wait(waitTouches, DISPATCH_TIME_NOW) == 0;
+      return token.signaled;
     }];
   }
 }

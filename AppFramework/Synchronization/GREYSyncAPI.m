@@ -17,20 +17,21 @@
 #import "GREYSyncAPI.h"
 
 #import "GREYFatalAsserts.h"
+#import "GREYWaitToken.h"
 
 void grey_dispatch_sync_on_main_thread(void (^block)(void)) {
   if ([NSThread isMainThread]) {
     block();
   } else {
-    dispatch_semaphore_t waitForBlock = dispatch_semaphore_create(0);
+    GREYWaitToken *token = [[GREYWaitToken alloc] init];
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopDefaultMode, ^{
       block();
-      dispatch_semaphore_signal(waitForBlock);
+      [token signal];
     });
     // CFRunLoopPerformBlock does not wake up the main queue.
     CFRunLoopWakeUp(CFRunLoopGetMain());
     // Waits until block is executed and semaphore is signalled.
-    dispatch_semaphore_wait(waitForBlock, DISPATCH_TIME_FOREVER);
+    [token wait];
   }
 }
 
