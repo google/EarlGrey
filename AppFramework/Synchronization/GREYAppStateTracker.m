@@ -40,7 +40,28 @@ typedef NS_ENUM(NSUInteger, GREYStateOperation) {
 /**
  * Lock protecting object state map.
  */
-static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
+static pthread_mutex_t gStateLock;
+
+/**
+ * Initializes the state lock with priority inheritance and recursion.
+ */
+static void InitializeStateLock() {
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    pthread_mutexattr_t attr;
+    int mutexattr_init_status = pthread_mutexattr_init(&attr);
+    GREYFatalAssertWithMessage(mutexattr_init_status == 0, @"pthread_mutexattr_init failed");
+    int mutexattr_settype_status = pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
+    GREYFatalAssertWithMessage(mutexattr_settype_status == 0, @"pthread_mutexattr_settype failed");
+    int mutexattr_setprotocol_status = pthread_mutexattr_setprotocol(&attr, PTHREAD_PRIO_INHERIT);
+    GREYFatalAssertWithMessage(mutexattr_setprotocol_status == 0,
+                               @"pthread_mutexattr_setprotocol failed");
+    int mutex_init_status = pthread_mutex_init(&gStateLock, &attr);
+    GREYFatalAssertWithMessage(mutex_init_status == 0, @"pthread_mutex_init failed");
+    int mutexattr_destroy_status = pthread_mutexattr_destroy(&attr);
+    GREYFatalAssertWithMessage(mutexattr_destroy_status == 0, @"pthread_mutexattr_destroy failed");
+  });
+}
 
 /**
  * The number of app states that exist. Used as a hint in creating @c _stateDictionary.
@@ -243,6 +264,7 @@ static NSString *StringFromAppState(GREYAppState state) {
 }
 
 - (id)performBlockInCriticalSection:(id (^)(void))block {
+  InitializeStateLock();
   int lock = pthread_mutex_lock(&gStateLock);
   GREYFatalAssertWithMessage(lock == 0, @"Failed to lock.");
   id retVal = block();

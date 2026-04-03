@@ -79,7 +79,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     let button = UIButton(type: .system)
     button.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
     button.backgroundColor = UIColor.green
-    button.setTitle(title, for: UIControlState())
+    button.setTitle(title, for: UIControl.State())
     button.addTarget(self, action: #selector(ViewController.buttonAction(_:)),
         for: .touchUpInside)
     button.accessibilityIdentifier = title
@@ -102,7 +102,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     tableView.translatesAutoresizingMaskIntoConstraints = false
     tableView.estimatedRowHeight = 85.0
-    tableView.rowHeight = UITableViewAutomaticDimension
+    tableView.rowHeight = UITableView.automaticDimension
     tableView.accessibilityIdentifier = "table"
     return tableView
   }
