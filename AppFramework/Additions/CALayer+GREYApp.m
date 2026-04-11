@@ -29,56 +29,6 @@
 #import "GREYSwizzler.h"
 #import "CGGeometry+GREYUI.h"
 
-@interface CALayer (GREYAppPrivate)
-
-// Map to track animations added with a nil key.  This is necessary because changing the key to
-// a non-nil value can sometimes change the behavior of the animation.
-@property(nonatomic, null_resettable, setter=grey_setLayerAnimationMap:)
-    NSMapTable *grey_layerAnimationMap;
-
-// Add an animation to `grey_layerAnimationMap`.
-- (void)grey_addMappedAnimation:(CAAnimation *)animation forKey:(NSString *)key;
-
-// Returns an animation from `grey_layerAnimationMap`.
-- (nullable __kindof CAAnimation *)grey_mappedAnimationForKey:(NSString *)key;
-
-@end
-
-@interface CAAnimation (GREYAppSwizzles)
-
-@property(nonatomic, nullable, setter=grey_setAnimationCopyCallback:)
-    void (^grey_animationCopyCallback)(CAAnimation *newValue);
-- (id)greyswizzled_copyWithZone:(NSZone *)zone;
-
-@end
-
-@implementation CAAnimation (GREYAppSwizzles)
-
-- (id)greyswizzled_copyWithZone:(NSZone *)zone {
-  if (self.grey_animationCopyCallback == nil) {
-    return INVOKE_ORIGINAL_IMP1(id, @selector(greyswizzled_copyWithZone:), zone);
-  }
-  @synchronized(self) {
-    id newObject = INVOKE_ORIGINAL_IMP1(id, @selector(greyswizzled_copyWithZone:), zone);
-    if (self.grey_animationCopyCallback) {
-      self.grey_animationCopyCallback(newObject);
-    }
-    self.grey_animationCopyCallback = nil;
-    return newObject;
-  }
-}
-
-- (void (^)(CAAnimation *newValue))grey_animationCopyCallback {
-  return objc_getAssociatedObject(self, @selector(grey_animationCopyCallback));
-}
-
-- (void)grey_setAnimationCopyCallback:(void (^)(CAAnimation *newValue))newCallback {
-  objc_setAssociatedObject(self, @selector(grey_animationCopyCallback), newCallback,
-                           OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-@end
-
 @implementation CALayer (GREYApp)
 
 + (void)load {
@@ -87,11 +37,6 @@
                          replaceInstanceMethod:@selector(setNeedsDisplay)
                                     withMethod:@selector(greyswizzled_setNeedsDisplay)];
   GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle CALayer setNeedsDisplay");
-
-  swizzleSuccess = [swizzler swizzleClass:[CAAnimation class]
-                    replaceInstanceMethod:@selector(copyWithZone:)
-                               withMethod:@selector(greyswizzled_copyWithZone:)];
-  GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle CAAnimation copyWithZone:");
 
   swizzleSuccess = [swizzler swizzleClass:self
                     replaceInstanceMethod:@selector(setNeedsDisplayInRect:)
@@ -141,7 +86,7 @@
 
 - (void)grey_untrackAnimationsInLayerAndSublayers {
   for (NSString *animationKey in self.animationKeys) {
-    [[self grey_mappedAnimationForKey:animationKey] grey_untrack];
+    [[self animationForKey:animationKey] grey_untrack];
   }
   for (CALayer *sublayer in self.sublayers) {
     [sublayer grey_untrackAnimationsInLayerAndSublayers];
@@ -153,7 +98,7 @@
   if (!self.hidden) {
     for (NSString *animationKey in self.animationKeys) {
       // This re-tracking will continue till EarlGrey's animation timeout.
-      [[self grey_mappedAnimationForKey:animationKey] grey_trackForDurationOfAnimation];
+      [[self animationForKey:animationKey] grey_trackForDurationOfAnimation];
     }
   }
   for (CALayer *sublayer in self.sublayers) {
@@ -217,7 +162,7 @@
 
     // Untrack all the paused animation attached to self.
     for (NSString *key in self.animationKeys) {
-      CAAnimation *animation = [self grey_mappedAnimationForKey:key];
+      CAAnimation *animation = [self animationForKey:key];
       if (animation) {
         [animation grey_untrack];
         [pausedAnimationKeys addObject:key];
@@ -234,7 +179,7 @@
 - (void)grey_resumeAnimationTracking {
   NSMutableSet *pausedAnimationKeys = [self grey_pausedAnimationKeys];
   for (NSString *key in pausedAnimationKeys) {
-    CAAnimation *animation = [self grey_mappedAnimationForKey:key];
+    CAAnimation *animation = [self animationForKey:key];
     if ([animation grey_animationState] == kGREYAnimationStarted) {
       [animation grey_trackForDurationOfAnimation];
     }
@@ -253,19 +198,17 @@
 #pragma mark - Swizzled Implementations
 
 - (void)greyswizzled_removeAllAnimations {
-  @synchronized(self) {
-    [self.grey_layerAnimationMap removeAllObjects];
+  for (NSString *key in [self animationKeys]) {
+    CAAnimation *animation = [self animationForKey:key];
+    [animation grey_untrack];
   }
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_removeAllAnimations));
 }
 
 - (void)greyswizzled_removeAnimationForKey:(NSString *)key {
   if (key) {
-    CAAnimation *animation = [self grey_mappedAnimationForKey:key];
+    CAAnimation *animation = [self animationForKey:key];
     [animation grey_untrack];
-    @synchronized(self) {
-      [self.grey_layerAnimationMap removeObjectForKey:key];
-    }
   }
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_removeAnimationForKey:), key);
 }
@@ -276,12 +219,7 @@
   // If no key is given, give it one.  We need a key to track what animations have been idled.
   NSString *outKey = key;
   if (!outKey) {
-    // Make absolutely sure that this is unique.
-    static int counter = 0;
-    @synchronized(self) {
-      outKey = [NSString
-          stringWithFormat:@"grey_%p_%p_%f_%d", self, animation, CACurrentMediaTime(), counter++];
-    }
+    outKey = [NSString stringWithFormat:@"grey_%p_%p_%f", self, animation, CACurrentMediaTime()];
   }
   // At this point, the app could be in idle state and the next runloop drain may trigger this
   // animation so track this LAYER (not animation) until next runloop drain.
@@ -289,19 +227,7 @@
   dispatch_async(dispatch_get_main_queue(), ^{
     UNTRACK_STATE_FOR_OBJECT(kGREYPendingCAAnimation, object);
   });
-  [self grey_addMappedAnimation:animation forKey:outKey];
-
-  __weak __typeof__(self) weakSelf = self;
-  animation.grey_animationCopyCallback = ^void(CAAnimation *newAnimation) {
-    __typeof__(self) strongSelf = weakSelf;
-    [strongSelf grey_addMappedAnimation:newAnimation forKey:outKey];
-  };
-  INVOKE_ORIGINAL_IMP2(void, @selector(greyswizzled_addAnimation:forKey:), animation, key);
-
-  // This block is called while copying the animation during the call to INVOKE_ORIGINAL_IMP2.
-  // Any subsequent calls (presumably by the caller after this method returns) should be
-  // ignored for safety.
-  animation.grey_animationCopyCallback = nil;
+  INVOKE_ORIGINAL_IMP2(void, @selector(greyswizzled_addAnimation:forKey:), animation, outKey);
 
   // If the beginTime is not set, it is assumed that the animation should start as soon as possible.
   // Previously, tracking the layer until the next runloop drain is sufficient. On iOS 18, however,
@@ -311,7 +237,7 @@
     if (animation.beginTime == 0) {
       // The animation object is copied by the render tree, not referenced. Hence, the actual
       // animation that should be tracked needs to be looked up by key again.
-      [[self grey_mappedAnimationForKey:outKey] grey_trackForDurationOfAnimation];
+      [[self animationForKey:outKey] grey_trackForDurationOfAnimation];
     }
   }
 }
@@ -356,53 +282,6 @@
 
 - (NSMutableSet *)grey_pausedAnimationKeys {
   return objc_getAssociatedObject(self, @selector(grey_pauseAnimationTracking));
-}
-
-@end
-
-@implementation CALayer (GREYAppPrivate)
-
-- (NSMapTable *)grey_layerAnimationMap {
-  @synchronized(self) {
-    NSMapTable *mapTable = objc_getAssociatedObject(self, @selector(grey_layerAnimationMap));
-    if (mapTable == nil) {
-      mapTable = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory
-                                       valueOptions:NSPointerFunctionsWeakMemory];
-      [self grey_setLayerAnimationMapInternal:mapTable];
-    }
-    return mapTable;
-  }
-}
-
-- (void)grey_setLayerAnimationMap:(NSMapTable *)newMap {
-  @synchronized(self) {
-    [self grey_setLayerAnimationMapInternal:newMap];
-  }
-}
-
-- (void)grey_setLayerAnimationMapInternal:(NSMapTable *)newMap {
-  objc_setAssociatedObject(self, @selector(grey_layerAnimationMap), newMap,
-                           OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (void)grey_addMappedAnimation:(CAAnimation *)animation forKey:(NSString *)key {
-  @synchronized(self) {
-    NSMapTable *mapTable = self.grey_layerAnimationMap;
-    [mapTable setObject:animation forKey:key];
-  }
-}
-
-- (nullable __kindof CAAnimation *)grey_mappedAnimationForKey:(NSString *)key {
-  @synchronized(self) {
-    NSMapTable *mapTable = self.grey_layerAnimationMap;
-
-    CAAnimation *animation = [self animationForKey:key];
-    if (!animation) {
-      animation = [mapTable objectForKey:key];
-    }
-
-    return animation;
-  }
 }
 
 @end
