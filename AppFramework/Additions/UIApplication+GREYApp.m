@@ -26,17 +26,9 @@
 #import "GREYLogger.h"
 #import "GREYSwizzler.h"
 
-/**
- * List for all the runloop modes that have been pushed and unpopped using UIApplication's push/pop
- * runloop mode methods. The most recently pushed runloop mode is at the end of the list.
- */
-static NSMutableArray<NSString *> *gRunLoopModes;
-
 @implementation UIApplication (GREYApp)
 
 + (void)load {
-  gRunLoopModes = [[NSMutableArray alloc] init];
-
   GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
   SEL originalSel = @selector(endIgnoringInteractionEvents);
   SEL swizzledSel = @selector(greyswizzled_endIgnoringInteractionEvents);
