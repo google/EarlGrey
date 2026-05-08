@@ -59,3 +59,20 @@
 + (nullable id)sharedClient;
 
 @end
+
+/**
+ * XCTest class representing the active test run's configuration.
+ */
+@interface XCTestConfiguration : NSObject <NSSecureCoding, NSCopying>
+
+/**
+ * Returns the singleton active test configuration instance.
+ */
++ (nonnull instancetype)activeTestConfiguration;
+
+/**
+ * The bundle identifier of the primary application under test.
+ */
+@property(copy, nullable) NSString *targetApplicationBundleID;
+
+@end

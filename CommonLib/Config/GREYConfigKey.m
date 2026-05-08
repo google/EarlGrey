@@ -40,3 +40,5 @@ GREYConfigKey const kGREYConfigKeyAutoUntrackMDCActivityIndicators =
     @"kGREYConfigKeyAutoUntrackMDCActivityIndicators";
 GREYConfigKey const kGREYConfigKeyAutoHideScrollViewIndicators =
     @"GREYConfigKeyAutoHideScrollViewIndicators";
+GREYConfigKey const kGREYConfigKeyBundleIDsExcludedFromSetup =
+    @"GREYConfigKeyBundleIDsExcludedFromSetup";
