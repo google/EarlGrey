@@ -340,7 +340,7 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
   // Verify if it is checked.
   [r0checkboxInteraction assertWithMatcher:grey_accessibilityValue(@"1")];
   [r1checkboxInteraction assertWithMatcher:grey_accessibilityValue(@"1")];
-  // TODO: When using 50 rows, the search action actually gives up pre-maturally, even though the
+  // TODO: When using 50 rows, the search action actually gives up prematurely, even though the
   // timeout is not exceeded in iOS 8.4/iPhone setting. Maybe it is due to the unstable swipe
   // resistance detection.
   // Check visibility of row 30 after scrolling.
