@@ -267,13 +267,13 @@ static NSString *const gGREYSwizzlerException = @"gGREYSwizzlerException";
 
   Method instanceMethod = class_getInstanceMethod(klass, instanceSelector);
   if (instanceMethod) {
-    struct objc_method_description *desc = method_getDescription(instanceMethod);
-    if (!desc || desc->name == NULL) {
-      GREYLog(@"Failed to get method description.");
+    const char *types = method_getTypeEncoding(instanceMethod);
+    if (!types) {
+      GREYLog(@"Failed to get method type encoding.");
       return NO;
     }
 
-    if (!class_addMethod(klass, addSelector, addIMP, desc->types)) {
+    if (!class_addMethod(klass, addSelector, addIMP, types)) {
       GREYLog(@"Failed to add class method.");
       return NO;
     }
