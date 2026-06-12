@@ -2037,7 +2037,7 @@
 				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = ../../../../../;
 				INFOPLIST_FILE = "FunctionalTestRig-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.FunctionalTestRig;
@@ -2057,7 +2057,7 @@
 				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = ../../../../../;
 				INFOPLIST_FILE = "FunctionalTestRig-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.FunctionalTestRig;
@@ -2076,7 +2076,7 @@
 				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = ../../../../../;
 				INFOPLIST_FILE = "Tests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgreyftr.dev;
@@ -2097,7 +2097,7 @@
 				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = ../../../../../;
 				INFOPLIST_FILE = "Tests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgreyftr.dev;
@@ -2121,7 +2121,7 @@
 				HEADER_SEARCH_PATHS = ../../../../../;
 				INFOPLIST_FILE = "Tests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -2147,7 +2147,7 @@
 				HEADER_SEARCH_PATHS = ../../../../../;
 				INFOPLIST_FILE = "Tests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = "-ObjC";
