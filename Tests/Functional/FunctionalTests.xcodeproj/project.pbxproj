@@ -11,6 +11,8 @@
 		42D3E6FB26F53221007C3F0E /* SwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D3E6F526F53221007C3F0E /* SwitchViewController.m */; };
 		42D3E6FC26F53221007C3F0E /* SwitchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D3E6F926F53221007C3F0E /* SwitchViewController.xib */; };
 		42D3E6FD26F53221007C3F0E /* SwitchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D3E6F926F53221007C3F0E /* SwitchViewController.xib */; };
+		FDFD000320FD1A6E00049E81 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFD000220FD1A5F00049E81 /* SceneDelegate.m */; };
+		FDFD000420FD705B00049E81 /* AppFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		76B6AE09284FCD1400BC2C6B /* GREYHostApplicationDistantObject+TwistViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B6AE07284FCD1400BC2C6B /* GREYHostApplicationDistantObject+TwistViewTest.m */; };
 		76C4AAD4284F116200EA09AD /* TwistViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C4AAD3284F116200EA09AD /* TwistViewTest.m */; };
 		76DAC16B242EE77E00557F3C /* libTestLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2E20FD6BF900049E81 /* libTestLib.a */; };
@@ -456,6 +458,8 @@
 		FD623C6720FD1A5F00049E81 /* AnimationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AnimationViewController.xib; path = ../TestRig/Sources/AnimationViewController.xib; sourceTree = "<group>"; };
 		FD623C6820FD1A5F00049E81 /* PresentedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PresentedViewController.m; path = ../TestRig/Sources/PresentedViewController.m; sourceTree = "<group>"; };
 		FD623C6920FD1A5F00049E81 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ../TestRig/Sources/AppDelegate.m; sourceTree = "<group>"; };
+		FDFD000120FD1A5F00049E81 /* SceneDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneDelegate.h; path = ../TestRig/Sources/SceneDelegate.h; sourceTree = "<group>"; };
+		FDFD000220FD1A5F00049E81 /* SceneDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SceneDelegate.m; path = ../TestRig/Sources/SceneDelegate.m; sourceTree = "<group>"; };
 		FD623C6A20FD1A5F00049E81 /* CollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CollectionViewCell.xib; path = ../TestRig/Sources/CollectionViewCell.xib; sourceTree = "<group>"; };
 		FD623C6B20FD1A5F00049E81 /* CollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionViewLayout.h; path = ../TestRig/Sources/CollectionViewLayout.h; sourceTree = "<group>"; };
 		FD623C6C20FD1A5F00049E81 /* ImageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ImageViewController.xib; path = ../TestRig/Sources/ImageViewController.xib; sourceTree = "<group>"; };
@@ -669,6 +673,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDFD000420FD705B00049E81 /* AppFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -866,6 +871,8 @@
 				FD623C6720FD1A5F00049E81 /* AnimationViewController.xib */,
 				FD623C8120FD1A6200049E81 /* AppDelegate.h */,
 				FD623C6920FD1A5F00049E81 /* AppDelegate.m */,
+				FDFD000120FD1A5F00049E81 /* SceneDelegate.h */,
+				FDFD000220FD1A5F00049E81 /* SceneDelegate.m */,
 				FD623CB220FD1A6D00049E81 /* BasicViewController.h */,
 				FD623C5720FD1A5E00049E81 /* BasicViewController.m */,
 				FD623C8C20FD1A6400049E81 /* BasicViewController.xib */,
@@ -1534,6 +1541,7 @@
 				FD623CD120FD1A6E00049E81 /* SplashViewController.m in Sources */,
 				FD623CC120FD1A6E00049E81 /* PresentedViewController.m in Sources */,
 				FD623CC220FD1A6E00049E81 /* AppDelegate.m in Sources */,
+				FDFD000320FD1A6E00049E81 /* SceneDelegate.m in Sources */,
 				42D3E6FA26F53221007C3F0E /* SwitchViewController.m in Sources */,
 				FD623CEC20FD1A6E00049E81 /* MultiFingerSwipeGestureRecognizerViewController.m in Sources */,
 				FD623CC520FD1A6E00049E81 /* WKWebViewController.m in Sources */,
@@ -2036,6 +2044,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = ../../../../../;
+				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../** ../../Submodules/eDistantObject/**";
 				INFOPLIST_FILE = "FunctionalTestRig-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2056,6 +2065,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = ../../../../../;
+				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../** ../../Submodules/eDistantObject/**";
 				INFOPLIST_FILE = "FunctionalTestRig-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
