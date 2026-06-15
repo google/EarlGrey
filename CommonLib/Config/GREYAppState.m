@@ -41,7 +41,7 @@ NSString *GREYKeyForAppState(GREYAppState state) {
   }
   NSMutableArray<NSString *> *descriptions = [NSMutableArray array];
   for (NSNumber *key in gStateTrackerDescriptions) {
-    if (state & key.integerValue) {
+    if (state & key.unsignedIntegerValue) {
       [descriptions addObject:gStateTrackerDescriptions[key]];
     }
   }

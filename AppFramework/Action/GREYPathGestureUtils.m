@@ -298,15 +298,15 @@ static NSArray<NSValue *> *GREYGenerateTouchPath(CGPoint startPoint, CGPoint end
 
     if (totalPoints > 1) {
       // Compute delta for each point and create a path with it.
-      CGFloat deltaX = (endPoint.x - startPoint.x) / totalPoints;
-      CGFloat deltaY = (endPoint.y - startPoint.y) / totalPoints;
+      CGFloat deltaX = (endPoint.x - startPoint.x) / (CGFloat)totalPoints;
+      CGFloat deltaY = (endPoint.y - startPoint.y) / (CGFloat)totalPoints;
       // The first element of the touch point is already added outside of the loop. It's possible
       // that no additional touch point is added to the fast scroll path.
       for (NSUInteger i = 1; i < totalPoints; i++) {
         // Always generate integer offset to `startPoint` using `floor` so that the scroll amount
         // is not approximated by screen resolution.
-        CGFloat stepX = deltaX * i;
-        CGFloat stepY = deltaY * i;
+        CGFloat stepX = deltaX * (CGFloat)i;
+        CGFloat stepY = deltaY * (CGFloat)i;
         if (shouldFixDeviation) {
           stepX = floor(stepX);
           stepY = floor(stepY);
@@ -401,7 +401,7 @@ static NSArray<NSValue *> *GREYCircularTouchPath(CGPoint center, CGFloat radius,
   // The first element of the touch point is already added outside of the loop. It's possible
   // that no additional touch point is added to the fast scroll path.
   for (NSUInteger i = 0; i < numberOfPoints; i++) {
-    CGFloat angleAtPoint = startAngle + (angleDelta * i);
+    CGFloat angleAtPoint = startAngle + (angleDelta * (CGFloat)i);
     CGPoint touchPoint = CGPointOnCircle(angleAtPoint, center, radius);
     [touchPath addObject:[NSValue valueWithCGPoint:touchPoint]];
   }
@@ -430,13 +430,13 @@ NSArray<NSValue *> *GREYTouchPathForTwistGesture(CGPoint center, CGFloat radius,
 
     if (totalPoints > 1) {
       // Compute delta for each point and create a path with it.
-      CGFloat angleDelta = arcAngle / totalPoints;
+      CGFloat angleDelta = arcAngle / (CGFloat)totalPoints;
       NSUInteger numberOfIntermediatePoints = totalPoints - 1;
       NSArray<NSValue *> *additionalPoints = GREYCircularTouchPath(
           center, radius, startAngle + angleDelta, angleDelta, numberOfIntermediatePoints);
 
       [touchPath addObjectsFromArray:additionalPoints];
-      semifinalArcAngle = startAngle + (angleDelta * numberOfIntermediatePoints);
+      semifinalArcAngle = startAngle + (angleDelta * (CGFloat)numberOfIntermediatePoints);
     }
   } else {
     // Uses the kinematics equation for distance: d = a*t*t/2 + v*t

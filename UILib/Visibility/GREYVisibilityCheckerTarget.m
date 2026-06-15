@@ -152,7 +152,7 @@ static NSString *const kEditMenuPasteButtonAxeLabel = @"Paste";
       (NSInteger)CFBitVectorGetCountOfBit(_bitVector, CFRangeMake(0, (CFIndex)bitVectorSize), 0);
   CGRect frame = _isView ? [_target frame] : [_target accessibilityFrame];
   CGRect targetOriginalPixelRect = CGRectPointToPixelAligned(frame);
-  return numberOfVisiblePixels / CGRectArea(targetOriginalPixelRect);
+  return (CGFloat)numberOfVisiblePixels / CGRectArea(targetOriginalPixelRect);
 }
 
 - (GREYVisibilityCheckerTargetObscureResult)overlapResultWithObject:(GREYTraversalObject *)object
@@ -238,7 +238,7 @@ static NSString *const kEditMenuPasteButtonAxeLabel = @"Paste";
   // interactable area of the target. This should always return a valid interactable point unless
   // the largestRect is less than the kMinimumPointsVisibleForInteraction.
   CGRect largestRect = [self largestInteractableRect];
-  if (CGRectArea(largestRect) < kMinimumPointsVisibleForInteraction) {
+  if (CGRectArea(largestRect) < (CGFloat)kMinimumPointsVisibleForInteraction) {
     return GREYCGPointNull;
   }
   CGPoint center = CGPointMake(CGRectGetMidX(largestRect), CGRectGetMidY(largestRect));
@@ -617,7 +617,7 @@ static BOOL IsBackgroundColorTranslucent(UIColor *backgroundColor) {
     CGRect thisLargest = CGRectLargestRectInHistogram(&histograms[idx * width], (uint16_t)width);
     if (CGRectArea(thisLargest) > CGRectArea(largestRect)) {
       // Because our histograms point up, not down.
-      thisLargest.origin.y = idx - thisLargest.size.height + 1;
+      thisLargest.origin.y = (CGFloat)idx - thisLargest.size.height + 1.0;
       largestRect = thisLargest;
     }
   }

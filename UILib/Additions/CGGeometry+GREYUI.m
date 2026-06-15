@@ -256,7 +256,7 @@ CGRect CGRectLargestRectInHistogram(uint16_t *histogram, uint16_t length) {
     CGFloat area = (leftNeighbors[idx] + rightNeighbors[idx] + 1) * histogram[idx];
     if (area > largestArea) {
       largestArea = area;
-      largestRect.origin.x = idx - leftNeighbors[idx];
+      largestRect.origin.x = (CGFloat)(idx - leftNeighbors[idx]);
       largestRect.size.width = leftNeighbors[idx] + rightNeighbors[idx] + 1;
       largestRect.size.height = histogram[idx];
     }

@@ -120,7 +120,7 @@ static unsigned char *GREYCreateImagePixelDataFromCGImageRef(CGImageRef imageRef
 
   // Once we draw, the memory allocated for the context for rendering will then contain the raw
   // image pixel data in the specified color space.
-  CGContextDrawImage(bitmapContextRef, CGRectMake(0, 0, width, height), imageRef);
+  CGContextDrawImage(bitmapContextRef, CGRectMake(0, 0, (CGFloat)width, (CGFloat)height), imageRef);
   if (outBmpCtx != NULL) {
     // Caller must call CGContextRelease.
     *outBmpCtx = bitmapContextRef;
@@ -214,7 +214,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
     const size_t widthInPixels = CGImageGetWidth(beforeImage);
     const size_t heightInPixels = CGImageGetHeight(beforeImage);
     const size_t minimumPixelsVisibleForInteraction =
-        (size_t)(kMinimumPointsVisibleForInteraction * scale);
+        (size_t)((CGFloat)kMinimumPointsVisibleForInteraction * scale);
 
     // If the element hasn't a minimum area in pixels, stop immediately.
     const size_t elementAreaInPixels = widthInPixels * heightInPixels;
@@ -391,7 +391,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
                                               thatAreShiftedPixelsOfImage:beforeImage
                                               storeVisiblePixelRectInRect:NULL
                                          andStoreComparisonResultInBuffer:NULL];
-    percentVisible = visiblePixelData.visiblePixelCount / countTotalSearchRectPixels;
+    percentVisible = (double)visiblePixelData.visiblePixelCount / countTotalSearchRectPixels;
   }
 
   CGImageRelease(beforeImage);
@@ -674,8 +674,8 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
         // Always pick the bottom and right-most pixel. We may want to consider using tax-cab
         // formula to find a pixel that's closest to the center if we encounter problems with this
         // approach.
-        visiblePixelData.visiblePixel.x = x;
-        visiblePixelData.visiblePixel.y = y;
+        visiblePixelData.visiblePixel.x = (CGFloat)x;
+        visiblePixelData.visiblePixel.y = (CGFloat)y;
       }
       if (outVisiblePixelRect) {
         if (y == 0) {
@@ -695,7 +695,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
       CGRect thisLargest = CGRectLargestRectInHistogram(&histograms[idx * width], (uint16_t)width);
       if (CGRectArea(thisLargest) > CGRectArea(largestRect)) {
         // Because our histograms point up, not down.
-        thisLargest.origin.y = idx - thisLargest.size.height + 1;
+        thisLargest.origin.y = (CGFloat)idx - thisLargest.size.height + 1.0;
         largestRect = thisLargest;
       }
     }
