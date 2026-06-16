@@ -111,26 +111,34 @@ static id InstrumentSurrogateDelegate(id self, id delegate, SEL originalSelector
                                       SEL swizzledSelector, IMP selfImplementation,
                                       IMP delegateImplementation) {
   if (![delegate respondsToSelector:swizzledSelector]) {
-    Class klass = [delegate class];
-    // If the delegate's class does not implement the swizzled greyswizzled_animationDidStart:
-    // method, then EarlGrey needs to swizzle it.
-    if (![delegate respondsToSelector:originalSelector]) {
-      // If animationDidStart: is not implemented by the delegate's class then we have to first
-      // add it to the delegate class.
-      [GREYObjcRuntime addInstanceMethodToClass:klass withSelector:originalSelector fromClass:self];
+    @synchronized(self) {
+      if (![delegate respondsToSelector:swizzledSelector]) {
+        Class klass = [delegate class];
+        // If the delegate's class does not implement the swizzled greyswizzled_animationDidStart:
+        // method, then EarlGrey needs to swizzle it.
+        if (![delegate respondsToSelector:originalSelector]) {
+          // If animationDidStart: is not implemented by the delegate's class then we have to first
+          // add it to the delegate class.
+          [GREYObjcRuntime addInstanceMethodToClass:klass
+                                       withSelector:originalSelector
+                                          fromClass:self];
 
-      // In case a delegate is passed in that has already been swizzled by EarlGrey, it needs to be
-      // ensured that it is not re-swizzled. As a result, it is checked for the implementations of
-      // the methods to be swizzled and if they are the same as those provided by EarlGrey on
-      // swizzling.
-    } else if (selfImplementation != delegateImplementation) {
-      // Add the EarlGrey-implemented method to the delegate's class and swizzle it.
-      [GREYObjcRuntime addInstanceMethodToClass:klass withSelector:swizzledSelector fromClass:self];
-      BOOL swizzleSuccess = [[[GREYSwizzler alloc] init] swizzleClass:klass
-                                                replaceInstanceMethod:originalSelector
-                                                           withMethod:swizzledSelector];
-      GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle %@",
-                                 NSStringFromSelector(swizzledSelector));
+          // In case a delegate is passed in that has already been swizzled by EarlGrey, it needs to
+          // be ensured that it is not re-swizzled. As a result, it is checked for the
+          // implementations of the methods to be swizzled and if they are the same as those
+          // provided by EarlGrey on swizzling.
+        } else if (selfImplementation != delegateImplementation) {
+          // Add the EarlGrey-implemented method to the delegate's class and swizzle it.
+          [GREYObjcRuntime addInstanceMethodToClass:klass
+                                       withSelector:swizzledSelector
+                                          fromClass:self];
+          BOOL swizzleSuccess = [[[GREYSwizzler alloc] init] swizzleClass:klass
+                                                    replaceInstanceMethod:originalSelector
+                                                               withMethod:swizzledSelector];
+          GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle %@",
+                                     NSStringFromSelector(swizzledSelector));
+        }
+      }
     }
   }
   return delegate;
