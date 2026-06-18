@@ -82,8 +82,9 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  */
 - (void)testLongPressOnAccessibilityElement {
   [self openTestViewNamed:@"Basic Views"];
-  [[EarlGrey selectElementWithMatcher:[self matcherForTabNamed:@"Tab 2"]]
-      performAction:GREYLongPress()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYLongPress()];
+
+  [self tapBackButton];
 }
 
 /**
@@ -136,6 +137,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
                                                      kGREYPinchAngleDefault)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ZoomingScrollView")]
       performAction:GREYTap()];
+  [self tapBackButton];
 }
 
 /**
@@ -148,6 +150,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
                                                      kGREYPinchAngleDefault)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ZoomingScrollView")]
       performAction:GREYTap()];
+  [self tapBackButton];
 }
 
 /**
@@ -226,9 +229,8 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
                                                                         error:&error];
   XCTAssertNil(error, @"Error not nil for tapping on a valid element");
   error = nil;
-  [[EarlGrey selectElementWithMatcher:[self matcherForTabNamed:@"Tab 2"]]
-      assertWithMatcher:GREYNotNil()
-                  error:&error];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] assertWithMatcher:GREYNotNil()
+                                                                      error:&error];
   XCTAssertNil(error, @"Error not nil for asserting not-nil on a valid element");
 }
 
@@ -237,10 +239,11 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  */
 - (void)testTypingRandomValueInTextFields {
   [self openTestViewNamed:@"Basic Views"];
-  [self tapTabNamed:@"Tab 2"];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
       performAction:GREYTypeText(@"hi")];
   [[EarlGrey selectElementWithMatcher:GREYText(@"hi")] assertWithMatcher:GREYSufficientlyVisible()];
+  [self tapBackButton];
 }
 
 /**
@@ -249,11 +252,12 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  */
 - (void)testTypingLongStringInTextField {
   [self openTestViewNamed:@"Basic Views"];
-  [self tapTabNamed:@"Tab 2"];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
       performAction:GREYTypeText(@"Sam01le SWiFt TeSt")];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Sam01le SWiFt TeSt")]
       assertWithMatcher:GREYSufficientlyVisible()];
+  [self tapBackButton];
 }
 
 /**
@@ -261,7 +265,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  */
 - (void)testReplaceTextInTextField {
   [self openTestViewNamed:@"Basic Views"];
-  [self tapTabNamed:@"Tab 2"];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
       performAction:GREYReplaceText(@"donec.metus+spam@google.com")];
   [[EarlGrey selectElementWithMatcher:grey_allOf(GREYText(@"donec.metus+spam@google.com"),
@@ -279,7 +283,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  */
 - (void)testReplaceTextFiredNotifications {
   [self openTestViewNamed:@"Basic Views"];
-  [self tapTabNamed:@"Tab 2"];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[GREYHostApplicationDistantObject sharedInstance] setUpObserverForReplaceText];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
       performAction:GREYReplaceText(@"donec.metus+spam@google.com")];
@@ -293,8 +297,9 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  */
 - (void)testAssertionsInBasicViews {
   [self openTestViewNamed:@"Basic Views"];
-  [[EarlGrey selectElementWithMatcher:[self matcherForTabNamed:@"Tab 2"]]
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")]
       assertWithMatcher:GREYSufficientlyVisible()];
+  [self tapBackButton];
 }
 
 /**
@@ -303,7 +308,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  */
 - (void)testEarlGreyInvocationInsideConditionUsingWaitWithTimeout {
   [self openTestViewNamed:@"Basic Views"];
-  [self tapTabNamed:@"Tab 2"];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   __block id<GREYAction> action =
       [[GREYHostApplicationDistantObject sharedInstance] actionForGettingTextFromMatchedElement];
   // Setup a condition to wait until a specific label says specific text.
@@ -363,7 +368,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  */
 - (void)testInteractionWithSwitch {
   [self openTestViewNamed:@"Basic Views"];
-  [self tapTabNamed:@"Tab 2"];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
 
   [[[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Switch")]
       performAction:GREYTurnSwitchOn(NO)] assertWithMatcher:GREYSwitchWithOnState(NO)];
@@ -438,7 +443,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  */
 - (void)testEarlGreyRemoteAction {
   [self openTestViewNamed:@"Basic Views"];
-  [self tapTabNamed:@"Tab 2"];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   id<GREYAction> action =
       [[GREYHostApplicationDistantObject sharedInstance] actionForTapOnAccessibleElement];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Switch")] performAction:action];
@@ -469,7 +474,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  */
 - (void)testEarlGreyInvocationInsideGREYConditionUsingWaitWithTimeout {
   [self openTestViewNamed:@"Basic Views"];
-  [self tapTabNamed:@"Tab 2"];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
 
   id<GREYAction> action = [[GREYHostApplicationDistantObject sharedInstance] actionToGetLabelText];
   // Setup a condition to wait until a specific label says specific text.
@@ -512,15 +517,12 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
   [self openTestViewNamed:@"Basic Views"];
   UIViewController *originalVC =
       [[GREYHostApplicationDistantObject sharedInstance] originalVCAfterSettingNewVCAsRoot];
-  [[EarlGrey selectElementWithMatcher:[self matcherForTabNamed:@"Tab 2"]]
-      assertWithMatcher:GREYNil()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] assertWithMatcher:GREYNil()];
   [[GREYHostApplicationDistantObject sharedInstance] setRootViewController:nil];
-  [[EarlGrey selectElementWithMatcher:[self matcherForTabNamed:@"Tab 2"]]
-      assertWithMatcher:GREYNil()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] assertWithMatcher:GREYNil()];
 
   [[GREYHostApplicationDistantObject sharedInstance] setRootViewController:originalVC];
-  [[EarlGrey selectElementWithMatcher:[self matcherForTabNamed:@"Tab 2"]]
-      assertWithMatcher:GREYNotNil()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] assertWithMatcher:GREYNotNil()];
 }
 
 /**
@@ -532,12 +534,10 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
   UIViewController *originalVC = [[GREYHostApplicationDistantObject sharedInstance]
       originalVCAfterSettingRootVCInAnotherWindow:window];
 
-  [[EarlGrey selectElementWithMatcher:[self matcherForTabNamed:@"Tab 2"]]
-      assertWithMatcher:GREYNil()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] assertWithMatcher:GREYNil()];
   [[GREYHostApplicationDistantObject sharedInstance] setRootViewController:nil inWindow:window];
   [[GREYHostApplicationDistantObject sharedInstance] setRootViewController:originalVC];
-  [[EarlGrey selectElementWithMatcher:[self matcherForTabNamed:@"Tab 2"]]
-      assertWithMatcher:GREYNotNil()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] assertWithMatcher:GREYNotNil()];
 }
 
 /**
@@ -545,7 +545,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  */
 - (void)testBasicInteractionWithViews {
   [self openTestViewNamed:@"Basic Views"];
-  [self tapTabNamed:@"Tab 2"];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
 
   GREYElementInteraction *typeHere =
       [EarlGrey selectElementWithMatcher:grey_allOf(GREYAccessibilityLabel(@"Type Something Here"),
@@ -587,10 +587,9 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
   id<GREYAction> action =
       [[GREYHostApplicationDistantObject sharedInstance] actionForCheckingIfElementHidden];
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:[self matcherForTabNamed:@"Tab 2"]] performAction:action
-                                                                                  error:&error];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:action error:&error];
   if (!error) {
-    [self tapTabNamed:@"Tab 2"];
+    [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
     [[[EarlGrey selectElementWithMatcher:GREYText(@"Long Press")]
         performAction:GREYLongPressWithDuration(1.1f)] assertWithMatcher:GREYHidden(YES)];
   } else {
@@ -606,10 +605,9 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
   id<GREYAssertion> assertion =
       [[GREYHostApplicationDistantObject sharedInstance] assertionForCheckingIfElementPresent];
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:[self matcherForTabNamed:@"Tab 2"]] assert:assertion
-                                                                           error:&error];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] assert:assertion error:&error];
   if (!error) {
-    [self tapTabNamed:@"Tab 2"];
+    [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
     [[[EarlGrey selectElementWithMatcher:GREYText(@"Long Press")]
         performAction:GREYLongPressWithDuration(1.1f)] assertWithMatcher:GREYHidden(YES)];
   } else {
@@ -622,7 +620,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  */
 - (void)testLongPressAtPointOnAccessibilityElement {
   [self openTestViewNamed:@"Basic Views"];
-  [self tapTabNamed:@"Tab 2"];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
 
   [[[EarlGrey selectElementWithMatcher:GREYText(@"Long Press")]
       performAction:GREYLongPressAtPointWithDuration(CGPointMake(10, 10), 1.1f)]
@@ -634,13 +632,12 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  */
 - (void)testLongPressOnTextField {
   [self openTestViewNamed:@"Basic Views"];
-  [self tapTabNamed:@"Tab 2"];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
       performAction:GREYLongPressWithDuration(1.0f)];
 
-  [[EarlGrey selectElementWithMatcher:[self matcherForTabNamed:@"Tab 2"]]
-      assertWithMatcher:GREYNotNil()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] assertWithMatcher:GREYNotNil()];
 }
 
 /**
@@ -648,7 +645,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  */
 - (void)testLongPressFollowedBySelectingMenuOption {
   [self openTestViewNamed:@"Basic Views"];
-  [self tapTabNamed:@"Tab 2"];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
       performAction:GREYTypeText(@"Hello")];
@@ -713,7 +710,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
       [[GREYHostApplicationDistantObject sharedInstance] actionToHideOrUnhideBlock:YES];
   id<GREYAction> unhideAction =
       [[GREYHostApplicationDistantObject sharedInstance] actionToHideOrUnhideBlock:NO];
-  [self tapTabNamed:@"Tab 2"];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"tab2Container")]
       performAction:hideAction];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Long Press")]
@@ -734,7 +731,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
   id<GREYAction> makeTransparentAction =
       [[GREYHostApplicationDistantObject sharedInstance] actionToMakeOpaque:NO];
 
-  [self tapTabNamed:@"Tab 2"];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"tab2Container")]
       performAction:makeTransparentAction];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Long Press")]
@@ -758,7 +755,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
   id<GREYAction> makeTransparentAction =
       [[GREYHostApplicationDistantObject sharedInstance] actionToMakeWindowOpaque:NO];
 
-  [self tapTabNamed:@"Tab 2"];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"tab2Container")]
       performAction:makeTransparentAction];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Long Press")]
@@ -774,7 +771,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  */
 - (void)testButtonSelectedState {
   [self openTestViewNamed:@"Basic Views"];
-  [self tapTabNamed:@"Tab 2"];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
 
   id<GREYMatcher> buttonMatcher = GREYButtonTitle(@"Send");
   [[EarlGrey selectElementWithMatcher:buttonMatcher] assertWithMatcher:GREYNot(GREYSelected())];
@@ -900,26 +897,25 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
   UIWindow *mainWindow = [GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) window];
   mainWindow.accessibilityIdentifier = @"Main Window";
   [self openTestViewNamed:@"Basic Views"];
-  [self tapTabNamed:@"Tab 2"];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")] performAction:GREYTap()];
 
   NSError *error;
   id<GREYMatcher> keyboardWindowMatcher = GREYKindOfClassName(@"UIRemoteKeyboardWindow");
   [EarlGrey setRootMatcherForSubsequentInteractions:keyboardWindowMatcher];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"u")] performAction:GREYTap()];
-  [[EarlGrey selectElementWithMatcher:[self matcherForTabNamed:@"Tab 2"]] performAction:GREYTap()
-                                                                                  error:&error];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap() error:&error];
   XCTAssertNotNil(error, @"Tab 2 should not be present in the keyboard window");
 
   error = nil;
   [EarlGrey setRootMatcherForSubsequentInteractions:grey_accessibilityID(@"Main Window")];
-  [self tapTabNamed:@"Tab 2"];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"u")] performAction:GREYTap()
                                                                             error:&error];
   XCTAssertNotNil(error, @"Keyboard key should not be present in the main window");
 
   [EarlGrey setRootMatcherForSubsequentInteractions:nil];
-  [self tapTabNamed:@"Tab 2"];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"u")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
       assertWithMatcher:GREYText(@"uu")];

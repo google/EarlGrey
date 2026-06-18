@@ -230,14 +230,15 @@
   INVOKE_ORIGINAL_IMP2(void, @selector(greyswizzled_addAnimation:forKey:), animation, outKey);
 
   // If the beginTime is not set, it is assumed that the animation should start as soon as possible.
-  // Previously, tracking the layer until the next runloop drain was sufficient. On modern iOS,
-  // however, the gap between @c addAnimation:forKey: and when the animation starts becomes longer
-  // that the app may become idle in between. Hence, the animation needs to be tracked explicitly
-  // universally.
-  if (animation.beginTime == 0) {
-    // The animation object is copied by the render tree, not referenced. Hence, the actual
-    // animation that should be tracked needs to be looked up by key again.
-    [[self animationForKey:outKey] grey_trackForDurationOfAnimation];
+  // Previously, tracking the layer until the next runloop drain is sufficient. On iOS 18, however,
+  // the gap between @c addAnimation:forKey: and when the animation starts becomes longer that the
+  // app may become idle in between. Hence, the animation needs to be tracked explicitly.
+  if (@available(iOS 18.0, *)) {
+    if (animation.beginTime == 0) {
+      // The animation object is copied by the render tree, not referenced. Hence, the actual
+      // animation that should be tracked needs to be looked up by key again.
+      [[self animationForKey:outKey] grey_trackForDurationOfAnimation];
+    }
   }
 }
 

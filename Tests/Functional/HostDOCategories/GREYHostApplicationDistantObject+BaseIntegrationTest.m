@@ -28,7 +28,7 @@
   } else {
     navController = delegateWindow.rootViewController.navigationController;
   }
-  [navController popToRootViewControllerAnimated:NO];
+  [navController popToRootViewControllerAnimated:YES];
 }
 
 @end
