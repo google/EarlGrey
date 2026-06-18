@@ -29,6 +29,7 @@
 #import "GREYUIThreadExecutor+GREYApp.h"
 #import "GREYUIThreadExecutor.h"
 #import "GREYFatalAsserts.h"
+#import "GREYAppState.h"
 #import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
 #import "GREYError.h"
@@ -55,11 +56,6 @@ static atomic_bool gIsKeyboardShown = false;
  * A character set for all alphabets present on a keyboard.
  */
 static NSMutableCharacterSet *gAlphabeticKeyplaneCharacters;
-
-/**
- * Character identifiers for text modification keys, like shift, delete etc.
- */
-static NSDictionary *gModifierKeyIdentifierMapping;
 
 /**
  * Time to wait for a key in the keyplane.
@@ -187,12 +183,6 @@ __attribute__((constructor)) static void GREYSetupKeyboard(void) {
     NSCharacterSet *lowerCaseSet = [NSCharacterSet lowercaseLetterCharacterSet];
     gAlphabeticKeyplaneCharacters = [NSMutableCharacterSet uppercaseLetterCharacterSet];
     [gAlphabeticKeyplaneCharacters formUnionWithCharacterSet:lowerCaseSet];
-
-    gModifierKeyIdentifierMapping = @{
-      kSpaceKeyIdentifier : @"space",
-      kDeleteKeyIdentifier : @"delete",
-      kReturnKeyIdentifier : @"return"
-    };
   }
 }
 
@@ -464,23 +454,6 @@ static BOOL ToggleShiftKeyWithError(__strong NSError **errorOrNil) {
 static id WaitAndFindKeyForCharacter(NSString *character, CFTimeInterval timeout) {
   GREYFatalAssert(character);
 
-  BOOL ignoreCase = NO;
-  // If the key is a modifier key then we need to do a case-insensitive comparison and change the
-  // character to identify the key to the corresponding modifier key character.
-  __block NSString *modifierKeyIdentifier = [gModifierKeyIdentifierMapping objectForKey:character];
-  if (modifierKeyIdentifier) {
-    // Check for the return key since we can have a different character value depending upon the
-    // keyboard.
-    UIKeyboardImpl *currentKeyboard = GetKeyboardObject();
-    if ([character isEqualToString:kReturnKeyIdentifier]) {
-      grey_dispatch_sync_on_main_thread(^{
-        modifierKeyIdentifier = [currentKeyboard returnKeyDisplayName];
-      });
-    }
-    character = modifierKeyIdentifier;
-    ignoreCase = YES;
-  }
-
   // iOS 9 changes & to ampersand.
   if ([character isEqualToString:@"&"]) {
     character = @"ampersand";
@@ -491,7 +464,7 @@ static id WaitAndFindKeyForCharacter(NSString *character, CFTimeInterval timeout
   grey_dispatch_sync_on_main_thread(^{
     grey_check_condition_until_timeout(
         ^BOOL(void) {
-          result = GetKeyForCharacterValueInKeyboardLayout(character, ignoreCase);
+          result = GetKeyForCharacterValueInKeyboardLayout(character);
           return result != nil;
         },
         timeout);
@@ -503,13 +476,10 @@ static id WaitAndFindKeyForCharacter(NSString *character, CFTimeInterval timeout
  * Get the key on the keyboard for the given @c character.
  *
  * @param character  The character to be searched.
- * @param ignoreCase A BOOL that is @c YES if searching for the key requires ignoring
- *                   the case. This is seen in the case of modifier keys that have
- *                   differing cases across iOS versions.
  *
  * @return A key that has the given character.
  */
-static id GetKeyForCharacterValueInKeyboardLayout(NSString *character, BOOL ignoreCase) {
+static id GetKeyForCharacterValueInKeyboardLayout(NSString *character) {
   UIKeyboardImpl *keyboard = GetKeyboardObject();
   // Type of layout is private class UIKeyboardLayoutStar, which implements UIAccessibilityContainer
   // Protocol and contains accessibility elements for keyboard keys that it shows on the screen.
@@ -519,8 +489,10 @@ static id GetKeyForCharacterValueInKeyboardLayout(NSString *character, BOOL igno
     for (NSInteger i = 0; i < [layout accessibilityElementCount]; ++i) {
       id key = [layout accessibilityElementAtIndex:i];
       NSString *axLabel = [key accessibilityLabel];
-      if ((ignoreCase && [axLabel caseInsensitiveCompare:character] == NSOrderedSame) ||
-          (!ignoreCase && [axLabel isEqualToString:character])) {
+      if (MatchesSpecialKey(character, axLabel)) {
+        return key;
+      }
+      if ([axLabel isEqualToString:character]) {
         return key;
       }
       NSString *axID = [key accessibilityIdentifier];
@@ -530,6 +502,40 @@ static id GetKeyForCharacterValueInKeyboardLayout(NSString *character, BOOL igno
     }
   }
   return nil;
+}
+
+/**
+ * Checks if the given character matches a special key (space, return, or delete) based on its
+ * accessibility label.
+ *
+ * @param character A string representing the character key to be typed.
+ * @param axLabel   The accessibility label of the keyboard key to match against.
+ *
+ * @return @c YES if the key matches the special key, else @c NO.
+ */
+static BOOL MatchesSpecialKey(NSString *character, NSString *axLabel) {
+  GREYFatalAssertWithMessage(NSThread.isMainThread, @"Must be called on the main thread.");
+
+  if (axLabel == nil) {
+    return NO;
+  }
+
+  if ([character isEqualToString:kSpaceKeyIdentifier]) {
+    if ([axLabel isEqualToString:@" "] ||
+        [axLabel caseInsensitiveCompare:@"space"] == NSOrderedSame) {
+      return YES;
+    }
+  } else if ([character isEqualToString:kReturnKeyIdentifier]) {
+    NSString *displayName = [GetKeyboardObject() returnKeyDisplayName] ?: @"return";
+    if ([axLabel caseInsensitiveCompare:displayName] == NSOrderedSame) {
+      return YES;
+    }
+  } else if ([character isEqualToString:kDeleteKeyIdentifier]) {
+    if ([axLabel caseInsensitiveCompare:@"delete"] == NSOrderedSame) {
+      return YES;
+    }
+  }
+  return NO;
 }
 
 /**
