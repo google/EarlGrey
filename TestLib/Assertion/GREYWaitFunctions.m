@@ -49,7 +49,7 @@ void GREYWaitForTime(CFTimeInterval time) {
   // the background queue.
   if (time > 0) {
     CFRunLoopTimerRef wake_timer = CFRunLoopTimerCreateWithHandler(
-        NULL, time + CFAbsoluteTimeGetCurrent(), 0, 0, 0, ^(CFRunLoopTimerRef ignored) {
+        NULL, time + CFAbsoluteTimeGetCurrent(), 0, 0, 0, ^(CFRunLoopTimerRef ) {
           timer_fired = YES;
           CFRunLoopStop(CFRunLoopGetCurrent());
         });

@@ -238,14 +238,14 @@
     case UITextLayoutDirectionUp: {
       CGRect caretRect = [self caretRectForPosition:position];
       CGPoint target = caretRect.origin;
-      target.y = target.y - (caretRect.size.height * (offset - 1)) - (caretRect.size.height * 0.5f);
+      target.y = target.y - (caretRect.size.height * (CGFloat)(offset - 1)) - (caretRect.size.height * 0.5f);
       pos = [(CustomTextPosition *)[self closestPositionToPoint:target] position];
       break;
     }
     case UITextLayoutDirectionDown: {
       CGRect caretRect = [self caretRectForPosition:position];
       CGPoint target = caretRect.origin;
-      target.y = target.y + (caretRect.size.height * (offset - 1)) + (caretRect.size.height * 1.5f);
+      target.y = target.y + (caretRect.size.height * (CGFloat)(offset - 1)) + (caretRect.size.height * 1.5f);
       pos = [(CustomTextPosition *)[self closestPositionToPoint:target] position];
       break;
     }

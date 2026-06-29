@@ -19,7 +19,7 @@
 @implementation CollectionViewLayout
 
 - (NSInteger)grey_itemsPerSide {
-  return (NSInteger)(1 + sqrt([self.collectionView numberOfItemsInSection:0]));
+  return (1 + (NSInteger)sqrt((double)[self.collectionView numberOfItemsInSection:0]));
 }
 
 // Cell = Item + margins.
@@ -40,8 +40,8 @@
   NSInteger xIndex = charIndex % itemsPerSide;
   NSInteger yIndex = charIndex / itemsPerSide;
   CGSize cellSize = [self grey_cellSize];
-  CGPoint itemPosition = CGPointMake(self.greyItemMargin + xIndex * cellSize.width,
-                                     self.greyItemMargin + yIndex * cellSize.height);
+  CGPoint itemPosition = CGPointMake(self.greyItemMargin + (CGFloat)xIndex * cellSize.width,
+                                     self.greyItemMargin + (CGFloat)yIndex * cellSize.height);
 
   // Create and return a UICollectionViewLayoutAttributes object after filling its frame and bounds
   // attributes.
@@ -59,7 +59,7 @@
 - (CGSize)collectionViewContentSize {
   CGSize cellSize = [self grey_cellSize];
   const NSInteger itemsPerSide = [self grey_itemsPerSide];
-  return CGSizeMake(itemsPerSide * cellSize.width, itemsPerSide * cellSize.height);
+  return CGSizeMake((CGFloat)itemsPerSide * cellSize.width, (CGFloat)itemsPerSide * cellSize.height);
 }
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {

@@ -247,7 +247,7 @@ static const NSUInteger kNumTouchesToCounterInertia = 5;
 #if TARGET_OS_IOS
   return ((UISlider *)slider).value;
 #else
-  return NSNotFound;
+  return (CGFloat)NSNotFound;
 #endif
 }
 
@@ -261,7 +261,7 @@ static const NSUInteger kNumTouchesToCounterInertia = 5;
 #if TARGET_OS_IOS
   return ((UISlider *)slider).minimumValue;
 #else
-  return NSNotFound;
+  return (CGFloat)NSNotFound;
 #endif
 }
 
@@ -275,7 +275,7 @@ static const NSUInteger kNumTouchesToCounterInertia = 5;
 #if TARGET_OS_IOS
   return ((UISlider *)slider).maximumValue;
 #else
-  return NSNotFound;
+  return (CGFloat)NSNotFound;
 #endif
 }
 

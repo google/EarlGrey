@@ -159,7 +159,7 @@ static BOOL gOrientationChangeNotificationReceived;
 }
 
 - (void)invokeRemoteBlock:(void (^)(void))block withDelay:(int64_t)delay {
-  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(),
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * (int64_t)NSEC_PER_SEC), dispatch_get_main_queue(),
                  block);
 }
 
