@@ -21,3 +21,8 @@
 #import "CommonLib/DistantObject/GREYHostApplicationDistantObject.h"
 #import "CommonLib/Matcher/GREYElementMatcherBlock.h"
 #import "CommonLib/Matcher/GREYMatcher.h"
+#import "EDOClassMessage.h"
+#import "EDOClientService+Private.h"
+#import "EDOClientService.h"
+#import "EDOHostPort.h"
+#import "UILib/Utils/GREYUILibUtils.h"

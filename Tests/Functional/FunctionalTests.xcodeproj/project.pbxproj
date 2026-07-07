@@ -12,7 +12,15 @@
 		42D3E6FC26F53221007C3F0E /* SwitchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D3E6F926F53221007C3F0E /* SwitchViewController.xib */; };
 		42D3E6FD26F53221007C3F0E /* SwitchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D3E6F926F53221007C3F0E /* SwitchViewController.xib */; };
 		FDFD000320FD1A6E00049E81 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFD000220FD1A5F00049E81 /* SceneDelegate.m */; };
+		FD1184EE212DFE2400A1B2C4 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFD000220FD1A5F00049E81 /* SceneDelegate.m */; };
+		FD1184E6212CEFF800A1B2C5 /* EDOSwiftClientService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1184E6212CEFF800A1B2C6 /* EDOSwiftClientService.swift */; };
+		FD1184E6212CEFF800A1B2CB /* EarlGreyCompatibleSwiftClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1184E6212CEFF800A1B2CC /* EarlGreyCompatibleSwiftClass.swift */; };
+		FD1184E6212CEFF800A1B2CD /* EarlGreyCompatibleSwiftClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1184E6212CEFF800A1B2CC /* EarlGreyCompatibleSwiftClass.swift */; };
+		FD1184E6212CEFF800A1B2C7 /* CodableVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1184E6212CEFF800A1B2C8 /* CodableVariable.swift */; };
+		FD1184E6212CEFF800A1B2C9 /* EDOSwiftClientService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1184E6212CEFF800A1B2C6 /* EDOSwiftClientService.swift */; };
+		FD1184E6212CEFF800A1B2CA /* CodableVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1184E6212CEFF800A1B2C8 /* CodableVariable.swift */; };
 		FDFD000420FD705B00049E81 /* AppFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		FD118511212DFE2400A1B2C3 /* AppFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		76B6AE09284FCD1400BC2C6B /* GREYHostApplicationDistantObject+TwistViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B6AE07284FCD1400BC2C6B /* GREYHostApplicationDistantObject+TwistViewTest.m */; };
 		76C4AAD4284F116200EA09AD /* TwistViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C4AAD3284F116200EA09AD /* TwistViewTest.m */; };
 		76DAC16B242EE77E00557F3C /* libTestLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2E20FD6BF900049E81 /* libTestLib.a */; };
@@ -543,6 +551,9 @@
 		FD623D1D20FD1E4E00049E81 /* logo_earlgrey_launchscreen_color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = logo_earlgrey_launchscreen_color.xcassets; path = ../TestRig/Resources/Assets/logo_earlgrey_launchscreen_color.xcassets; sourceTree = "<group>"; };
 		FD623D1F20FD6BF900049E81 /* EarlGrey.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EarlGrey.xcodeproj; path = ../../EarlGrey.xcodeproj; sourceTree = "<group>"; };
 		FD623D3320FD6DD600049E81 /* FunctionalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FunctionalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD1184E6212CEFF800A1B2C6 /* EDOSwiftClientService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EDOSwiftClientService.swift; path = ../../Submodules/eDistantObject/Service/Sources/EDOSwiftClientService.swift; sourceTree = "<group>"; };
+		FD1184E6212CEFF800A1B2CC /* EarlGreyCompatibleSwiftClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EarlGreyCompatibleSwiftClass.swift; path = ../TestRig/Sources/Swift/EarlGreyCompatibleSwiftClass.swift; sourceTree = "<group>"; };
+		FD1184E6212CEFF800A1B2C8 /* CodableVariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CodableVariable.swift; path = ../../Submodules/eDistantObject/Service/Sources/CodableVariable.swift; sourceTree = "<group>"; };
 		FD623D3D20FD6E6D00049E81 /* FunctionalTestRig-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "FunctionalTestRig-Info.plist"; sourceTree = "<group>"; };
 		FD623DAD20FD716800049E81 /* libeDistantObject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libeDistantObject.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD66782F211FB109008EC4A7 /* libChannelLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libChannelLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -658,6 +669,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD118511212DFE2400A1B2C3 /* AppFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1306,7 +1318,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDCB3090299AC6A9007B9C5F /* ActiveAnimationsViewController.xib in Resources */,
-				FD118513212DFE24004CADC3 /* FunctionalTestRig-Info.plist in Resources */,
 				FD118514212DFE24004CADC3 /* ActivityIndicatorViewController.xib in Resources */,
 				FD118516212DFE24004CADC3 /* MultiFingerSwipeGestureRecognizerViewController.xib in Resources */,
 				FD118517212DFE24004CADC3 /* ScrollViewController.xib in Resources */,
@@ -1342,7 +1353,6 @@
 				FD118533212DFE24004CADC3 /* WKWebViewController.xib in Resources */,
 				FD118534212DFE24004CADC3 /* CollectionViewCell.xib in Resources */,
 				FD118535212DFE24004CADC3 /* AlertViewController.xib in Resources */,
-				FD118536212DFE24004CADC3 /* logo_earlgrey_launchscreen_color.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1464,6 +1474,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD1184E6212CEFF800A1B2CB /* EarlGreyCompatibleSwiftClass.swift in Sources */,
+				FD1184E6212CEFF800A1B2C5 /* EDOSwiftClientService.swift in Sources */,
 				FD1184E5212CEFF8004CADC3 /* EarlGrey.swift in Sources */,
 				FD98C4D8226C3D08006F8D68 /* SwiftTests.swift in Sources */,
 				FD98C4DC226C3EE2006F8D68 /* SwiftTestsHost.swift in Sources */,
@@ -1509,6 +1521,8 @@
 				FD11850E212DFE24004CADC3 /* ZoomingScrollViewController.m in Sources */,
 				FD11850F212DFE24004CADC3 /* CustomTextView.m in Sources */,
 				FD118510212DFE24004CADC3 /* AlertViewController.m in Sources */,
+				FD1184EE212DFE2400A1B2C4 /* SceneDelegate.m in Sources */,
+				FD1184E6212CEFF800A1B2CD /* EarlGreyCompatibleSwiftClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1778,9 +1792,9 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = ../../../../../;
 				INFOPLIST_FILE = "Tests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -1793,7 +1807,7 @@
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = FunctionalTestRigSwift;
-				USER_HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/** ../../**";
+				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../** ../../Submodules/eDistantObject/**";
 			};
 			name = Debug;
 		};
@@ -1802,9 +1816,9 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = ../../../../../;
 				INFOPLIST_FILE = "Tests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = "-ObjC";
@@ -1815,7 +1829,7 @@
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = FunctionalTestRigSwift;
-				USER_HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/** ../../**";
+				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../** ../../Submodules/eDistantObject/**";
 			};
 			name = Release;
 		};
@@ -1823,15 +1837,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = logo_earlgrey_launchscreen_color;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = ../../../../../;
 				INFOPLIST_FILE = "FunctionalTestRig-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.FunctionalTestRig;
@@ -1840,6 +1853,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../** ../../Submodules/eDistantObject/**";
 			};
 			name = Debug;
 		};
@@ -1847,15 +1861,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = logo_earlgrey_launchscreen_color;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = ../../../../../;
 				INFOPLIST_FILE = "FunctionalTestRig-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.FunctionalTestRig;
@@ -1863,6 +1876,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../** ../../Submodules/eDistantObject/**";
 			};
 			name = Release;
 		};
@@ -1876,9 +1890,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = ../../../../../;
 				INFOPLIST_FILE = "Tests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -1905,9 +1920,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = ../../../../../;
 				INFOPLIST_FILE = "Tests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_FAST_MATH = YES;

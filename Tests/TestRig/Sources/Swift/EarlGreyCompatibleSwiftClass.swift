@@ -8,6 +8,7 @@ import Foundation
 /// subclass so that the compiler uses the Objective-C runtime for object allocation instead of the
 /// Swift runtime.
 @objcMembers
+@objc(EarlGreyCompatibleSwiftClass)
 public class EarlGreyCompatibleSwiftClass: NSObject {
   private let instanceMethodReturnValue: Int
 
