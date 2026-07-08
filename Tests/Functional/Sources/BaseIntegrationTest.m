@@ -62,6 +62,15 @@
              ])] performAction:GREYTap()];
 }
 
+- (void)tapTabNamed:(NSString *)tabName {
+  [[EarlGrey selectElementWithMatcher:[self matcherForTabNamed:tabName]] performAction:GREYTap()];
+}
+
+- (id<GREYMatcher>)matcherForTabNamed:(NSString *)tabName {
+  return grey_allOf(GREYAccessibilityLabel(tabName),
+                    GREYAccessibilityTrait(UIAccessibilityTraitButton), nil);
+}
+
 - (void)tearDown {
   [[GREYHostApplicationDistantObject sharedInstance] resetNavigationStack];
   [[GREYConfiguration sharedConfiguration] reset];

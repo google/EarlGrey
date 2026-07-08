@@ -36,6 +36,12 @@
 /** Taps the back button to return to the app's main tableview. */
 - (void)tapBackButton;
 
+/** Taps a tab bar button with the given @c tabName. */
+- (void)tapTabNamed:(NSString *)tabName;
+
+/** Returns a @c GREYMatcher that uniquely matches a tab bar button with the given @c tabName. */
+- (id<GREYMatcher>)matcherForTabNamed:(NSString *)tabName;
+
 /** A default crash handler that relaunches the app-under-test if it crashes. */
 - (GREYHostApplicationCrashHandler)defaultCrashHandler;
 @end
