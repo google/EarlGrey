@@ -25,7 +25,6 @@
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
-#import "GREYFrameworkException.h"
 #import "GREYConstants.h"
 #import "GREYElementMatcherBlock.h"
 #import "GREYTestConfiguration.h"
