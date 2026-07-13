@@ -75,8 +75,8 @@
 }
 
 - (void)testSnapshotAXElementInLandscapeMode {
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:nil];
   [self openTestViewNamed:@"Accessibility Views"];
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:nil];
 
   // Snapshot Accessibility Element.
   UIImage *snapshot =
