@@ -245,6 +245,13 @@ static NSTimeInterval AdjustedDeliveryTimeDelta(GREYTouchInfo *touchInfo) {
   // We need to walk up the accessibility container chain until we find the one that
   // can retrieve the responder.
   while (!responder && container) {
+    if (@available(iOS 27, *)) {
+      if ([container isKindOfClass:[UICollectionView class]] ||
+          [container isKindOfClass:[UITableView class]] ||
+          [NSStringFromClass([container class]) containsString:@"UIHostingView"]) {
+        break;
+      }
+    }
     if ([container respondsToSelector:NSSelectorFromString(@"_hitTestWithContext:")]) {
       responder = [container _hitTestWithContext:context];
     }
