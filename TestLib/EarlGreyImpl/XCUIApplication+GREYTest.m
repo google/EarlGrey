@@ -27,6 +27,7 @@
 #import "GREYLogger.h"
 #import "GREYSetup.h"
 #import "GREYSwizzler.h"
+#import "GREYXCTestAppleInternals.h"
 #import "GREYTestConfiguration.h"
 #import "XCUIApplication+GREYEnvironment.h"
 
@@ -51,6 +52,55 @@
 
 - (void)grey_launch {
   [self modifyKeyboardSettings];
+
+  static NSString *gPrimaryAppBundleID;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    @try {
+      gPrimaryAppBundleID = XCTestConfiguration.activeTestConfiguration.targetApplicationBundleID;
+    } @catch (NSException *exception) {
+      GREYLog(@"Failed to read targetApplicationBundleID from XCTestConfiguration: %@", exception);
+    }
+  });
+
+  // It is the primary app under test if the bundleID matches the static target,
+  // or if it is nil/empty (representing the default init rig target).
+  NSString *currentBundleID = self.bundleID;
+  BOOL isPrimaryApp = (gPrimaryAppBundleID.length == 0) || (currentBundleID.length == 0) ||
+                      [gPrimaryAppBundleID isEqualToString:currentBundleID];
+
+  NSArray<NSString *> *excludedRegexes =
+      GREY_CONFIG_ARRAY(kGREYConfigKeyBundleIDsExcludedFromSetup);
+  BOOL isExcluded = NO;
+  if (currentBundleID.length > 0) {
+    NSError *error;
+    for (NSString *regexStr in excludedRegexes) {
+      NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexStr
+                                                                             options:0
+                                                                               error:&error];
+      GREYFatalAssertWithMessage(!error, @"Invalid regex:\"%@\". See error: %@", regexStr, error);
+      NSRange firstMatch =
+          [regex rangeOfFirstMatchInString:currentBundleID
+                                   options:0
+                                     range:NSMakeRange(0, [currentBundleID length])];
+      if (firstMatch.location != NSNotFound) {
+        isExcluded = YES;
+        break;
+      }
+    }
+  }
+
+  if (isExcluded) {
+    GREYLog(@"Launching excluded application: %@. Skipping EarlGrey setup.", currentBundleID);
+    INVOKE_ORIGINAL_IMP(void, @selector(grey_launch));
+    return;
+  }
+
+  if (!isPrimaryApp) {
+    GREYLog(@"WARNING: Launching application: %@. Ensure it links EarlGrey "
+            @"AppFramework.",
+            currentBundleID);
+  }
 
   // Setup the Launch Environments.
   [self grey_configureApplicationForLaunch];
@@ -80,8 +130,8 @@
   NSTimer *validTimer = AddTimerForLaunchTimeout();
   INVOKE_ORIGINAL_IMP(void, @selector(grey_launch));
   [validTimer invalidate];
-  // When the identifier is @c nil or empty, it is the TestRig application being launched.
-  if (self.identifier.length == 0) {
+
+  if (isPrimaryApp) {
     objc_setAssociatedObject([XCUIApplication class], @selector(greyTestRigName), self.label,
                              OBJC_ASSOCIATION_RETAIN_NONATOMIC);
   }

@@ -185,4 +185,13 @@ GREY_EXTERN GREYConfigKey const kGREYConfigKeyAutoUntrackMDCActivityIndicators;
  */
 GREY_EXTERN GREYConfigKey const kGREYConfigKeyAutoHideScrollViewIndicators;
 
+/**
+ * Configuration that holds a list of regular expressions for bundle identifiers
+ * that should not be configured for EarlGrey (e.g. system apps). EarlGrey will
+ * skip injecting eDO arguments and resetting the host port for these apps.
+ *
+ * Accepted values: @c NSArray of valid regular expressions as @c NSString.
+ */
+GREY_EXTERN GREYConfigKey const kGREYConfigKeyBundleIDsExcludedFromSetup;
+
 NS_ASSUME_NONNULL_END
