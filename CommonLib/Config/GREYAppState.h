@@ -80,7 +80,8 @@ typedef NS_OPTIONS(NSUInteger, GREYAppState) {
    */
   kGREYPendingScreenRotation = (1UL << 11),
   // LINT.ThenChange(
-  //     //depot/google3/third_party/objective_c/EarlGreyV2/CommonLib/Config/GREYAppState.m)
+  //     //depot/google3/third_party/objective_c/EarlGreyV2/CommonLib/Config/GREYAppState.m,
+  //     //depot/google3/third_party/objective_c/EarlGreyV2/AppFramework/Synchronization/GREYAppStateTracker.m)
 };
 
 /**
@@ -89,5 +90,10 @@ typedef NS_OPTIONS(NSUInteger, GREYAppState) {
  * @param state The GREYAppState for which a key is to be obtained.
  **/
 NSString *GREYKeyForAppState(GREYAppState state);
+
+/**
+ * @return @c YES if the provided @c state is a valid, defined app state in GREYAppState.
+ */
+BOOL GREYIsValidAppState(GREYAppState state);
 
 #endif /* GREY_APP_STATE_H */

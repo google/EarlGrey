@@ -16,12 +16,11 @@
 
 #import "GREYAppState.h"
 
-static NSDictionary<NSNumber *, NSString *> *gStateTrackerDescriptions;
-
-NSString *GREYKeyForAppState(GREYAppState state) {
+static NSDictionary<NSNumber *, NSString *> *GREYStateTrackerDescriptions() {
   static dispatch_once_t onceToken;
+  static NSDictionary<NSNumber *, NSString *> *descriptions;
   dispatch_once(&onceToken, ^{
-    gStateTrackerDescriptions = @{
+    descriptions = @{
       @(kGREYPendingDrawLayoutPass) : @"PendingDrawLayoutPass",
       @(kGREYPendingViewsToAppear) : @"PendingViewsToAppear",
       @(kGREYPendingViewsToDisappear) : @"PendingViewsToDisappear",
@@ -36,17 +35,35 @@ NSString *GREYKeyForAppState(GREYAppState state) {
       @(kGREYPendingScreenRotation) : @"PendingScreenRotation",
     };
   });
+  return descriptions;
+}
+
+BOOL GREYIsValidAppState(GREYAppState state) {
+  static NSUInteger allValidStatesMask = 0;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    for (NSNumber *key in GREYStateTrackerDescriptions()) {
+      allValidStatesMask |= key.unsignedIntegerValue;
+    }
+  });
+  return (state & ~allValidStatesMask) == 0;
+}
+
+// LINT.IfChange
+NSString *GREYKeyForAppState(GREYAppState state) {
+  if (!GREYIsValidAppState(state)) {
+    return [NSString stringWithFormat:@"ERROR: Unknown state: %lu", (unsigned long)state];
+  }
   if (state == kGREYIdle) {
     return @"Idle";
   }
+  NSDictionary<NSNumber *, NSString *> *descriptionsMap = GREYStateTrackerDescriptions();
   NSMutableArray<NSString *> *descriptions = [NSMutableArray array];
-  for (NSNumber *key in gStateTrackerDescriptions) {
+  for (NSNumber *key in descriptionsMap) {
     if (state & key.unsignedIntegerValue) {
-      [descriptions addObject:gStateTrackerDescriptions[key]];
+      [descriptions addObject:descriptionsMap[key]];
     }
-  }
-  if (descriptions.count == 0) {
-    return [NSString stringWithFormat:@"ERROR: Unknown state: %lu", (unsigned long)state];
   }
   return [descriptions componentsJoinedByString:@", "];
 }
+// LINT.ThenChange(//depot/google3/third_party/objective_c/EarlGreyV2/CommonLib/Config/GREYAppState.h)

@@ -16,12 +16,14 @@
 
 #import "GREYHostApplicationDistantObject+ErrorHandlingTest.h"
 
-#import "GREYActionBlock.h"
 #import "GREYAppError.h"
 #import "GREYFailureScreenshotter.h"
-#import "GREYAssertionBlock.h"
-#import "GREYError.h"
-#import "GREYElementHierarchy.h"
+#import "ExposedForTesting.h"
+#import "GREYAppStateTracker.h"
+
+@interface GREYAppStateTracker ()
+- (instancetype)initOnce;
+@end
 
 @implementation GREYHostApplicationDistantObject (ErrorHandlingTest)
 
@@ -77,6 +79,26 @@
                  dispatch_get_main_queue(), ^{
                    [NSThread sleepForTimeInterval:10];
                  });
+}
+
+- (NSError *)verifyAllAppStatesHaveDescriptions {
+  GREYAppStateTracker *tracker = [[GREYAppStateTracker alloc] initOnce];
+  for (GREYAppState state = (1UL << 0); state != 0; state <<= 1) {
+    if (!GREYIsValidAppState(state)) {
+      continue;
+    }
+    NSString *key = GREYKeyForAppState(state);
+    id trackerObject = [tracker trackState:state forObject:self];
+    NSString *description = [tracker idlingResourceDescription];
+    [tracker untrackState:state forObject:trackerObject];
+
+    if (description.length == 0) {
+      NSString *errorMsg =
+          [NSString stringWithFormat:@"State %@ produced an empty description.", key];
+      return GREYErrorMake(kGREYGenericErrorDomain, kGREYGenericErrorCode, errorMsg);
+    }
+  }
+  return nil;
 }
 
 @end

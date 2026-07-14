@@ -497,6 +497,13 @@
   GREYWaitForAppToIdle(@"Wait for app to idle");
 }
 
+/** Verifies that every valid GREYAppState bit has a string description in GREYAppStateTracker. */
+- (void)testAllAppStatesHaveDescriptions {
+  NSError *error =
+      [[GREYHostApplicationDistantObject sharedInstance] verifyAllAppStatesHaveDescriptions];
+  XCTAssertNil(error, @"AppStateTracker verification failed: %@", error);
+}
+
 /** Confirms GREYAppStateTracker doesn't provide stack trace without verbose logging. */
 - (void)testAppStateTrackingTimeoutWithoutVerboseLogging {
   GREYExecuteBlockWithConfigurationOverride(kGREYConfigKeyInteractionTimeoutDuration, @(0.0), ^{

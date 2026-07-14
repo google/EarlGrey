@@ -54,4 +54,12 @@
  * @return An action that always fails and sets a generic error.
  */
 - (id<GREYAction>)failingAction;
+
+/**
+ * Verifies that every valid GREYAppState bit has a non-empty description in GREYAppStateTracker.
+ *
+ * @return An error if any valid app state lacks a description or produces an error string, or @c
+ * nil if all states are properly described.
+ */
+- (NSError *)verifyAllAppStatesHaveDescriptions;
 @end

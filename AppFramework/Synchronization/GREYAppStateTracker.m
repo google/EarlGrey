@@ -172,6 +172,7 @@ static const unsigned short kNumGREYAppStates = 12;
 /**
  * @return A concatenated string describing each state that @c state represents.
  */
+// LINT.IfChange
 static NSString *StringFromAppState(GREYAppState state) {
   if (state == kGREYIdle) {
     return @"Idle";
@@ -237,10 +238,14 @@ static NSString *StringFromAppState(GREYAppState state) {
     [eventStateString addObject:@"Waiting for UIView's draw/layout pass to complete. A "
                                 @"draw/layout pass normally completes in the next runloop drain."];
   }
+  if (state & kGREYPendingScreenRotation) {
+    [eventStateString addObject:@"Waiting for screen rotation to complete."];
+  }
   GREYFatalAssertWithMessage([eventStateString count] > 0,
                              @"Did we forget to describe some states?");
   return [eventStateString componentsJoinedByString:@"\n"];
 }
+// LINT.ThenChange(//depot/google3/third_party/objective_c/EarlGreyV2/CommonLib/Config/GREYAppState.h)
 
 - (id)performBlockInCriticalSection:(id (^)(void))block {
   int lock = pthread_mutex_lock(&gStateLock);
