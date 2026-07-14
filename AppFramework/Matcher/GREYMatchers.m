@@ -700,6 +700,19 @@ static NSString *const kActivitySheetContainerClass = @"_UISceneLayerHostContain
     if ([element isKindOfClass:[UIControl class]]) {
       UIControl *control = (UIControl *)element;
       matched = control.enabled;
+      if (matched && [[GREYMatchers matcherForSwiftUI] matches:element]) {
+        if ([element respondsToSelector:@selector(accessibilityTraits)]) {
+          UIAccessibilityTraits traits = [element accessibilityTraits];
+          if ((traits & UIAccessibilityTraitNotEnabled) != 0) {
+            matched = NO;
+          }
+        }
+      }
+    } else if ([element respondsToSelector:@selector(accessibilityTraits)]) {
+      UIAccessibilityTraits traits = [element accessibilityTraits];
+      if ((traits & UIAccessibilityTraitNotEnabled) != 0) {
+        matched = NO;
+      }
     }
     return matched;
   };
