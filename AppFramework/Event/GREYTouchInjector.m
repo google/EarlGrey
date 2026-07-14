@@ -245,12 +245,16 @@ static NSTimeInterval AdjustedDeliveryTimeDelta(GREYTouchInfo *touchInfo) {
   // We need to walk up the accessibility container chain until we find the one that
   // can retrieve the responder.
   while (!responder && container) {
-    if (@available(iOS 27, *)) {
-      if ([container isKindOfClass:[UICollectionView class]] ||
-          [container isKindOfClass:[UITableView class]] ||
-          [NSStringFromClass([container class]) containsString:@"UIHostingView"]) {
-        break;
-      }
+    // On iOS 27+, SwiftUI list row buttons rely on UIKit cell selection rather
+    // than SwiftUI gestures. EarlGrey was finding the outer scroll view's
+    // gesture and overriding the touch responder to it, preventing cell
+    // selection. This stops EarlGrey from searching for responders past the
+    // boundaries of @c UICollectionView, @c UITable, or the root
+    // @c UIHostingView, allowing UIKit to correctly select list cells.
+    if ([container isKindOfClass:[UICollectionView class]] ||
+        [container isKindOfClass:[UITableView class]] ||
+        [NSStringFromClass([container class]) containsString:@"UIHostingView"]) {
+      break;
     }
     if ([container respondsToSelector:NSSelectorFromString(@"_hitTestWithContext:")]) {
       responder = [container _hitTestWithContext:context];
