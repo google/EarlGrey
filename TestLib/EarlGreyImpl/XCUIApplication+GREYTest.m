@@ -77,14 +77,23 @@
   // Reset the port number for the app under test before every -[XCUIApplication launch] call.
   [testDistantObject resetHostArguments];
 
+  // Keep the launch timeout timer armed across the entire launch sequence, including the
+  // post-launch bookkeeping below that reads @c self.label.
+  //
+  // This is because @c -[XCUIApplication launch] returns as soon as the app process is spawned, but
+  // reading @c self.label issues a UI query ("Find the Target Application") that blocks until the
+  // app becomes responsive. When the app hangs during launch, that query -- not launch itself -- is
+  // what actually stalls, so the timer must stay armed across it. Otherwise EarlGrey's launch
+  // timeout never fires and XCTest's own "main thread busy" watchdog wins the race, producing a
+  // confusing, flaky failure instead of EarlGrey's clear launch timeout error.
   NSTimer *validTimer = AddTimerForLaunchTimeout();
   INVOKE_ORIGINAL_IMP(void, @selector(grey_launch));
-  [validTimer invalidate];
   // When the identifier is @c nil or empty, it is the TestRig application being launched.
   if (self.identifier.length == 0) {
     objc_setAssociatedObject([XCUIApplication class], @selector(greyTestRigName), self.label,
                              OBJC_ASSOCIATION_RETAIN_NONATOMIC);
   }
+  [validTimer invalidate];
   GREYLog(@"Application Launch Completed. UI Test with EarlGrey Starting");
 }
 

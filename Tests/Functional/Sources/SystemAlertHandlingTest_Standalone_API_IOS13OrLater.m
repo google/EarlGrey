@@ -62,13 +62,13 @@
 - (void)testSystemAlertLabelText {
   [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"Notifications Alert")]
       performAction:GREYTap()];
-  XCTAssertTrue([EarlGrey WaitForAlertVisibility:YES withTimeout:1]);
+  XCTAssertTrue([EarlGrey WaitForAlertVisibility:YES withTimeout:kSystemAlertVisibilityTimeout]);
   NSError *error;
   NSString *alertString = [EarlGrey SystemAlertTextWithError:&error];
   NSString *expectedString = @"“FunctionalTestRig” Would Like to Send You Notifications";
   XCTAssertTrue([alertString isEqualToString:expectedString]);
   XCTAssertTrue([EarlGrey AcceptSystemDialogWithError:nil]);
-  XCTAssertTrue([EarlGrey WaitForAlertVisibility:NO withTimeout:1]);
+  XCTAssertTrue([EarlGrey WaitForAlertVisibility:NO withTimeout:kSystemAlertVisibilityTimeout]);
   [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"Alert Handled?")]
       performAction:GREYTap()];
 }
@@ -77,7 +77,7 @@
  * Automates the checking of a System Alert's text when no alert exists.
  */
 - (void)testSystemAlertTextCheckingWithoutAnyAlertPresent {
-  XCTAssertTrue([EarlGrey WaitForAlertVisibility:NO withTimeout:3]);
+  XCTAssertTrue([EarlGrey WaitForAlertVisibility:NO withTimeout:kSystemAlertVisibilityTimeout]);
   NSError *error;
   NSString *string = [EarlGrey SystemAlertTextWithError:&error];
   XCTAssertNil(string);
@@ -91,10 +91,10 @@
  */
 - (void)testDenyingSystemAlert {
   [[EarlGrey selectElementWithMatcher:GREYText(@"Contacts Alert")] performAction:GREYTap()];
-  XCTAssertTrue([EarlGrey WaitForAlertVisibility:YES withTimeout:5]);
+  XCTAssertTrue([EarlGrey WaitForAlertVisibility:YES withTimeout:kSystemAlertVisibilityTimeout]);
   XCTAssertEqual([EarlGrey SystemAlertType], GREYSystemAlertTypeContacts);
   XCTAssertTrue([EarlGrey DenySystemDialogWithError:nil]);
-  XCTAssertTrue([EarlGrey WaitForAlertVisibility:NO withTimeout:5]);
+  XCTAssertTrue([EarlGrey WaitForAlertVisibility:NO withTimeout:kSystemAlertVisibilityTimeout]);
   [[EarlGrey selectElementWithMatcher:GREYText(@"Denied")]
       assertWithMatcher:GREYSufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"Alert Handled?")]
@@ -108,10 +108,10 @@
 - (void)testCustomHandlingMultipleAlerts {
   [[EarlGrey selectElementWithMatcher:GREYText(@"Reminders & Camera Alert")]
       performAction:GREYTap()];
-  XCTAssertTrue([EarlGrey WaitForAlertVisibility:YES withTimeout:1]);
+  XCTAssertTrue([EarlGrey WaitForAlertVisibility:YES withTimeout:kSystemAlertVisibilityTimeout]);
   XCTAssertTrue([EarlGrey AcceptSystemDialogWithError:nil]);
   XCTAssertTrue([EarlGrey DenySystemDialogWithError:nil]);
-  XCTAssertTrue([EarlGrey WaitForAlertVisibility:NO withTimeout:1]);
+  XCTAssertTrue([EarlGrey WaitForAlertVisibility:NO withTimeout:kSystemAlertVisibilityTimeout]);
   // The App Alert will be dismissed by the default UIInterruption Handler. However, the
   // direct calls for dismissal guarantee the order in which the dismissal is done.
   [[EarlGrey selectElementWithMatcher:GREYText(@"OK")] performAction:GREYTap()];
@@ -123,10 +123,10 @@
 - (void)testCustomButtonTapping {
   [[EarlGrey selectElementWithMatcher:GREYText(@"Motion Activity Alert")]
       performAction:GREYTap()];
-  XCTAssertTrue([EarlGrey WaitForAlertVisibility:YES withTimeout:1]);
+  XCTAssertTrue([EarlGrey WaitForAlertVisibility:YES withTimeout:kSystemAlertVisibilityTimeout]);
   XCTAssertEqual([EarlGrey SystemAlertType], GREYSystemAlertTypeMotionActivity);
   XCTAssertTrue([EarlGrey TapSystemDialogButtonWithText:@"OK" error:nil]);
-  XCTAssertTrue([EarlGrey WaitForAlertVisibility:NO withTimeout:1]);
+  XCTAssertTrue([EarlGrey WaitForAlertVisibility:NO withTimeout:kSystemAlertVisibilityTimeout]);
 }
 
 /**
@@ -135,14 +135,14 @@
  */
 - (void)testCustomButtonTappingWithError {
   [[EarlGrey selectElementWithMatcher:GREYText(@"Calendar Alert")] performAction:GREYTap()];
-  XCTAssertTrue([EarlGrey WaitForAlertVisibility:YES withTimeout:1]);
+  XCTAssertTrue([EarlGrey WaitForAlertVisibility:YES withTimeout:kSystemAlertVisibilityTimeout]);
   XCTAssertEqual([EarlGrey SystemAlertType], GREYSystemAlertTypeCalendar);
   NSError *error;
   XCTAssertFalse([EarlGrey TapSystemDialogButtonWithText:@"Garbage Value" error:&error]);
   XCTAssertEqualObjects(error.domain, kGREYSystemAlertDismissalErrorDomain);
   XCTAssertEqual(error.code, GREYSystemAlertCustomButtonNotFound);
   XCTAssertTrue([EarlGrey TapSystemDialogButtonWithText:@"Don’t Allow" error:nil]);
-  XCTAssertTrue([EarlGrey WaitForAlertVisibility:NO withTimeout:1]);
+  XCTAssertTrue([EarlGrey WaitForAlertVisibility:NO withTimeout:kSystemAlertVisibilityTimeout]);
   [[EarlGrey selectElementWithMatcher:GREYText(@"Alert Handled?")] performAction:GREYTap()];
 }
 
@@ -154,7 +154,7 @@
   // have network access.
   [[EarlGrey selectElementWithMatcher:GREYText(@"iTunes Restore Purchases Button")]
       performAction:GREYTap()];
-  XCTAssertTrue([EarlGrey WaitForAlertVisibility:YES withTimeout:1]);
+  XCTAssertTrue([EarlGrey WaitForAlertVisibility:YES withTimeout:kSystemAlertVisibilityTimeout]);
   XCTAssertTrue([EarlGrey TapSystemDialogButtonWithText:@"Use Existing Apple ID" error:nil]);
   XCTAssertTrue([EarlGrey TypeSystemAlertText:@"foo@bar.com"
                            forPlaceholderText:@"Apple ID"
