@@ -134,6 +134,11 @@ __attribute__((constructor)) static void initialize(void) {
 }
 
 - (void)greyswizzled_viewWillAppear:(BOOL)animated {
+#if TARGET_OS_IOS
+  GREYLogVerbose(
+      @"View controller %@ appearing: shouldAutorotate=%d, supportedInterfaceOrientations=%tu",
+      self, self.shouldAutorotate, self.supportedInterfaceOrientations);
+#endif
   // For UICompatibilityInputViewController and UIEditingOverlayViewController, which are keyboard
   // related classes, do not track this state due to issues seen with untracking.
   if (![self isKindOfClass:gEditingOverlayVCClass] &&

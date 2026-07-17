@@ -43,6 +43,8 @@
     NSError *error;
     [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:&error];
     XCTAssertNotNil(error, @"Unsupported orientations should error out in iOS 16+.");
+    XCTAssertTrue(
+        [error.userInfo[@"Recovery Suggestion"] containsString:@"Verify if orientation is locked"]);
 
     GREYAssertTrue(UIInterfaceOrientationIsPortrait(scene.interfaceOrientation),
                    @"Interface orientation should remain portrait");
@@ -64,6 +66,8 @@
     NSError *error;
     [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:&error];
     XCTAssertNotNil(error, @"Unsupported orientations should error out in iOS 16+.");
+    XCTAssertTrue(
+        [error.userInfo[@"Recovery Suggestion"] containsString:@"Verify if orientation is locked"]);
 
     GREYAssertEqual(scene.interfaceOrientation, UIInterfaceOrientationPortrait,
                     @"Interface orientation should remain portrait");

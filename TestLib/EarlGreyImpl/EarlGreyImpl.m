@@ -387,6 +387,9 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
                              @"the orientation, either XCUIDevice orientation (%tu) or application "
                              @"orientation (%tu) doesn't match the requested orientation.",
                              deviceOrientation, sharedDevice.orientation, appDeviceOrientation];
+        errorDetails[kErrorDetailRecoverySuggestionKey] =
+            @"Verify if orientation is locked (e.g. shouldAutorotate returns NO, or "
+            @"supportedInterfaceOrientations does not match the target orientation).";
       }
     }
 
