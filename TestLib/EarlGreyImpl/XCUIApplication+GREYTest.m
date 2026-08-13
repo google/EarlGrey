@@ -23,7 +23,6 @@
 #import "GREYConfiguration.h"
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "GREYTestApplicationDistantObject.h"
-#import "GREYFrameworkException.h"
 #import "GREYLogger.h"
 #import "GREYSetup.h"
 #import "GREYSwizzler.h"
@@ -38,6 +37,11 @@
                          replaceInstanceMethod:@selector(launch)
                                     withMethod:@selector(grey_launch)];
   GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle XCUIApplication launch");
+  swizzleSuccess = [swizzler swizzleClass:[self class]
+                    replaceInstanceMethod:@selector(activate)         // NOLINT
+                               withMethod:@selector(grey_activate)];  // NOLINT
+  GREYFatalAssertWithMessage(swizzleSuccess,
+                             @"Cannot swizzle XCUIApplication activate");  // NOLINT
   swizzleSuccess = [swizzler swizzleClass:[self class]
                     replaceInstanceMethod:@selector(terminate)         // NOLINT
                                withMethod:@selector(grey_terminate)];  // NOLINT
@@ -95,6 +99,25 @@
   }
   [validTimer invalidate];
   GREYLog(@"Application Launch Completed. UI Test with EarlGrey Starting");
+}
+
+- (void)grey_activate {
+  // The unswizzled implementation of activate() does not call swizzled implementation of launch(),
+  // so if the target application is not running, manually call grey_launch() to configure eDO.
+  if (self.state == XCUIApplicationStateNotRunning &&
+      // Use `description` to identify the test XCUIApplication configured in Xcode, versus
+      // XCUIApplication instances created with `initWithBundleIdentifier:` that do not use eDO.
+      // In cases where a test runs mutiple eDO apps, the eDO connection is configured manually.
+      //
+      // Assumptions:
+      // [[[XCUIApplication alloc] init] hasPrefix:@"Target Application "]
+      // [[[XCUIApplication alloc] initWithBundleIdentifier:@"…"] hasPrefix:@"Application "]
+      // (if these assumptions do not hold, try swizzling XCUIApplication initializers instead).
+      [self.description hasPrefix:@"Target Application "]) {
+    [self launch];
+  } else {
+    INVOKE_ORIGINAL_IMP(void, @selector(grey_activate));  // NOLINT
+  }
 }
 
 - (void)grey_terminate {  // NOLINT
