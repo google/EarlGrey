@@ -742,18 +742,18 @@ static id<GREYAction> ActionForTypeTextAtUITextPosition(NSString *text, UITextPo
             if (![[GREYActions actionForTap] perform:element error:errorOrNil]) {
               return NO;
             }
-            // Wait for keyboard to show up and any other UI changes to take effect.
-            if (![GREYKeyboard waitForKeyboardToAppear]) {
-              NSString *description = [NSString
-                  stringWithFormat:
-                      @"Keyboard did not appear after tapping on an element. "
-                      @"\nAre you sure that tapping on this element will bring up the keyboard?"
-                      @"\nElement: \n%@",
-                      element];
-              I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
-                                  kGREYInteractionActionFailedErrorCode, description);
-              return NO;
-            }
+          }
+          // Wait for keyboard to show up and any other UI changes to take effect.
+          if (![GREYKeyboard waitForKeyboardToAppear]) {
+            NSString *description = [NSString
+                stringWithFormat:
+                    @"Keyboard did not appear."
+                    @"\nAre you sure that tapping on this element will bring up the keyboard?"
+                    @"\nElement: \n%@",
+                    element];
+            I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
+                                kGREYInteractionActionFailedErrorCode, description);
+            return NO;
           }
 
           // If a position is given, move the text cursor to that position.

@@ -145,8 +145,7 @@
         performAction:GREYTypeText(@"Should Fail")];
     GREYFail(@"Should throw an exception");
   } @catch (NSException *exception) {
-    NSRange exceptionRange =
-        [[exception reason] rangeOfString:@"Keyboard did not appear after tapping on an element."];
+    NSRange exceptionRange = [[exception reason] rangeOfString:@"Keyboard did not appear."];
     GREYAssertTrue(exceptionRange.length > 0,
                    @"Should throw exception indicating keyboard did not appear.");
   }
