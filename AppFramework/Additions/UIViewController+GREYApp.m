@@ -135,9 +135,12 @@ __attribute__((constructor)) static void initialize(void) {
 
 - (void)greyswizzled_viewWillAppear:(BOOL)animated {
 #if TARGET_OS_IOS
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   GREYLogVerbose(
       @"View controller %@ appearing: shouldAutorotate=%d, supportedInterfaceOrientations=%tu",
       self, self.shouldAutorotate, self.supportedInterfaceOrientations);
+#pragma clang diagnostic pop
 #endif
   // For UICompatibilityInputViewController and UIEditingOverlayViewController, which are keyboard
   // related classes, do not track this state due to issues seen with untracking.
