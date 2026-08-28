@@ -58,15 +58,14 @@
   UILabel *columnView =
       [[UILabel alloc] initWithFrame:CGRectMake(35, 0, pickerView.frame.size.width / 2,
                                                 pickerView.frame.size.height)];
-  columnView.text = [self pickerView:pickerView titleForRow:row forComponent:component];
+  columnView.text = [self titleForRow:row forComponent:component];
   columnView.textAlignment = NSTextAlignmentCenter;
 
   return columnView;
 }
 
-- (NSString *)pickerView:(UIPickerView *)pickerView
-             titleForRow:(NSInteger)row
-            forComponent:(NSInteger)component {
+- (NSString *)titleForRow:(NSInteger)row
+             forComponent:(NSInteger)component {
   switch (component) {
     case 0:
       return self.customColumn1Array[(NSUInteger)row];
