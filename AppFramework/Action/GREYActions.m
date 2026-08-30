@@ -543,6 +543,7 @@ static id<GREYAction> ActionForReplaceText(NSString *text) {
           BOOL elementIsUITextField = [element isKindOfClass:[UITextField class]];
           BOOL elementIsUITextView = [element isKindOfClass:[UITextView class]];
           BOOL elementIsUISearchBar = [element isKindOfClass:[UISearchBar class]];
+          __block BOOL shouldReplaceText = YES;
           grey_dispatch_sync_on_main_thread(^{
             // Did begin editing notifications.
             if (elementIsUIControl) {
@@ -568,6 +569,8 @@ static id<GREYAction> ActionForReplaceText(NSString *text) {
                                                  textField, text];
                   I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
                                       kGREYInteractionActionFailedErrorCode, errorString);
+                  // Don't touch the text if the delegate rejected the replacement.
+                  shouldReplaceText = NO;
                 }
               }
             }
@@ -578,62 +581,64 @@ static id<GREYAction> ActionForReplaceText(NSString *text) {
               [defaultCenter postNotification:notification];
             }
 
-            // Actually change the text.
-            [element setText:text];
+            if (shouldReplaceText) {
+              // Actually change the text.
+              [element setText:text];
 
-            // Did change editing notifications.
-            if (elementIsUIControl) {
-              [element sendActionsForControlEvents:UIControlEventEditingChanged];
-            }
-            if (elementIsUITextField) {
-              NSNotification *notification =
-                  [NSNotification notificationWithName:UITextFieldTextDidChangeNotification
-                                                object:element];
-              [defaultCenter postNotification:notification];
-            }
-            if (elementIsUITextView) {
-              NSNotification *notification =
-                  [NSNotification notificationWithName:UITextViewTextDidChangeNotification
-                                                object:element];
-              [defaultCenter postNotification:notification];
-            }
-
-            // Did end editing notifications.
-            if (elementIsUIControl) {
-              [element sendActionsForControlEvents:UIControlEventEditingDidEndOnExit];
-              [element sendActionsForControlEvents:UIControlEventEditingDidEnd];
-            }
-            if (elementIsUITextField) {
-              NSNotification *notification =
-                  [NSNotification notificationWithName:UITextFieldTextDidEndEditingNotification
-                                                object:element];
-              [defaultCenter postNotification:notification];
-              [element sendActionsForControlEvents:UIControlEventValueChanged];
-            }
-            if (elementIsUITextView) {
-              NSNotification *notification =
-                  [NSNotification notificationWithName:UITextViewTextDidEndEditingNotification
-                                                object:element];
-              [defaultCenter postNotification:notification];
-            }
-
-            // For a UITextView, call the textViewDidChange: delegate.
-            if ([element isKindOfClass:[UITextView class]]) {
-              UITextView *textView = (UITextView *)element;
-              id<UITextViewDelegate> textViewDelegate = textView.delegate;
-              if ([textViewDelegate respondsToSelector:@selector(textViewDidChange:)]) {
-                [textViewDelegate textViewDidChange:textView];
+              // Did change editing notifications.
+              if (elementIsUIControl) {
+                [element sendActionsForControlEvents:UIControlEventEditingChanged];
               }
-            }
-            if (elementIsUISearchBar) {
-              UISearchBar *searchBar = (UISearchBar *)element;
-              id<UISearchBarDelegate> delegate = searchBar.delegate;
-              if ([delegate respondsToSelector:@selector(searchBar:textDidChange:)]) {
-                [delegate searchBar:searchBar textDidChange:text];
+              if (elementIsUITextField) {
+                NSNotification *notification =
+                    [NSNotification notificationWithName:UITextFieldTextDidChangeNotification
+                                                  object:element];
+                [defaultCenter postNotification:notification];
+              }
+              if (elementIsUITextView) {
+                NSNotification *notification =
+                    [NSNotification notificationWithName:UITextViewTextDidChangeNotification
+                                                  object:element];
+                [defaultCenter postNotification:notification];
+              }
+
+              // Did end editing notifications.
+              if (elementIsUIControl) {
+                [element sendActionsForControlEvents:UIControlEventEditingDidEndOnExit];
+                [element sendActionsForControlEvents:UIControlEventEditingDidEnd];
+              }
+              if (elementIsUITextField) {
+                NSNotification *notification =
+                    [NSNotification notificationWithName:UITextFieldTextDidEndEditingNotification
+                                                  object:element];
+                [defaultCenter postNotification:notification];
+                [element sendActionsForControlEvents:UIControlEventValueChanged];
+              }
+              if (elementIsUITextView) {
+                NSNotification *notification =
+                    [NSNotification notificationWithName:UITextViewTextDidEndEditingNotification
+                                                  object:element];
+                [defaultCenter postNotification:notification];
+              }
+
+              // For a UITextView, call the textViewDidChange: delegate.
+              if ([element isKindOfClass:[UITextView class]]) {
+                UITextView *textView = (UITextView *)element;
+                id<UITextViewDelegate> textViewDelegate = textView.delegate;
+                if ([textViewDelegate respondsToSelector:@selector(textViewDidChange:)]) {
+                  [textViewDelegate textViewDidChange:textView];
+                }
+              }
+              if (elementIsUISearchBar) {
+                UISearchBar *searchBar = (UISearchBar *)element;
+                id<UISearchBarDelegate> delegate = searchBar.delegate;
+                if ([delegate respondsToSelector:@selector(searchBar:textDidChange:)]) {
+                  [delegate searchBar:searchBar textDidChange:text];
+                }
               }
             }
           });
-          return YES;
+          return shouldReplaceText;
         }];
 }
 
