@@ -26,6 +26,14 @@
 static const NSUInteger kDefaultMinRunLoopDrains = 2;
 
 /**
+ * The maximum drain interval for a single runloop drain slice. Capping each drain interval (e.g.
+ * 50ms) allows the outer @autoreleasepool to pop periodically during long waits, preventing
+ * unbounded memory growth from continuous animations while preserving overall timeout semantics
+ * and responsive condition exit.
+ */
+static const CFTimeInterval kDefaultDrainIntervalSlice = 0.05;
+
+/**
  * No-op timer handler block.
  */
 static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef timer) {
@@ -67,12 +75,16 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
 
   CFTimeInterval remainingTime = [self grey_secondsUntilTime:timeoutTime];
   // Drain for remaining time.
+  // Cap each drain interval slice (e.g. 50ms) to allow the outer @autoreleasepool to pop
+  // periodically during long waits, preventing unbounded memory growth from continuous
+  // animations while preserving overall timeout semantics and responsive condition exit.
   while (!stopConditionMet && remainingTime > 0) {
     @autoreleasepool {
+      CFTimeInterval drainInterval = MIN(remainingTime, kDefaultDrainIntervalSlice);
       stopConditionMet =
           [self grey_drainRunLoopInActiveModeAndCheckCondition:stopConditionBlock
                                     explicitDrainInMainRunLoop:explicitDrainInMainRunLoop
-                                                       forTime:remainingTime];
+                                                       forTime:drainInterval];
       remainingTime = [self grey_secondsUntilTime:timeoutTime];
     }
   }
