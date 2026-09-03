@@ -126,10 +126,14 @@ static NSString *const kEditMenuPasteButtonAxeLabel = @"Paste";
     _interactability = interactability;
 
     if (@available(iOS 13.0, *)) {
-      if ([_target respondsToSelector:@selector(window)]) {
-        _targetWindowScene = [[_target window] windowScene];
-        _targetCoordinateSpace = [_targetWindowScene coordinateSpace];
+      UIWindow *targetWindow = nil;
+      if ([_target isKindOfClass:[UIWindow class]]) {
+        targetWindow = (UIWindow *)_target;
+      } else if ([_target respondsToSelector:@selector(window)]) {
+        targetWindow = [_target window];
       }
+      _targetWindowScene = [targetWindow windowScene];
+      _targetCoordinateSpace = [_targetWindowScene coordinateSpace];
     }
   }
   return self;

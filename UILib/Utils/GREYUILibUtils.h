@@ -25,7 +25,7 @@
  */
 UIWindow *GREYUILibUtilsGetApplicationKeyWindow(UIApplication *application);
 
-UIWindow *GREYUILibUtilsGetKeyboardWindow(void);  // NO_LINT
+UIWindow *GREYUILibUtilsGetKeyboardWindow();
 
 /**
  *
@@ -33,7 +33,7 @@ UIWindow *GREYUILibUtilsGetKeyboardWindow(void);  // NO_LINT
  *
  * @return A set of all application windows.
  */
-NSArray<UIWindow *> *GREYUILibUtilsGetAllWindowsFromConnectedScenes(void);  // NO_LINT
+NSArray<UIWindow *> *GREYUILibUtilsGetAllWindowsFromConnectedScenes();
 
 /**
  * A provider for UIApplication windows. By default, all application windows are returned unless

@@ -84,6 +84,11 @@ static UIView *GetFirstResponderSubview(UIView *view) {
 + (NSArray *)windowsFromLevelOfWindow:(UIWindow *)window withStatusBar:(BOOL)includeStatusBar {
   NSArray<UIWindow *> *windows = [self allWindowsWithStatusBar:includeStatusBar];
   NSUInteger index = [windows indexOfObject:window];
+  if (index == NSNotFound) {
+    // If the window is not found in the connected scenes (e.g. it is a detached or synthetic test
+    // window), return a fallback containing only the window itself.
+    return window ? @[ window ] : windows;
+  }
   NSRange range = NSMakeRange(0, index + 1);
   return [windows subarrayWithRange:range];
 }

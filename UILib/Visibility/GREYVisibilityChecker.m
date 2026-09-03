@@ -36,12 +36,26 @@ const NSUInteger kMinimumPointsVisibleForInteraction = 10;
  */
 static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;
 
-#pragma mark - GREYVisibilityChecker
+static BOOL IsAppOrSceneBackgrounded(id element) {
+  if (UIApplication.sharedApplication.applicationState == UIApplicationStateBackground) {
+    return YES;
+  }
+  if (@available(iOS 13.0, *)) {
+    UIWindow *window = [element isKindOfClass:[UIWindow class]]
+                           ? (UIWindow *)element
+                           : [element grey_viewContainingSelf].window;
+    if (window.windowScene &&
+        window.windowScene.activationState == UISceneActivationStateBackground) {
+      return YES;
+    }
+  }
+  return NO;
+}
 
 @implementation GREYVisibilityChecker
 
 + (CGFloat)percentVisibleAreaOfElement:(id)element {
-  if (!element) {
+  if (!element || IsAppOrSceneBackgrounded(element)) {
     return 0;
   }
 
@@ -69,6 +83,9 @@ static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;
 }
 
 + (CGRect)rectEnclosingVisibleAreaOfElement:(id)element {
+  if (!element || IsAppOrSceneBackgrounded(element)) {
+    return CGRectNull;
+  }
   GREYVisibilityCheckerCacheEntry *cache = GREYCacheForElementCreateIfNonExistent(element);
   NSValue *rectValue = [cache rectEnclosingVisibleArea];
   if (rectValue) {
@@ -87,8 +104,7 @@ BOOL GREYIsNotVisible(__nullable id element) {
 }
 
 CGPoint GREYVisibleInteractionPointForElement(__nullable id element) {
-  if (!element) {
-    // Nil elements are not considered visible for interaction.
+  if (!element || IsAppOrSceneBackgrounded(element)) {
     return GREYCGPointNull;
   }
 

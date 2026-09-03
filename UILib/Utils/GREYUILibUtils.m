@@ -19,83 +19,63 @@
 #import "GREYAppleInternals.h"
 
 UIWindow *GREYUILibUtilsGetApplicationKeyWindow(UIApplication *application) {
-  // New API only available on Xcode 13+
+  if (@available(iOS 13.0, *)) {
+    // First pass: Find key window in active scenes.
+    for (UIScene *scene in application.connectedScenes) {
+      if (scene.activationState == UISceneActivationStateForegroundActive &&
+          [scene isKindOfClass:[UIWindowScene class]]) {
+        UIWindowScene *windowScene = (UIWindowScene *)scene;
+        for (UIWindow *w in windowScene.windows) {
+          if (w.isKeyWindow) {
+            return w;
+          }
+        }
 #if (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 120000) || \
     (defined(__TV_OS_VERSION_MAX_ALLOWED) && __TV_OS_VERSION_MAX_ALLOWED >= 150000) ||       \
     (defined(__WATCH_OS_VERSION_MAX_ALLOWED) && __WATCH_OS_VERSION_MAX_ALLOWED >= 150000) || \
     (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 150000)
-  if (@available(iOS 15.0, tvOS 15.0, *)) {
-    // There can be multiple key windows on iOS 15 because they are now bound to UIScene.
-    // This may indicate that all the active scenes can receive keyboard/system events at the same
-    // time, we currently only return the first key window for testing purposes. We shall evaluate
-    // how EarlGrey can support multiple key windows later.
-    // TODO(b/191156739): Support multiple key windows.
-    NSSet<UIScene *> *scenes = application.connectedScenes;
-    NSPredicate *filter = [NSPredicate
-        predicateWithBlock:^BOOL(UIWindowScene *scene, NSDictionary<NSString *, id> *unused) {
-          if (![scene isKindOfClass:UIWindowScene.class]) {
-            return NO;
-          } else if (scene.activationState != UISceneActivationStateForegroundActive) {
-            return NO;
-          } else {
-            return scene.keyWindow != nil;
+        if (@available(iOS 15.0, tvOS 15.0, *)) {
+          if (windowScene.keyWindow) {
+            return windowScene.keyWindow;
           }
-        }];
-    NSSet<UIScene *> *keyScenes = [scenes filteredSetUsingPredicate:filter];
-    return ((UIWindowScene *)keyScenes.anyObject).keyWindow;
-  }
+        }
 #endif
-
-  if (@available(iOS 13.0, *)) {
-    NSMutableArray<UIWindow *> *windows =
-        [NSMutableArray arrayWithArray:GREYUILibUtilsGetAllWindowsFromConnectedScenes()];
-    NSPredicate *windowFilter =
-        [NSPredicate predicateWithBlock:^BOOL(UIWindow *window,
-                                              NSDictionary<NSString *, id> *_Nullable bindings) {
-          return window.isKeyWindow;
-        }];
-    NSArray<UIWindow *> *keyWindows = [windows filteredArrayUsingPredicate:windowFilter];
-    if ([keyWindows count] > 0) {
-      // On iOS 15+, it's possible to have multiple key windows. If any key windows are found, we
-      // we only return the first one.
-      return keyWindows.firstObject;
-    } else if ([windows count] > 1) {
-      // In case of no key window being found but there are windows still present, we assume that
-      // there are more than just one window present, with the first being the former key window. We
-      // check to see if the last window also is a full-fledged UIWindow with the same frame as the
-      // first one to set that as the key window. (This behavior is seen especially in the case of
-      // toast views pre-iOS 16.)
-      UIWindow *firstWindow = [windows firstObject];
-      UIWindow *lastWindow = [windows lastObject];
-      if (CGRectEqualToRect(firstWindow.frame, lastWindow.frame) &&
-          [lastWindow isMemberOfClass:[UIWindow class]]) {
-        return lastWindow;
+      }
+    }
+    // Second pass fallback: Active/foreground window scene's first window.
+    for (UIScene *scene in application.connectedScenes) {
+      if (scene.activationState == UISceneActivationStateForegroundActive &&
+          [scene isKindOfClass:[UIWindowScene class]]) {
+        UIWindowScene *windowScene = (UIWindowScene *)scene;
+        if (windowScene.windows.count > 0) {
+          return windowScene.windows.firstObject;
+        }
       }
     }
     return nil;
-  } else {
-    // This API is deprecated in iOS 13, so we suppress warning here in case its minimum required
-    // SDKs are lower.
+  }
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    return [application keyWindow];
+  return [application keyWindow];
 #pragma clang diagnostic pop
-  }
 }
 
 /** @return The UIWindow for the keyboard. */
-UIWindow *GREYUILibUtilsGetKeyboardWindow(void) {  // NO_LINT
+UIWindow *GREYUILibUtilsGetKeyboardWindow() {
   return [(UIView *)[UIKeyboardImpl sharedInstance] window];
 }
 
 /** @return An array of UIWindow related to the connected scenes. */
-NSArray<UIWindow *> *GREYUILibUtilsGetAllWindowsFromConnectedScenes(void) {
+NSArray<UIWindow *> *GREYUILibUtilsGetAllWindowsFromConnectedScenes() {
   UIApplication *sharedApp = UIApplication.sharedApplication;
   NSMutableArray<UIWindow *> *windows = [[NSMutableArray alloc] init];
   if (@available(iOS 16.0, *)) {
     for (UIScene *scene in sharedApp.connectedScenes) {
-      UIWindowScene *windowScene = (UIWindowScene *)scene;
-      [windows addObjectsFromArray:windowScene.windows];
+      if ([scene isKindOfClass:[UIWindowScene class]]) {
+        UIWindowScene *windowScene = (UIWindowScene *)scene;
+        [windows addObjectsFromArray:windowScene.windows];
+      }
     }
   } else {
 #pragma clang diagnostic push
@@ -117,13 +97,24 @@ NSArray<UIWindow *> *GREYUILibUtilsGetAllWindowsFromConnectedScenes(void) {
   if (@available(iOS 13.0, *)) {
     UIWindow *window = [self window];
     screen = window.windowScene.screen;
-    // This check is added in case there is an issue with getting the screen i.e. if the screen
-    // hasn't come up.
     if (!screen) {
-      if (@available(iOS 16.0, *)) {
-        //
-      } else {
+      for (UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
+        if (scene.activationState == UISceneActivationStateForegroundActive &&
+            [scene isKindOfClass:[UIWindowScene class]]) {
+          screen = ((UIWindowScene *)scene).screen;
+          if (screen) break;
+        }
+      }
+    }
+    if (!screen) {
+      if (UIApplication.sharedApplication.connectedScenes.count == 0) {
         screen = [UIScreen mainScreen];
+      } else {
+        if (@available(iOS 16.0, *)) {
+          // Do not return mainScreen on iOS 16+ when inactive to allow visibility checker to fail.
+        } else {
+          screen = [UIScreen mainScreen];
+        }
       }
     }
   } else {
