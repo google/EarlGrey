@@ -171,7 +171,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
     if (@available(iOS 15.0, *)) {
       XCUIElement *swipeTutorialButton =
           safariApp.otherElements[@"UIContinuousPathIntroductionView"].buttons[@"Continue"];
-      if ([swipeTutorialButton waitForExistenceWithTimeout:5]) {
+      if ([swipeTutorialButton waitForExistenceWithTimeout:kWaitForExistenceTimeout]) {
         [swipeTutorialButton tap];
       }
     }
@@ -184,7 +184,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
     if (@available(iOS 15.0, *)) {
       XCUIElement *swipeTutorialButton =
           safariApp.otherElements[@"UIContinuousPathIntroductionView"].buttons[@"Continue"];
-      if ([swipeTutorialButton waitForExistenceWithTimeout:5]) {
+      if ([swipeTutorialButton waitForExistenceWithTimeout:kWaitForExistenceTimeout]) {
         [swipeTutorialButton tap];
       }
     }
@@ -193,6 +193,32 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   } else if ([safariURLBarButton waitForExistenceWithTimeout:kWaitForExistenceTimeout] &&
              safariApp.hittable) {
     [safariURLBarButton tap];
+    [safariApp.textFields[@"URL"] typeText:URL];
+    [safariApp.buttons[@"Go"] tap];
+  } else if ([safariApp.textFields[@"TabBarItemTitle"]
+                 waitForExistenceWithTimeout:kWaitForExistenceTimeout]) {
+    [safariApp.textFields[@"TabBarItemTitle"] tap];
+    if (@available(iOS 15.0, *)) {
+      XCUIElement *swipeTutorialButton =
+          safariApp.otherElements[@"UIContinuousPathIntroductionView"].buttons[@"Continue"];
+      if ([swipeTutorialButton waitForExistenceWithTimeout:kWaitForExistenceTimeout]) {
+        [swipeTutorialButton tap];
+      }
+    }
+    (void)[safariApp.textFields[@"URL"] waitForExistenceWithTimeout:kWaitForExistenceTimeout];
+    [safariApp.textFields[@"URL"] typeText:URL];
+    [safariApp.buttons[@"Go"] tap];
+  } else if ([safariApp.buttons[@"TabBarItemTitle"]
+                 waitForExistenceWithTimeout:kWaitForExistenceTimeout]) {
+    [safariApp.buttons[@"TabBarItemTitle"] tap];
+    if (@available(iOS 15.0, *)) {
+      XCUIElement *swipeTutorialButton =
+          safariApp.otherElements[@"UIContinuousPathIntroductionView"].buttons[@"Continue"];
+      if ([swipeTutorialButton waitForExistenceWithTimeout:kWaitForExistenceTimeout]) {
+        [swipeTutorialButton tap];
+      }
+    }
+    (void)[safariApp.textFields[@"URL"] waitForExistenceWithTimeout:kWaitForExistenceTimeout];
     [safariApp.textFields[@"URL"] typeText:URL];
     [safariApp.buttons[@"Go"] tap];
   } else if (error) {
