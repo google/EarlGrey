@@ -37,8 +37,8 @@
 - (instancetype)initOnce {
   self = [super init];
   if (self) {
-    dispatch_queue_attr_t queueAttributes =
-        dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INITIATED, 0);
+    dispatch_queue_attr_t queueAttributes = dispatch_queue_attr_make_with_qos_class(
+        DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INTERACTIVE, 0);
     _backgroundQueue = dispatch_queue_create("com.google.earlgrey.hostbackground", queueAttributes);
     _service = [EDOHostService serviceWithPort:0 rootObject:self queue:_backgroundQueue];
   }
