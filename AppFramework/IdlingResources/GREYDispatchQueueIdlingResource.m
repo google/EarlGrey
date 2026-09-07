@@ -65,7 +65,13 @@
   if (trackerIsIdle && isDead) {
     [[GREYUIThreadExecutor sharedInstance] deregisterIdlingResource:self];
   }
-  return trackerIsIdle;
+  // In apps with unusually high main thread activity, the main thread may never be condidered
+  // idle, or may only rarely become idle.  This is a safety valve to allow this tracker to be
+  // selectively disabled, because otherwise, tests that should take seconds can take minues or
+  // even hours.
+  BOOL mainQueueTrackingEnabled = [GREYConfiguration.sharedConfiguration
+      valueForConfigKey:kGREYConfigKeyMainQueueTrackingEnabled];
+  return trackerIsIdle || !mainQueueTrackingEnabled;
 }
 
 @end
