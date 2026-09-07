@@ -15,6 +15,7 @@
 //
 
 import Foundation
+@_exported import third_party_objective_c_EarlGreyV2_TestLib_TestLib
 public func GREYAssert(
   _ expression: @autoclosure () -> Bool,
   _ reason: @autoclosure () -> String = "Assert on expression Failed",
