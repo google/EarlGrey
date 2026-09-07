@@ -19,8 +19,7 @@
 #import "GREYFatalAsserts.h"
 #import "EDOHostService.h"
 
-void GREYExecuteAsyncBlockInBackgroundQueue(void (^block)(void), void (^completionHandler)(void)) {
-  // The dispatch queue where the queries will be tunnelled to. Will be initialized only once.
+static dispatch_queue_t GetAppProxyQueue(void) {
   static dispatch_queue_t appProxyQueue;
   static dispatch_once_t token = 0;
   dispatch_once(&token, ^{
@@ -31,7 +30,11 @@ void GREYExecuteAsyncBlockInBackgroundQueue(void (^block)(void), void (^completi
     appProxyQueue = dispatch_queue_create("com.google.earlgrey.egappproxyqueue", queueAttributes);
     [EDOHostService serviceWithPort:0 rootObject:nil queue:appProxyQueue];
   });
+  return appProxyQueue;
+}
 
+void GREYExecuteAsyncBlockInBackgroundQueue(void (^block)(void), void (^completionHandler)(void)) {
+  dispatch_queue_t appProxyQueue = GetAppProxyQueue();
   dispatch_async(appProxyQueue, ^{
     block();
     dispatch_async(dispatch_get_main_queue(), completionHandler);
@@ -44,19 +47,17 @@ void GREYExecuteSyncBlockInBackgroundQueue(void (^block)(void)) {
   // is freed up for handling any more events. Without this, deadlocks will be seen.
   // The timeout for the interaction is set to be forever since EarlGrey's interaction
   // should handle the interaction timeout.
-  __block BOOL blockProcessed = NO;
-  dispatch_block_t blockToStopMainRunloopSpinning =
-      dispatch_block_create(DISPATCH_BLOCK_ASSIGN_CURRENT, ^{
-        blockProcessed = YES;
-        CFRunLoopStop(CFRunLoopGetCurrent());
-      });
+  __block volatile BOOL blockProcessed = NO;
+  CFRunLoopRef mainRunLoop = CFRunLoopGetCurrent();
+  dispatch_queue_t appProxyQueue = GetAppProxyQueue();
 
-  GREYExecuteAsyncBlockInBackgroundQueue(block, blockToStopMainRunloopSpinning);
+  dispatch_async(appProxyQueue, ^{
+    block();
+    blockProcessed = YES;
+    CFRunLoopStop(mainRunLoop);
+  });
 
   while (!blockProcessed) {
     CFRunLoopRun();
   }
-
-  // Cancel any future executions of the CFRunLoopStop block.
-  dispatch_block_cancel(blockToStopMainRunloopSpinning);
 }
