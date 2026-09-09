@@ -125,7 +125,11 @@
       performAction:GREYTap()];
   XCTAssertTrue([EarlGrey WaitForAlertVisibility:YES withTimeout:kSystemAlertVisibilityTimeout]);
   XCTAssertEqual([EarlGrey SystemAlertType], GREYSystemAlertTypeMotionActivity);
-  XCTAssertTrue([EarlGrey TapSystemDialogButtonWithText:@"OK" error:nil]);
+  NSString *buttonText = @"OK";
+  if (@available(iOS 17.0, *)) {
+    buttonText = @"Allow";
+  }
+  XCTAssertTrue([EarlGrey TapSystemDialogButtonWithText:buttonText error:nil]);
   XCTAssertTrue([EarlGrey WaitForAlertVisibility:NO withTimeout:kSystemAlertVisibilityTimeout]);
 }
 
