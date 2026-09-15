@@ -55,6 +55,16 @@ GREY_EXTERN GREYConfigKey const kGREYConfigKeyInteractionTimeoutDuration;
 GREY_EXTERN GREYConfigKey const kGREYConfigKeySynchronizationEnabled;
 
 /**
+ * Configuration that enables or disables EarlGrey's main queue tracking.  When disabled, Earl Grey
+ * will not wait for the main queue to become idle.  All other synchronization remains enabled.
+ *
+ * @remark This can make apps with high levels of main thread activity testable.  If you find
+ * yourself having to enable this, you should actively look for ways to move activity off of the
+ * main thread if at all possible, for both performance and battery life reasons.
+ */
+GREY_EXTERN GREYConfigKey const kGREYConfigKeyMainQueueTrackingEnabled;
+
+/**
  * Configuration that enables synchronization for different app state. By default, EarlGrey will
  * wait for all tracked app state resources to be idle. Set this config value to options with @c
  * GREYAppState will skip resources with those options.

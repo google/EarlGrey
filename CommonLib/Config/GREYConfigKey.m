@@ -21,6 +21,8 @@ GREYConfigKey const kGREYConfigKeyActionConstraintsEnabled =
 GREYConfigKey const kGREYConfigKeyInteractionTimeoutDuration =
     @"GREYConfigKeyInteractionTimeoutDuration";
 GREYConfigKey const kGREYConfigKeySynchronizationEnabled = @"GREYConfigKeySynchronizationEnabled";
+GREYConfigKey const kGREYConfigKeyMainQueueTrackingEnabled =
+    @"GREYConfigKeyMainQueueTrackingEnabled";
 GREYConfigKey const kGREYConfigKeyNSTimerMaxTrackableInterval =
     @"GREYConfigKeyNSTimerMaxTrackableInterval";
 GREYConfigKey const kGREYConfigKeyCALayerModifyAnimations = @"GREYConfigKeyCALayerModifyAnimations";
