@@ -35,7 +35,7 @@
 static NSMutableArray<XCTestCase *> *gExecutingTestCaseStack;
 
 /** Block which will be called when EarlGrey detects that the app-under-test has crashed. */
-static void (^gHostApplicationCrashHandler)(void);
+static void (^gHostApplicationCrashHandler)();
 
 /** The port number of the last app-under-test which has crashed. */
 static uint16_t gHostApplicationPortForLastCrash;
@@ -61,7 +61,7 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
  *
  * @param handler The block that will be invoked when there is an unhandled app-under-test crash.
  */
-static void CheckUnhandledHostApplicationCrashWithHandler(BOOL (^handler)(void));
+static void CheckUnhandledHostApplicationCrashWithHandler(BOOL (^handler)());
 
 @implementation XCTestCase (GREYTest)
 
@@ -83,12 +83,12 @@ static void CheckUnhandledHostApplicationCrashWithHandler(BOOL (^handler)(void))
   gExecutingTestCaseStack = [[NSMutableArray alloc] init];
 }
 
-+ (void)grey_setHostApplicationCrashHandler:(nullable void (^)(void))hostApplicationCrashHandler {
++ (void)grey_setHostApplicationCrashHandler:(nullable void (^)())hostApplicationCrashHandler {
   GREYFatalAssertWithMessage([NSThread isMainThread],
                              @"You must set the crash handler on main thread.");
   CheckUnhandledHostApplicationCrashWithHandler(^{
     GREYLog(
-        @"WARNING: The crash handler is overriden right after the crash of app-under-test. This "
+        @"WARNING: The crash handler is overridden right after the crash of app-under-test. This "
         @"may cause the crash being handled in an unexpected way.");
     return NO;
   });
@@ -314,17 +314,22 @@ static void CheckUnhandledHostApplicationCrashWithHandler(BOOL (^handler)(void))
   // XCTestRun failureCount will not change if there is an EarlGrey failure but only if an XCUITest
   // failure happens. In this case, add a test-side screenshot.
   if (self.testRun.failureCount > gFailureCount) {
-    XCUIApplication *application = [[XCUIApplication alloc] init];
-    if (application.state == XCUIApplicationStateRunningForeground) {
-      XCUIScreenshot *screenshot = [XCUIScreen mainScreen].screenshot;
-      NSString *screenshotDir = [GREYFailureScreenshotSaver failureScreenshotPathForException:nil];
-      NSDictionary<NSString *, UIImage *> *screenshotDict =
-          @{kGREYTestScreenshotAtFailure : screenshot.image};
-      GREYFailureScreenshots *screenshotPaths =
-          [GREYFailureScreenshotSaver saveFailureScreenshotsInDictionary:screenshotDict
-                                                             toDirectory:screenshotDir];
-      GREYLog(@"Screenshot Saved: %@ : %@", kGREYTestScreenshotAtFailure,
-              screenshotPaths[kGREYTestScreenshotAtFailure]);
+    @try {
+      XCUIApplication *application = [[XCUIApplication alloc] init];
+      if (application.state == XCUIApplicationStateRunningForeground) {
+        XCUIScreenshot *screenshot = [XCUIScreen mainScreen].screenshot;
+        NSString *screenshotDir =
+            [GREYFailureScreenshotSaver failureScreenshotPathForException:nil];
+        NSDictionary<NSString *, UIImage *> *screenshotDict =
+            @{kGREYTestScreenshotAtFailure : screenshot.image};
+        GREYFailureScreenshots *screenshotPaths =
+            [GREYFailureScreenshotSaver saveFailureScreenshotsInDictionary:screenshotDict
+                                                               toDirectory:screenshotDir];
+        GREYLog(@"Screenshot Saved: %@ : %@", kGREYTestScreenshotAtFailure,
+                screenshotPaths[kGREYTestScreenshotAtFailure]);
+      }
+    } @catch (NSException *exception) {
+      GREYLog(@"Failed to initialize XCUIApplication for screenshot: %@", exception.reason);
     }
   }
 }
@@ -373,7 +378,7 @@ static void CheckUnhandledHostApplicationCrashWithHandler(BOOL (^handler)(void))
 
 @end
 
-static void CheckUnhandledHostApplicationCrashWithHandler(BOOL (^handler)(void)) {
+static void CheckUnhandledHostApplicationCrashWithHandler(BOOL (^handler)()) {
   GREYFatalAssertWithMessage([NSThread isMainThread],
                              @"Application crash should be checked on main thread.");
   GREYTestApplicationDistantObject *testDistantObject =
