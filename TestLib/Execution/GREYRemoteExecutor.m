@@ -26,8 +26,8 @@ void GREYExecuteAsyncBlockInBackgroundQueue(void (^block)(void), void (^completi
   dispatch_once(&token, ^{
     // Since the "user" in the test is often initiating requests and waiting on the blocks on the
     // main thread, the USER_INITIATED QoS class is used.
-    dispatch_queue_attr_t queueAttributes =
-        dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INITIATED, 0);
+    dispatch_queue_attr_t queueAttributes = dispatch_queue_attr_make_with_qos_class(
+        DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INTERACTIVE, 0);
     appProxyQueue = dispatch_queue_create("com.google.earlgrey.egappproxyqueue", queueAttributes);
     [EDOHostService serviceWithPort:0 rootObject:nil queue:appProxyQueue];
   });
