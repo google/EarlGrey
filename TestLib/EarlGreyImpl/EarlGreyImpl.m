@@ -32,10 +32,13 @@
 #import "XCTestCase+GREYTest.h"
 #import "GREYUIWindowProvider.h"
 
-// In tvOS, this var becomes unused.
 #if TARGET_OS_IOS
-/** Timeout for XCUITest actions that need the waiting API. */
-static const CFTimeInterval kWaitForExistenceTimeout = 10;
+
+/** Bounded timeouts for Safari automation stages to prevent cumulative stalls before fallback. */
+static const CFTimeInterval kSafariLaunchTimeout = 3.0;
+static const CFTimeInterval kSafariAddressBarTimeout = 2.0;
+static const CFTimeInterval kSafariFocusTimeout = 1.5;
+static const CFTimeInterval kSafariOpenDialogTimeout = 4.0;
 
 /** Returns the activity sheet element. */
 static XCUIElement *GetActivitySheetElement(XCUIApplication *application) {
@@ -45,6 +48,54 @@ static XCUIElement *GetActivitySheetElement(XCUIApplication *application) {
   return iOS26_OR_ABOVE() ? application.otherElements[@"ShareSheet.RemoteContainerView"]
                           : application.otherElements[@"ActivityListView"];
 }
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
+#pragma clang diagnostic ignored "-Wunavailable-declarations"
+API_AVAILABLE(ios(13.0))
+@interface GREYOpenURLContext : UIOpenURLContext
+
+@property(nonatomic, copy) NSURL *URL;
+
+- (instancetype)initWithURL:(NSURL *)URL;
+
+@end
+
+@implementation GREYOpenURLContext
+
+@synthesize URL = _URL;
+
+- (instancetype)initWithURL:(NSURL *)URL {
+  SEL initSEL = @selector(init);
+  IMP initIMP = [NSObject instanceMethodForSelector:initSEL];
+  self = ((id (*)(id, SEL))initIMP)(self, initSEL);
+  if (self) {
+    _URL = [URL copy];
+  }
+  return self;
+}
+
+- (UISceneOpenURLOptions *)options {
+  return nil;
+}
+
+- (BOOL)isEqual:(id)object {
+  if (self == object) {
+    return YES;
+  }
+  if (![object isKindOfClass:[UIOpenURLContext class]]) {
+    return NO;
+  }
+  UIOpenURLContext *other = (UIOpenURLContext *)object;
+  return [self.URL isEqual:other.URL];
+}
+
+- (NSUInteger)hash {
+  return self.URL.hash;
+}
+
+@end
+#pragma clang diagnostic pop
 
 #endif  // TARGET_OS_IOS
 
@@ -149,69 +200,284 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   return success;
 }
 
+#if TARGET_OS_IOS
+
+/**
+ * Routes the target URL in-app via UISceneDelegate, UIApplicationDelegate, or system openURL.
+ *
+ * Direct delegate invocation is preferred over system openURL because on iOS 17+, certain
+ * registered schemes (e.g. otpauth-migration) are natively intercepted by system sheets
+ * (such as Apple Passwords) when routed via SpringBoard, preventing the target application
+ * from receiving the payload.
+ *
+ * @param targetURL The URL to open in the application.
+ * @param timeoutInSeconds Maximum time to wait if falling back to asynchronous system openURL.
+ * @return YES if the URL was handled by the application, NO otherwise.
+ */
+static BOOL RouteURLInApp(NSURL *targetURL, double timeoutInSeconds) {
+  UIApplication *app = [GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication];
+  id<UIApplicationDelegate> delegate = app.delegate;
+
+  NSString *scheme = [targetURL.scheme lowercaseString];
+  BOOL isWebURL = [scheme isEqualToString:@"http"] || [scheme isEqualToString:@"https"];
+
+  // Step A: Active UISceneDelegate routing (iOS 13+).
+  // Apps adopting UIScene lifecycle route URLs through UISceneDelegate instead of
+  // UIApplicationDelegate. UIKit suppresses application:openURL:options: when scene delegates
+  // are active.
+  if (@available(iOS 13.0, *)) {
+    if ([app respondsToSelector:@selector(connectedScenes)]) {
+      for (UIScene *scene in app.connectedScenes) {
+        if (scene.activationState == UISceneActivationStateForegroundActive ||
+            scene.activationState == UISceneActivationStateForegroundInactive) {
+          id<UISceneDelegate> sceneDelegate = (id<UISceneDelegate>)scene.delegate;
+          if (isWebURL) {
+            if ([sceneDelegate respondsToSelector:@selector(scene:continueUserActivity:)]) {
+              NSUserActivity *activity = [[GREY_REMOTE_CLASS_IN_APP(NSUserActivity) alloc]
+                  initWithActivityType:NSUserActivityTypeBrowsingWeb];
+              activity.webpageURL = targetURL;
+              [sceneDelegate scene:scene continueUserActivity:activity];
+              return YES;
+            }
+          } else {
+            if ([sceneDelegate respondsToSelector:@selector(scene:openURLContexts:)]) {
+              GREYOpenURLContext *context = [[GREYOpenURLContext alloc] initWithURL:targetURL];
+              [sceneDelegate scene:scene openURLContexts:[NSSet setWithObject:context]];
+              return YES;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Step B: Universal links (http/https) route via NSUserActivityTypeBrowsingWeb on app delegate.
+  if (isWebURL) {
+    NSUserActivity *activity = [[GREY_REMOTE_CLASS_IN_APP(NSUserActivity) alloc]
+        initWithActivityType:NSUserActivityTypeBrowsingWeb];
+    activity.webpageURL = targetURL;
+    if ([delegate
+            respondsToSelector:@selector(application:continueUserActivity:restorationHandler:)]) {
+      return [delegate application:app
+              continueUserActivity:activity
+                restorationHandler:^(NSArray<id<UIUserActivityRestoring>> *restorableObjects){
+                }];
+    }
+  }
+
+  // Step C: Custom schemes route directly to UIApplicationDelegate methods.
+  // Direct delegate calls bypass iOS 17+ system interception (e.g. Apple Passwords intercepting
+  // otpauth-migration URLs) which would otherwise steal foreground from the app under test.
+  if ([delegate respondsToSelector:@selector(application:openURL:options:)]) {
+    return [delegate application:app openURL:targetURL options:@{}];
+  }
+  if ([delegate respondsToSelector:@selector(application:openURL:sourceApplication:annotation:)]) {
+    return [delegate application:app openURL:targetURL sourceApplication:nil annotation:@{}];
+  }
+
+  // Step D: Fallback to system openURL if neither scene nor app delegates handle custom URLs.
+  // Synchronized using GREYCondition on the caller thread to prevent blocking eDO's appProxyQueue.
+  NSObject *lock = [[NSObject alloc] init];
+  __block BOOL handled = NO;
+  __block BOOL completed = NO;
+  [app openURL:targetURL
+      options:@{}
+      completionHandler:^(BOOL success) {
+        @synchronized(lock) {
+          handled = success;
+          completed = YES;
+        }
+      }];
+
+  GREYCondition *openURLCondition = [GREYCondition conditionWithName:@"Wait for openURL completion"
+                                                               block:^BOOL {
+                                                                 @synchronized(lock) {
+                                                                   return completed;
+                                                                 }
+                                                               }];
+  BOOL conditionSuccess = [openURLCondition waitWithTimeout:timeoutInSeconds pollInterval:0.1];
+  return conditionSuccess && handled;
+}
+
+static BOOL DispatchInApp(NSString *URL, XCUIApplication *application, NSError **error) {
+  // 1. Validate the deep link URL.
+  NSURL *targetURL = [NSURL URLWithString:URL];
+  if (!targetURL) {
+    if (error) {
+      *error = GREYErrorMake(kGREYDeeplinkErrorDomain, GREYDeeplinkActionFailedError,
+                             @"Deeplink open action failed since URL is invalid.");
+    }
+    return NO;
+  }
+
+  double timeoutInSeconds = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
+
+  // 2. Ensure target application is in foreground before dispatching URL payload.
+  [application activate];
+  BOOL running = [application waitForState:XCUIApplicationStateRunningForeground
+                                   timeout:timeoutInSeconds];
+  if (!running) {
+    if (error) {
+      *error = GREYErrorMake(kGREYDeeplinkErrorDomain, GREYDeeplinkActionFailedError,
+                             @"Deeplink open action failed because target application failed to "
+                             @"enter foreground.");
+    }
+    return NO;
+  }
+
+  // 3. Deliver URL payload in-app on a remote executor background queue to prevent eDO deadlocks.
+  __block BOOL handled = NO;
+  GREYExecuteSyncBlockInBackgroundQueue(^{
+    handled = RouteURLInApp(targetURL, timeoutInSeconds);
+  });
+
+  if (!handled) {
+    if (error) {
+      *error = GREYErrorMake(kGREYDeeplinkErrorDomain, GREYDeeplinkActionFailedError,
+                             @"Deeplink open action failed in application URL routing.");
+    }
+    return NO;
+  }
+
+  // 4. Synchronize with the app's main run loop to ensure any view transitions or modals settle.
+  GREYWaitForAppToIdle(@"Wait for application to idle after in-app deep link dispatch.");
+  return YES;
+}
+#endif  // TARGET_OS_IOS
+
 #if defined(__IPHONE_11_0)
 - (BOOL)openDeepLinkURL:(NSString *)URL
         withApplication:(XCUIApplication *)application
                   error:(NSError **)error {
 #if TARGET_OS_IOS
+  // Attempt Safari UI automation first with bounded stage timeouts; fall back to in-app eDO
+  // dispatch if Safari fails to launch, address bar cannot be focused, or system dialog is delayed.
   XCUIApplication *safariApp =
       [[XCUIApplication alloc] initWithBundleIdentifier:@"com.apple.mobilesafari"];
   [safariApp activate];
-  double timeoutInSeconds = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-  BOOL success = [safariApp waitForState:XCUIApplicationStateRunningForeground
-                                 timeout:timeoutInSeconds];
-  I_GREYAssertTrue(success, @"Safari did not launch successfully.");
-  // As Safari loads up for the first time, the URL is not clickable and we have to wait for the app
-  // to be hittable for it.
-  XCUIElement *safariURLBarButton = safariApp.buttons[@"URL"];
-  // Safari XCUIElement with accessibilityID 'URL' is a text field if it's the first responder,
-  // otherwise it's a button.
-  if ([safariApp.textFields[@"Search or enter website name"] exists]) {
-    [safariApp.textFields[@"Search or enter website name"] tap];
-    if (@available(iOS 15.0, *)) {
-      XCUIElement *swipeTutorialButton =
-          safariApp.otherElements[@"UIContinuousPathIntroductionView"].buttons[@"Continue"];
-      if ([swipeTutorialButton waitForExistenceWithTimeout:5]) {
-        [swipeTutorialButton tap];
-      }
-    }
-    [safariApp.textFields[@"URL"] typeText:URL];
-    [safariApp.buttons[@"Go"] tap];
-  } else if ([safariApp.buttons[@"Search or enter website name"] exists]) {
-    // In iOS 15.2, the "Search or enter website name" is a button, and becomes the textfield when
-    // it gets focused.
-    [safariApp.buttons[@"Search or enter website name"] tap];
-    if (@available(iOS 15.0, *)) {
-      XCUIElement *swipeTutorialButton =
-          safariApp.otherElements[@"UIContinuousPathIntroductionView"].buttons[@"Continue"];
-      if ([swipeTutorialButton waitForExistenceWithTimeout:5]) {
-        [swipeTutorialButton tap];
-      }
-    }
-    [safariApp.textFields[@"Search or enter website name"] typeText:URL];
-    [safariApp.buttons[@"Go"] tap];
-  } else if ([safariURLBarButton waitForExistenceWithTimeout:kWaitForExistenceTimeout] &&
-             safariApp.hittable) {
-    [safariURLBarButton tap];
-    [safariApp.textFields[@"URL"] typeText:URL];
-    [safariApp.buttons[@"Go"] tap];
-  } else if (error) {
-    *error = GREYErrorMake(kGREYDeeplinkErrorDomain, GREYDeeplinkActionFailedError,
-                           @"Deeplink open action failed since URL field not present.");
-  }
-  XCUIElement *openButton = safariApp.buttons[@"Open"];
-  if ([openButton waitForExistenceWithTimeout:kWaitForExistenceTimeout]) {
-    [safariApp.buttons[@"Open"] tap];
-    return YES;
-  } else if (error) {
-    *error = GREYErrorMake(kGREYDeeplinkErrorDomain, GREYDeeplinkActionFailedError,
-                           @"Deeplink open action failed since Open Button on the app dialog for "
-                           @"the deeplink not present.");
-    // Reset Safari.
+  BOOL safariRunning = [safariApp waitForState:XCUIApplicationStateRunningForeground
+                                       timeout:kSafariLaunchTimeout];
+  if (!safariRunning) {
     [safariApp terminate];
+    return DispatchInApp(URL, application, error);
   }
-  // This is needed otherwise failed tests will stall until failure.
-  [application activate];
+
+  // Safari's address bar representation in the accessibility hierarchy varies across iOS
+  // versions, tab bar layout modes, and interaction states:
+  // - iOS 16+: With the redesigned unified tab bar (SFTabBar), the collapsed address bar renders
+  //   as "TabBarItemTitle" (either as a Button or an unfocused TextField).
+  // - iOS 15 / 15.2: The address bar exposes the placeholder label "Search or enter website name"
+  //   as a Button when unfocused, transitioning to a TextField upon focus.
+  // - iOS 14 and earlier: The address bar accessibility identifier is "URL" (a Button when not
+  //   editing, or a TextField when first responder).
+  // Depending on whether a start page is active, whether tabs are shown, or whether single-tab
+  // mode is enabled, Safari may expose either a Button or TextField for these identifiers.
+  // We poll all candidate identifiers and element types in parallel to avoid cumulative timeouts.
+  XCUIElement *addressElement = nil;
+  CFAbsoluteTime deadline = CFAbsoluteTimeGetCurrent() + kSafariAddressBarTimeout;
+  while (CFAbsoluteTimeGetCurrent() < deadline) {
+    if (safariApp.textFields[@"Search or enter website name"].exists) {
+      addressElement = safariApp.textFields[@"Search or enter website name"];
+      break;
+    }
+    if (safariApp.buttons[@"Search or enter website name"].exists) {
+      addressElement = safariApp.buttons[@"Search or enter website name"];
+      break;
+    }
+    if (safariApp.textFields[@"TabBarItemTitle"].exists) {
+      addressElement = safariApp.textFields[@"TabBarItemTitle"];
+      break;
+    }
+    if (safariApp.buttons[@"TabBarItemTitle"].exists) {
+      addressElement = safariApp.buttons[@"TabBarItemTitle"];
+      break;
+    }
+    if (safariApp.buttons[@"URL"].exists && safariApp.hittable) {
+      addressElement = safariApp.buttons[@"URL"];
+      break;
+    }
+    if (safariApp.textFields[@"URL"].exists) {
+      addressElement = safariApp.textFields[@"URL"];
+      break;
+    }
+    [NSThread sleepForTimeInterval:0.1];
+  }
+
+  if (!addressElement) {
+    [safariApp terminate];
+    return DispatchInApp(URL, application, error);
+  }
+
+  [addressElement tap];
+
+  // Ensure the input field appears and gains keyboard focus before typing to prevent
+  // unhandled event synthesis failure in XCTest. Dismiss any swipe tutorial popup if present.
+  XCUIElement *inputField = nil;
+  BOOL hasFocus = NO;
+  CFAbsoluteTime focusDeadline = CFAbsoluteTimeGetCurrent() + kSafariFocusTimeout;
+  while (CFAbsoluteTimeGetCurrent() < focusDeadline) {
+    if (@available(iOS 15.0, *)) {
+      XCUIElement *swipeTutorialButton =
+          safariApp.otherElements[@"UIContinuousPathIntroductionView"].buttons[@"Continue"];
+      if (swipeTutorialButton.exists) {
+        [swipeTutorialButton tap];
+      }
+    }
+
+    // Once tapped, Safari transitions the address bar into an active text field. The resulting
+    // first-responder element depends on the iOS version and layout mode:
+    // - Most iOS versions (including iOS 16/17): The active editing field becomes
+    // textFields[@"URL"].
+    // - iOS 15 / single-tab layouts: The field may retain textFields[@"Search or enter website
+    // name"].
+    // - Modern tab bar layouts before transition completes: The field may remain
+    //   textFields[@"TabBarItemTitle"].
+    // We check all candidate text field identifiers to locate the active editing element.
+    inputField = nil;
+    if (safariApp.textFields[@"URL"].exists) {
+      inputField = safariApp.textFields[@"URL"];
+    } else if (safariApp.textFields[@"Search or enter website name"].exists) {
+      inputField = safariApp.textFields[@"Search or enter website name"];
+    } else if (safariApp.textFields[@"TabBarItemTitle"].exists) {
+      inputField = safariApp.textFields[@"TabBarItemTitle"];
+    }
+
+    BOOL focused = NO;
+    @try {
+      focused = [[inputField valueForKey:@"hasKeyboardFocus"] boolValue];
+    } @catch (NSException *exception) {
+      // Ignore if private property is not accessible.
+    }
+
+    if (inputField && focused) {
+      hasFocus = YES;
+      break;
+    }
+    [NSThread sleepForTimeInterval:0.1];
+  }
+
+  if (!hasFocus) {
+    [safariApp terminate];
+    return DispatchInApp(URL, application, error);
+  }
+
+  [inputField typeText:URL];
+  [safariApp.buttons[@"Go"] tap];
+
+  XCUIElement *openButton = safariApp.buttons[@"Open"];
+  if ([openButton waitForExistenceWithTimeout:kSafariOpenDialogTimeout]) {
+    [openButton tap];
+    if ([application waitForState:XCUIApplicationStateRunningForeground
+                          timeout:kSafariOpenDialogTimeout]) {
+      GREYWaitForAppToIdle(@"Wait for application to idle after Safari deep link transition.");
+      return YES;
+    }
+  }
+
+  // If Safari Open prompt didn't appear within timeout or target application failed to enter
+  // foreground, fallback to in-app dispatch.
+  [safariApp terminate];
+  return DispatchInApp(URL, application, error);
 #endif  // TARGET_OS_IOS
   return NO;
 }
