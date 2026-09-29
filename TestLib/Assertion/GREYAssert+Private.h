@@ -149,7 +149,7 @@ GREY_EXTERN void GREYIAssertionFailure(NSString *_Nonnull description,
   ({                                                                                    \
     const char *a1Str__ = "" #__a1;                                                     \
     GREYIWaitForAppToIdle(GREYIAssertionTypeNotNil, a1Str__);                           \
-    NSObject *_Nullable a1Value__ = (__a1);                                             \
+    id _Nullable a1Value__ = (__a1);                                                    \
     if (a1Value__ == nil) {                                                             \
       GREYIAssertionFailure(GREYIFailureDescription(GREYIAssertionTypeNotNil, a1Str__), \
                             @"" __VA_ARGS__);                                           \
@@ -160,7 +160,7 @@ GREY_EXTERN void GREYIAssertionFailure(NSString *_Nonnull description,
   ({                                                                                              \
     const char *a1Str__ = "" #__a1;                                                               \
     GREYIWaitForAppToIdle(GREYIAssertionTypeNil, a1Str__);                                        \
-    NSObject *_Nullable a1Value__ = (__a1);                                                       \
+    id _Nullable a1Value__ = (__a1);                                                              \
     if (a1Value__) {                                                                              \
       GREYIAssertionFailure(                                                                      \
           GREYIFailureDescription(GREYIAssertionTypeNil, a1Str__, GREYDescribeObject(a1Value__)), \
