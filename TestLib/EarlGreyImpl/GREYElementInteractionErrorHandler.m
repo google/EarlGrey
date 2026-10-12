@@ -16,13 +16,13 @@
 
 #import "GREYElementInteractionErrorHandler.h"
 
-#import <XCTest/XCTest.h>
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <XCUIAutomation/XCUIAutomation.h>
 
 #import "GREYAssertionDefinesPrivate.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
-#import "GREYFailureHandler.h"
-#import "GREYFrameworkException.h"
 #import "GREYConstants.h"
 
 
@@ -36,10 +36,14 @@
 static NSDictionary<NSString *, UIImage *> *GetScreenshotsFromError(GREYError *error) {
   NSMutableDictionary<NSString *, UIImage *> *mutableScreenshots =
       [error.appScreenshots mutableCopy];
-  XCUIApplication *application = [[XCUIApplication alloc] init];
-  if (application.state == XCUIApplicationStateRunningForeground) {
-    XCUIScreenshot *screenshot = [XCUIScreen mainScreen].screenshot;
-    [mutableScreenshots setObject:screenshot.image forKey:kGREYTestScreenshotAtFailure];
+  @try {
+    XCUIApplication *application = [[XCUIApplication alloc] init];
+    if (application.state == XCUIApplicationStateRunningForeground) {
+      XCUIScreenshot *screenshot = [XCUIScreen mainScreen].screenshot;
+      [mutableScreenshots setObject:screenshot.image forKey:kGREYTestScreenshotAtFailure];
+    }
+  } @catch (NSException *exception) {
+    NSLog(@"Failed to initialize XCUIApplication for screenshot: %@", exception.reason);
   }
 
   return [mutableScreenshots copy];
