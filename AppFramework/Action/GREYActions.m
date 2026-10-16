@@ -104,6 +104,32 @@ static Protocol *gTextInputProtocol;
           startPercents:CGPointMake(xOriginStartPercentage, yOriginStartPercentage)];
 }
 
++ (id<GREYAction>)actionForSwipeFastInDirection:(GREYDirection)direction
+                         xOriginStartPercentage:(CGFloat)xOriginStartPercentage
+                         yOriginStartPercentage:(CGFloat)yOriginStartPercentage
+                            touchesBeganHandler:(dispatch_block_t)touchesBeganHandler
+                          touchesWillEndHandler:(dispatch_block_t)touchesWillEndHandler {
+  return [[GREYSwipeAction alloc]
+          initWithDirection:direction
+                   duration:kGREYSwipeFastDuration
+              startPercents:CGPointMake(xOriginStartPercentage, yOriginStartPercentage)
+        touchesBeganHandler:touchesBeganHandler
+      touchesWillEndHandler:touchesWillEndHandler];
+}
+
++ (id<GREYAction>)actionForSwipeSlowInDirection:(GREYDirection)direction
+                         xOriginStartPercentage:(CGFloat)xOriginStartPercentage
+                         yOriginStartPercentage:(CGFloat)yOriginStartPercentage
+                            touchesBeganHandler:(dispatch_block_t)touchesBeganHandler
+                          touchesWillEndHandler:(dispatch_block_t)touchesWillEndHandler {
+  return [[GREYSwipeAction alloc]
+          initWithDirection:direction
+                   duration:kGREYSwipeSlowDuration
+              startPercents:CGPointMake(xOriginStartPercentage, yOriginStartPercentage)
+        touchesBeganHandler:touchesBeganHandler
+      touchesWillEndHandler:touchesWillEndHandler];
+}
+
 + (id<GREYAction>)actionForMultiFingerSwipeSlowInDirection:(GREYDirection)direction
                                            numberOfFingers:(NSUInteger)numberOfFingers {
   return [[GREYMultiFingerSwipeAction alloc] initWithDirection:direction

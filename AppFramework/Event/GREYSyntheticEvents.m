@@ -21,6 +21,7 @@
 #import "GREYThrowDefines.h"
 #import "GREYTouchInfo.h"
 #import "GREYAppleInternals.h"
+#import "GREYLogger.h"
 #import "GREYUIWindowProvider.h"
 
 #pragma mark - Implementation
@@ -65,6 +66,22 @@ static const NSTimeInterval kMinimumDelayBetweenTouchPathEvents = 1.0 / 120.0;
                         element:element];
 }
 
++ (void)touchAlongPath:(NSArray *)touchPath
+         relativeToWindow:(UIWindow *)window
+              forDuration:(NSTimeInterval)duration
+                  timeout:(NSTimeInterval)timeout
+                  element:(id _Nullable)element
+      touchesBeganHandler:(dispatch_block_t _Nullable)touchesBeganHandler
+    touchesWillEndHandler:(dispatch_block_t _Nullable)touchesWillEndHandler {
+  [self grey_touchAlongMultiplePaths:@[ touchPath ]
+                    relativeToWindow:window
+                         forDuration:duration
+                             timeout:timeout
+                             element:element
+                 touchesBeganHandler:touchesBeganHandler
+               touchesWillEndHandler:touchesWillEndHandler];
+}
+
 + (void)touchAlongMultiplePaths:(NSArray *)touchPaths
                relativeToWindow:(UIWindow *)window
                     forDuration:(NSTimeInterval)duration
@@ -81,33 +98,62 @@ static const NSTimeInterval kMinimumDelayBetweenTouchPathEvents = 1.0 / 120.0;
                     forDuration:(NSTimeInterval)duration
                         timeout:(NSTimeInterval)timeout
                         element:(id _Nullable)element {
+  [self grey_touchAlongMultiplePaths:touchPaths
+                    relativeToWindow:window
+                         forDuration:duration
+                             timeout:timeout
+                             element:element
+                 touchesBeganHandler:nil
+               touchesWillEndHandler:nil];
+}
+
+/**
+ * Injects a multi touch sequence along @c touchPaths, optionally invoking handlers while the
+ * touches are down. See the public touchAlongPath:...touchesBeganHandler:touchesWillEndHandler:
+ * method for parameter details.
+ *
+ * If @c touchesBeganHandler is non-nil, the "begin" event is delivered before calling it. If
+ * @c touchesWillEndHandler is non-nil, all "continue" events are delivered before calling it. If a
+ * handler raises an exception, the rest of the gesture (including the other handler) still runs,
+ * and the exception is rethrown after the "end" event is delivered, so that no touch is left down
+ * in the app. If both handlers raise, the first exception is rethrown and the second is logged.
+ */
++ (void)grey_touchAlongMultiplePaths:(NSArray *)touchPaths
+                    relativeToWindow:(UIWindow *)window
+                         forDuration:(NSTimeInterval)duration
+                             timeout:(NSTimeInterval)timeout
+                             element:(id _Nullable)element
+                 touchesBeganHandler:(dispatch_block_t _Nullable)touchesBeganHandler
+               touchesWillEndHandler:(dispatch_block_t _Nullable)touchesWillEndHandler {
   GREYThrowOnFailedCondition(touchPaths.count >= 1);
   GREYThrowOnFailedCondition(duration >= 0);
 
   NSUInteger firstTouchPathSize = [touchPaths[0] count];
+  NSArray<NSValue *> *lastPoints = [self grey_objectsAtIndex:firstTouchPathSize - 1
+                                                    ofArrays:touchPaths];
   GREYSyntheticEvents *eventGenerator = [[GREYSyntheticEvents alloc] init];
 
-  // Inject "begin" event for the first points of each path.
+  // Inject "begin" event for the first points of each path. If there is a handler to call once the
+  // touches have begun, deliver the event immediately so the handler runs while the touch is down.
   [eventGenerator grey_beginTouchesAtPoints:[self grey_objectsAtIndex:0 ofArrays:touchPaths]
                            relativeToWindow:window
-                          immediateDelivery:NO
+                          immediateDelivery:(touchesBeganHandler != nil)
                                     timeout:timeout
                                     element:element];
+  NSException *touchesBeganException = nil;
+  if (touchesBeganHandler) {
+    @try {
+      touchesBeganHandler();
+    } @catch (NSException *exception) {
+      touchesBeganException = exception;
+    }
+  }
 
-  // If the paths have a single point, then just inject an "end" event with the delay being the
-  // provided duration. Otherwise, insert multiple "continue" events with delays being a fraction
-  // of the duration, then inject an "end" event with no delay.
-  if (firstTouchPathSize == 1) {
-    [eventGenerator grey_endTouchesAtPoints:[self grey_objectsAtIndex:firstTouchPathSize - 1
-                                                             ofArrays:touchPaths]
-          timeElapsedSinceLastTouchDelivery:duration
-                                    timeout:timeout
-                                    element:element];
-  } else {
-    // Start injecting "continue touch" events, starting from the second position on the touch
-    // path as it was already injected as a "begin touch" event.
+  // Inject "continue" events for the rest of each path (if any), with delays being a fraction of
+  // the duration, starting from the second position on the touch path as it was already injected
+  // as a "begin touch" event.
+  if (firstTouchPathSize > 1) {
     CFTimeInterval delayBetweenEachEvent = duration / (double)(firstTouchPathSize - 1);
-
     for (NSUInteger i = 1; i < firstTouchPathSize; i++) {
       [eventGenerator grey_continueTouchAtPoints:[self grey_objectsAtIndex:i ofArrays:touchPaths]
           afterTimeElapsedSinceLastTouchDelivery:delayBetweenEachEvent
@@ -115,12 +161,36 @@ static const NSTimeInterval kMinimumDelayBetweenTouchPathEvents = 1.0 / 120.0;
                                          timeout:timeout
                                          element:element];
     }
+  }
 
-    [eventGenerator grey_endTouchesAtPoints:[self grey_objectsAtIndex:firstTouchPathSize - 1
-                                                             ofArrays:touchPaths]
-          timeElapsedSinceLastTouchDelivery:0
-                                    timeout:timeout
-                                    element:element];
+  // If there is a handler to call before the touches end, deliver the pending events first so the
+  // handler runs after the last move and before the touches are lifted.
+  NSException *touchesWillEndException = nil;
+  if (touchesWillEndHandler) {
+    [eventGenerator->_touchInjector waitUntilAllTouchesAreDeliveredWithTimeout:timeout];
+    @try {
+      touchesWillEndHandler();
+    } @catch (NSException *exception) {
+      touchesWillEndException = exception;
+    }
+  }
+
+  // If the paths have a single point, the "end" event is delayed by the provided duration.
+  // Otherwise, the "continue" events already took up the duration, so it is injected with no delay.
+  [eventGenerator grey_endTouchesAtPoints:lastPoints
+        timeElapsedSinceLastTouchDelivery:(firstTouchPathSize == 1 ? duration : 0)
+                                  timeout:timeout
+                                  element:element];
+
+  // Now that no touch is left down, rethrow any exception raised by a handler.
+  if (touchesBeganException) {
+    if (touchesWillEndException) {
+      GREYLog(@"touchesWillEndHandler also raised an exception: %@", touchesWillEndException);
+    }
+    @throw touchesBeganException;
+  }
+  if (touchesWillEndException) {
+    @throw touchesWillEndException;
   }
 }
 

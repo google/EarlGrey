@@ -186,6 +186,58 @@
                          yOriginStartPercentage:(CGFloat)yOriginStartPercentage;
 
 /**
+ * Returns an action that swipes through the view quickly in the given @c direction from a specific
+ * origin, and invokes the given handlers while the touch is down.
+ *
+ * See GREYSwipeAction::initWithDirection:duration:startPercents:touchesBeganHandler:
+ * touchesWillEndHandler: for when the handlers run and their restrictions.
+ *
+ * @param direction              The direction of the swipe.
+ * @param xOriginStartPercentage The x start position as a percentage of the total width
+ *                               of the view. This must be between 0 and 1.
+ * @param yOriginStartPercentage The y start position as a percentage of the total height
+ *                               of the view. This must be between 0 and 1.
+ * @param touchesBeganHandler    If non-nil, called after the touch-began event is delivered and
+ *                               before any touch-moved events are delivered.
+ * @param touchesWillEndHandler  If non-nil, called after the last touch-moved event (if any) is
+ *                               delivered and before the touch-ended event is delivered.
+ *
+ * @return A GREYAction that performs a fast swipe through a view in a specific direction from
+ *         the specified point, invoking the given handlers.
+ */
++ (id<GREYAction>)actionForSwipeFastInDirection:(GREYDirection)direction
+                         xOriginStartPercentage:(CGFloat)xOriginStartPercentage
+                         yOriginStartPercentage:(CGFloat)yOriginStartPercentage
+                            touchesBeganHandler:(dispatch_block_t)touchesBeganHandler
+                          touchesWillEndHandler:(dispatch_block_t)touchesWillEndHandler;
+
+/**
+ * Returns an action that swipes through the view slowly in the given @c direction from a specific
+ * origin, and invokes the given handlers while the touch is down.
+ *
+ * See GREYSwipeAction::initWithDirection:duration:startPercents:touchesBeganHandler:
+ * touchesWillEndHandler: for when the handlers run and their restrictions.
+ *
+ * @param direction              The direction of the swipe.
+ * @param xOriginStartPercentage The x start position as a percentage of the total width
+ *                               of the view. This must be between 0 and 1.
+ * @param yOriginStartPercentage The y start position as a percentage of the total height
+ *                               of the view. This must be between 0 and 1.
+ * @param touchesBeganHandler    If non-nil, called after the touch-began event is delivered and
+ *                               before any touch-moved events are delivered.
+ * @param touchesWillEndHandler  If non-nil, called after the last touch-moved event (if any) is
+ *                               delivered and before the touch-ended event is delivered.
+ *
+ * @return A GREYAction that performs a slow swipe through a view in a specific direction from
+ *         the specified point, invoking the given handlers.
+ */
++ (id<GREYAction>)actionForSwipeSlowInDirection:(GREYDirection)direction
+                         xOriginStartPercentage:(CGFloat)xOriginStartPercentage
+                         yOriginStartPercentage:(CGFloat)yOriginStartPercentage
+                            touchesBeganHandler:(dispatch_block_t)touchesBeganHandler
+                          touchesWillEndHandler:(dispatch_block_t)touchesWillEndHandler;
+
+/**
  * Returns an action that performs a multi-finger slow swipe through the view in the given
  * @c direction.
  *
