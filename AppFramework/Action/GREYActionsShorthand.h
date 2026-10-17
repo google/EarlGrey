@@ -195,6 +195,34 @@ GREY_EXPORT id<GREYAction> grey_swipeSlowInDirectionWithStartPoint(GREYDirection
                                                                    CGFloat xOriginStartPercentage,
                                                                    CGFloat yOriginStartPercentage);
 
+/**
+ * Shorthand macro for
+ * GREYActions::actionForSwipeFastInDirection:xOriginStartPercentage:yOriginStartPercentage:
+ * touchesBeganHandler:touchesWillEndHandler:.
+ */
+GREY_EXPORT id<GREYAction> GREYSwipeFastInDirectionWithStartPointAndTouchHandlers(
+    GREYDirection direction, CGFloat xOriginStartPercentage, CGFloat yOriginStartPercentage,
+    dispatch_block_t _Nullable touchesBeganHandler,
+    dispatch_block_t _Nullable touchesWillEndHandler);
+GREY_EXPORT id<GREYAction> grey_swipeFastInDirectionWithStartPointAndTouchHandlers(
+    GREYDirection direction, CGFloat xOriginStartPercentage, CGFloat yOriginStartPercentage,
+    dispatch_block_t _Nullable touchesBeganHandler,
+    dispatch_block_t _Nullable touchesWillEndHandler);
+
+/**
+ * Shorthand macro for
+ * GREYActions::actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPercentage:
+ * touchesBeganHandler:touchesWillEndHandler:.
+ */
+GREY_EXPORT id<GREYAction> GREYSwipeSlowInDirectionWithStartPointAndTouchHandlers(
+    GREYDirection direction, CGFloat xOriginStartPercentage, CGFloat yOriginStartPercentage,
+    dispatch_block_t _Nullable touchesBeganHandler,
+    dispatch_block_t _Nullable touchesWillEndHandler);
+GREY_EXPORT id<GREYAction> grey_swipeSlowInDirectionWithStartPointAndTouchHandlers(
+    GREYDirection direction, CGFloat xOriginStartPercentage, CGFloat yOriginStartPercentage,
+    dispatch_block_t _Nullable touchesBeganHandler,
+    dispatch_block_t _Nullable touchesWillEndHandler);
+
 #pragma mark - Text based actions.
 
 /** Shorthand macro for GREYActions::actionForClearText. */

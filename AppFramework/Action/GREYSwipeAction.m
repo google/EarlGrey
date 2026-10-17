@@ -49,11 +49,21 @@
    * Start point for the swipe specified as percentage of swipped element's accessibility frame.
    */
   CGPoint _startPercents;
+  /**
+   * Called after the touch-began event is delivered and before any touch-moved events.
+   */
+  dispatch_block_t _touchesBeganHandler;
+  /**
+   * Called after the last touch-moved event is delivered and before the touch-ended event.
+   */
+  dispatch_block_t _touchesWillEndHandler;
 }
 
 - (instancetype)initWithDirection:(GREYDirection)direction
                          duration:(CFTimeInterval)duration
-                     percentPoint:(CGPoint)percents {
+                    startPercents:(CGPoint)percents
+              touchesBeganHandler:(dispatch_block_t)touchesBeganHandler
+            touchesWillEndHandler:(dispatch_block_t)touchesWillEndHandler {
   GREYThrowOnFailedConditionWithMessage(percents.x > 0.0f && percents.x < 1.0f,
                                         @"xOriginStartPercentage must be between 0 and 1, "
                                         @"exclusively");
@@ -83,19 +93,25 @@
     _direction = direction;
     _duration = duration;
     _startPercents = percents;
+    _touchesBeganHandler = [touchesBeganHandler copy];
+    _touchesWillEndHandler = [touchesWillEndHandler copy];
   }
   return self;
 }
 
 - (instancetype)initWithDirection:(GREYDirection)direction duration:(CFTimeInterval)duration {
   // TODO: Pick a visible point instead of picking the center of the view.
-  return [self initWithDirection:direction duration:duration percentPoint:CGPointMake(0.5, 0.5)];
+  return [self initWithDirection:direction duration:duration startPercents:CGPointMake(0.5, 0.5)];
 }
 
 - (instancetype)initWithDirection:(GREYDirection)direction
                          duration:(CFTimeInterval)duration
                     startPercents:(CGPoint)startPercents {
-  return [self initWithDirection:direction duration:duration percentPoint:startPercents];
+  return [self initWithDirection:direction
+                        duration:duration
+                   startPercents:startPercents
+             touchesBeganHandler:nil
+           touchesWillEndHandler:nil];
 }
 
 #pragma mark - GREYAction
@@ -138,7 +154,9 @@
                        relativeToWindow:window
                             forDuration:_duration
                                 timeout:interactionTimeout
-                                element:element];
+                                element:element
+                    touchesBeganHandler:_touchesBeganHandler
+                  touchesWillEndHandler:_touchesWillEndHandler];
     return YES;
   } else {
     return NO;

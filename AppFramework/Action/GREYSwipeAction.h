@@ -62,4 +62,39 @@
 - (instancetype)initWithDirection:(GREYDirection)direction
                          duration:(CFTimeInterval)duration
                     startPercents:(CGPoint)startPercents;
+
+/**
+ * Initializes an action that swipes in @c direction over @c duration, starting at the point given
+ * by @c startPercents, and calls the given handlers while the touch is down. Because a swipe must
+ * begin inside the element rather than on its edge, both coordinates of @c startPercents must be
+ * strictly between 0 and 1.
+ *
+ * Use the handlers to observe app state at precise points in the gesture, for example, to verify
+ * that the app does not finish an operation until the touch is lifted. Each handler runs
+ * synchronously on the thread performing the action (a background thread in the app process),
+ * and touch delivery pauses until it returns; the app's main run loop keeps running meanwhile. If
+ * a handler is a block created in the test process, EarlGrey invokes it in the test process over
+ * eDistantObject. Handlers should return quickly and must not perform EarlGrey interactions,
+ * because the swipe is still in progress. If a handler raises an exception, the rest of the swipe
+ * still runs, including the other handler, and the exception propagates after the touch is lifted.
+ * If both handlers raise, the first exception propagates and the second is logged.
+ *
+ * @param direction             The direction of the swipe.
+ * @param duration              The time interval for which the swipe takes place.
+ * @param startPercents         @c startPercents.x sets the value of the x-coordinate of the start
+ *                              point by interpolating between left(for 0.0) and right(for 1.0)
+ *                              edge similarly @c startPercents.y determines the y coordinate.
+ * @param touchesBeganHandler   If non-nil, called after the touch-began event is delivered and
+ *                              before any touch-moved events are delivered.
+ * @param touchesWillEndHandler If non-nil, called after the last touch-moved event (if any) is
+ *                              delivered and before the touch-ended event is delivered.
+ *
+ * @return An instance of GREYSwipeAction, initialized with the provided direction, duration,
+ *         information for the start point, and handlers.
+ */
+- (instancetype)initWithDirection:(GREYDirection)direction
+                         duration:(CFTimeInterval)duration
+                    startPercents:(CGPoint)startPercents
+              touchesBeganHandler:(dispatch_block_t)touchesBeganHandler
+            touchesWillEndHandler:(dispatch_block_t)touchesWillEndHandler;
 @end
