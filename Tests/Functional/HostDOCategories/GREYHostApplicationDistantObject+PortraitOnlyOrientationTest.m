@@ -21,6 +21,8 @@
 #include <objc/runtime.h>
 
 #import "GREYSwizzler.h"
+#import "SceneDelegate.h"
+#import "GREYUILibUtils.h"
 
 @implementation UIApplication (PortraitOnlyOrientationTest)
 
@@ -30,27 +32,52 @@
 
 @end
 
+@implementation SceneDelegate (PortraitOnlyOrientationTest)
+
+- (UIInterfaceOrientationMask)grey_supportedInterfaceOrientationsForWindowScene:
+    (UIWindowScene *)windowScene {
+  return UIInterfaceOrientationMaskPortrait;
+}
+
+@end
+
 @implementation GREYHostApplicationDistantObject (PortraitOnlyOrientationTest)
 
 - (BOOL)blockNonPortraitOrientations {
-  // Swizzle UIApplication supportedInterfaceOrientationsForWindow: to make orientations other than
-  // portrait unsupported by the app.
+  // Swizzle UIApplication supportedInterfaceOrientationsForWindow: and SceneDelegate
+  // supportedInterfaceOrientationsForWindowScene: to make orientations other than portrait
+  // unsupported by the app.
   GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
   objc_setAssociatedObject(self, @selector(unblockNonPortraitOrientations), swizzler,
                            OBJC_ASSOCIATION_RETAIN);
-  BOOL swizzle = [swizzler swizzleClass:[UIApplication class]
-                  replaceInstanceMethod:@selector(supportedInterfaceOrientationsForWindow:)
-                             withMethod:@selector(grey_supportedInterfaceOrientationsForWindow:)];
-  return swizzle;
+  BOOL appSwizzle =
+      [swizzler swizzleClass:[UIApplication class]
+          replaceInstanceMethod:@selector(supportedInterfaceOrientationsForWindow:)
+                     withMethod:@selector(grey_supportedInterfaceOrientationsForWindow:)];
+  BOOL sceneSwizzle =
+      [swizzler swizzleClass:[SceneDelegate class]
+          replaceInstanceMethod:@selector(supportedInterfaceOrientationsForWindowScene:)
+                     withMethod:@selector(grey_supportedInterfaceOrientationsForWindowScene:)];
+  if (@available(iOS 16.0, *)) {
+    [GREYUILibUtils.window.rootViewController setNeedsUpdateOfSupportedInterfaceOrientations];
+  }
+  return appSwizzle && sceneSwizzle;
 }
 
 - (BOOL)unblockNonPortraitOrientations {
   GREYSwizzler *swizzler =
       objc_getAssociatedObject(self, @selector(unblockNonPortraitOrientations));
   // Undo swizzling.
-  BOOL unswizzle = [swizzler resetInstanceMethod:@selector(supportedInterfaceOrientationsForWindow:)
-                                           class:[UIApplication class]];
-  return unswizzle;
+  BOOL appUnswizzle =
+      [swizzler resetInstanceMethod:@selector(supportedInterfaceOrientationsForWindow:)
+                              class:[UIApplication class]];
+  BOOL sceneUnswizzle =
+      [swizzler resetInstanceMethod:@selector(supportedInterfaceOrientationsForWindowScene:)
+                              class:[SceneDelegate class]];
+  if (@available(iOS 16.0, *)) {
+    [GREYUILibUtils.window.rootViewController setNeedsUpdateOfSupportedInterfaceOrientations];
+  }
+  return appUnswizzle && sceneUnswizzle;
 }
 
 @end
