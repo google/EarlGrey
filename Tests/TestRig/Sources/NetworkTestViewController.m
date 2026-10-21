@@ -74,14 +74,20 @@ static NSString *const kProxyRegex = @"^http://www.youtube.com";
 @property(weak, nonatomic) IBOutlet UILabel *retryIndicator;
 @property(weak, nonatomic) IBOutlet UILabel *responseVerifiedLabel;
 @property(weak, nonatomic) IBOutlet UILabel *requestCompletedLabel;
+/**
+ * Check for the infinite request. The request should be dismissed once the view controller is
+ * removed. Atomic since it is written on the main thread and read on a background queue.
+ */
+@property(atomic) BOOL keepInfiniteRequestOn;
 @end
 
 @implementation NetworkTestViewController {
   /**
-   * Check for the infinite request. The request should be dismissed once the view controller is
-   * removed.
+   * The task backing the infinite request. It is not proxied, so if the real network stalls the
+   * task can stay in flight indefinitely. It is cancelled once the view controller is removed so
+   * that it does not leak into (and block idling of) subsequent tests.
    */
-  BOOL _keepInfiniteRequestOn;
+  NSURLSessionTask *_infiniteRequestTask;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -94,7 +100,9 @@ static NSString *const kProxyRegex = @"^http://www.youtube.com";
   [super viewDidDisappear:animated];
   [NetworkProxy removeMostRecentProxyRuleMatchingUrlRegexString:kProxyRegex];
   [NetworkProxy setProxyEnabled:NO];
-  _keepInfiniteRequestOn = NO;
+  self.keepInfiniteRequestOn = NO;
+  [_infiniteRequestTask cancel];
+  _infiniteRequestTask = nil;
 }
 
 /**
@@ -219,15 +227,21 @@ static NSString *const kProxyRegex = @"^http://www.youtube.com";
 
 - (IBAction)usedTappedOnInfiniteRequest:(id)sender {
   NSURLSession *session = [NSURLSession sharedSession];
-  _keepInfiniteRequestOn = YES;
-  NSURLSessionTask *task =
-      [session dataTaskWithURL:[NSURL URLWithString:@"http://foo.com/"]
-             completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-               while (self->_keepInfiniteRequestOn) {
-                 [NSThread sleepForTimeInterval:1.0];
-               }
-             }];
-  [task resume];
+  [_infiniteRequestTask cancel];
+  self.keepInfiniteRequestOn = YES;
+  _infiniteRequestTask = [session
+        dataTaskWithURL:[NSURL URLWithString:@"http://foo.com/"]
+      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        // A cancelled task (either superseded by a newer tap or torn down in
+        // viewDidDisappear:) must not spin on the background queue.
+        if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled) {
+          return;
+        }
+        while (self.keepInfiniteRequestOn) {
+          [NSThread sleepForTimeInterval:1.0];
+        }
+      }];
+  [_infiniteRequestTask resume];
   [session finishTasksAndInvalidate];
 }
 
