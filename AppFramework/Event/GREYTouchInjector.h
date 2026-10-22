@@ -57,4 +57,20 @@
  */
 - (void)waitUntilAllTouchesAreDeliveredWithTimeout:(NSTimeInterval)timeout;
 
+/**
+ * Waits for all enqueued touches to be injected into the system, calling @c finalTouchHandler (if
+ * non-nil) on the main thread immediately before the last enqueued touch is injected, after its
+ * delivery delay has elapsed.
+ *
+ * If @c finalTouchHandler raises an exception, the last touch is still injected.
+ *
+ * @param timeout           The length of time to wait for the touches to be delivered.
+ * @param finalTouchHandler If non-nil, called immediately before the last enqueued touch is
+ *                          injected.
+ *
+ * @return The exception raised by @c finalTouchHandler, or @c nil if it did not raise one.
+ */
+- (NSException *)waitUntilAllTouchesAreDeliveredWithTimeout:(NSTimeInterval)timeout
+                                          finalTouchHandler:(dispatch_block_t)finalTouchHandler;
+
 @end

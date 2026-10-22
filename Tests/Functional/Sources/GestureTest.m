@@ -190,6 +190,42 @@
       assertWithMatcher:GREYSufficientlyVisible()];
 }
 
+- (void)testSwipeWithTouchHandlersCallsHandlersInOrder {
+  NSMutableArray<NSString *> *events = [[NSMutableArray alloc] init];
+  dispatch_block_t touchesBeganHandler = ^{
+    [events addObject:@"began"];
+  };
+  dispatch_block_t touchesWillEndHandler = ^{
+    [events addObject:@"willEnd"];
+  };
+
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
+      performAction:GREYSwipeFastInDirectionWithStartPointAndTouchHandlers(
+                        kGREYDirectionUp, 0.5, 0.5, touchesBeganHandler, touchesWillEndHandler)];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gesture")]
+      assertWithMatcher:GREYText(@"swipe up")];
+  XCTAssertEqualObjects(events, (@[ @"began", @"willEnd" ]),
+                        @"Unexpected fast swipe handler calls.");
+
+  // Swipe in a different direction so that the gesture label must change.
+  [events removeAllObjects];
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
+      performAction:GREYSwipeSlowInDirectionWithStartPointAndTouchHandlers(
+                        kGREYDirectionDown, 0.5, 0.5, touchesBeganHandler, touchesWillEndHandler)];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gesture")]
+      assertWithMatcher:GREYText(@"swipe down")];
+  XCTAssertEqualObjects(events, (@[ @"began", @"willEnd" ]),
+                        @"Unexpected slow swipe handler calls.");
+}
+
+- (void)testSwipeWithNilTouchHandlers {
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
+      performAction:GREYSwipeFastInDirectionWithStartPointAndTouchHandlers(kGREYDirectionUp, 0.5,
+                                                                           0.5, nil, nil)];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gesture")]
+      assertWithMatcher:GREYText(@"swipe up")];
+}
+
 - (void)testPinchWorksInAllDirectionsInPortraitMode {
   [self assertPinchWorksInAllDirections];
 }

@@ -119,12 +119,19 @@ static NSTimeInterval AdjustedDeliveryTimeDelta(GREYTouchInfo *touchInfo) {
 }
 
 - (void)waitUntilAllTouchesAreDeliveredWithTimeout:(NSTimeInterval)timeout {
+  [self waitUntilAllTouchesAreDeliveredWithTimeout:timeout finalTouchHandler:nil];
+}
+
+- (NSException *)waitUntilAllTouchesAreDeliveredWithTimeout:(NSTimeInterval)timeout
+                                          finalTouchHandler:(dispatch_block_t)finalTouchHandler {
   __block NSArray<GREYTouchInfo *> *enqueuedTouches = nil;
   dispatch_sync(_enqueuedTouchQueue, ^{
     enqueuedTouches = [self->_enqueuedTouchInfoList copy];
   });
 
-  [self grey_deliverTouches:enqueuedTouches timeout:timeout];
+  NSException *finalTouchHandlerException = [self grey_deliverTouches:enqueuedTouches
+                                                              timeout:timeout
+                                                    finalTouchHandler:finalTouchHandler];
 
   __block BOOL touchesAddedAfterInjectionStarted = NO;
   dispatch_sync(_enqueuedTouchQueue, ^{
@@ -134,13 +141,23 @@ static NSTimeInterval AdjustedDeliveryTimeDelta(GREYTouchInfo *touchInfo) {
   });
   GREYThrowOnFailedConditionWithMessage(!touchesAddedAfterInjectionStarted,
                                         @"New touches were enqueued while injecting touches.");
+  return finalTouchHandlerException;
 }
 
-- (void)grey_deliverTouches:(NSArray<GREYTouchInfo *> *)touchesList
-                    timeout:(NSTimeInterval)timeout {
+/**
+ * Delivers @c touchesList on the main thread, calling @c finalTouchHandler (if non-nil) immediately
+ * before the last touch is injected.
+ *
+ * @return The exception raised by @c finalTouchHandler, if any.
+ */
+- (NSException *)grey_deliverTouches:(NSArray<GREYTouchInfo *> *)touchesList
+                             timeout:(NSTimeInterval)timeout
+                   finalTouchHandler:(dispatch_block_t)finalTouchHandler {
   if (touchesList.count == 0) {
-    return;
+    return nil;
   }
+  GREYTouchInfo *finalTouchInfo = touchesList.lastObject;
+  __block NSException *finalTouchHandlerException = nil;
 
   dispatch_semaphore_t waitTouches = dispatch_semaphore_create(0);
   dispatch_queue_t touchQueue = dispatch_get_main_queue();
@@ -160,6 +177,13 @@ static NSTimeInterval AdjustedDeliveryTimeDelta(GREYTouchInfo *touchInfo) {
       dispatch_semaphore_signal(waitTouches);
     } else {
       do {
+        if (finalTouchHandler && touchInfo == finalTouchInfo) {
+          @try {
+            finalTouchHandler();
+          } @catch (NSException *exception) {
+            finalTouchHandlerException = exception;
+          }
+        }
         NSException *injectException;
         if (![self grey_injectTouches:touchInfo
                        ongoingTouches:self->_ongoingTouches
@@ -210,6 +234,7 @@ static NSTimeInterval AdjustedDeliveryTimeDelta(GREYTouchInfo *touchInfo) {
       return dispatch_semaphore_wait(waitTouches, DISPATCH_TIME_NOW) == 0;
     }];
   }
+  return finalTouchHandlerException;
 }
 
 #pragma mark - Private Injecting touches API's

@@ -138,6 +138,28 @@ id<GREYAction> grey_swipeSlowInDirectionWithStartPoint(GREYDirection direction,
                                                 yOriginStartPercentage);
 }
 
+id<GREYAction> GREYSwipeFastInDirectionWithStartPointAndTouchHandlers(
+    GREYDirection direction, CGFloat xOriginStartPercentage, CGFloat yOriginStartPercentage,
+    dispatch_block_t _Nullable touchesBeganHandler,
+    dispatch_block_t _Nullable touchesWillEndHandler) {
+  return [GREYActions actionForSwipeFastInDirection:direction
+                             xOriginStartPercentage:xOriginStartPercentage
+                             yOriginStartPercentage:yOriginStartPercentage
+                                touchesBeganHandler:touchesBeganHandler
+                              touchesWillEndHandler:touchesWillEndHandler];
+}
+
+id<GREYAction> GREYSwipeSlowInDirectionWithStartPointAndTouchHandlers(
+    GREYDirection direction, CGFloat xOriginStartPercentage, CGFloat yOriginStartPercentage,
+    dispatch_block_t _Nullable touchesBeganHandler,
+    dispatch_block_t _Nullable touchesWillEndHandler) {
+  return [GREYActions actionForSwipeSlowInDirection:direction
+                             xOriginStartPercentage:xOriginStartPercentage
+                             yOriginStartPercentage:yOriginStartPercentage
+                                touchesBeganHandler:touchesBeganHandler
+                              touchesWillEndHandler:touchesWillEndHandler];
+}
+
 id<GREYAction> GREYMultiFingerSwipeSlowInDirection(GREYDirection direction,
                                                    NSUInteger numberOfFingers) {
   return [GREYActions actionForMultiFingerSwipeSlowInDirection:direction

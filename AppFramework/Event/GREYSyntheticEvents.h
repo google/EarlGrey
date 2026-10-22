@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param duration  The time interval over which to space the touches evenly. If 0, all
  *                  touches will be sent one after the other without any delay in-between them.
  * @param timeout   The length of time that the method should wait for the interaction to complete.
- * @param element   "The touched element used to find " the overriding UIResponder that will receive
+ * @param element   The touched element used to find the overriding UIResponder that will receive
  *                  the touch event if any for swiftUI iOS 18+. Optional.
  */
 + (void)touchAlongPath:(NSArray *)touchPath
@@ -68,6 +68,56 @@ NS_ASSUME_NONNULL_BEGIN
            forDuration:(NSTimeInterval)duration
                timeout:(NSTimeInterval)timeout
                element:(id _Nullable)element;
+
+/**
+ * Touch along a specified path in a @c CGPoint array, invoking optional handlers while the touch
+ * is down. This method blocks until all touches are delivered.
+ *
+ * Each handler is invoked synchronously, and touch delivery pauses until it returns.
+ * touchesBeganHandler is invoked on the calling thread. touchesWillEndHandler is invoked on the
+ * main thread immediately before the touch-ended event is injected, so the app's main thread is
+ * blocked while it runs. If a handler is a block created in the test process, EarlGrey invokes it
+ * in the test process over eDistantObject. Handlers must not perform EarlGrey interactions, because
+ * the interaction that invoked them is still in progress.
+ *
+ * Handlers should return quickly, because EarlGrey timestamps each touch event with the real time
+ * at which it is delivered. A slow touchesBeganHandler delays the first touch-moved event, which
+ * can make swipe gesture recognizers fail or trigger long-press gesture recognizers. A slow
+ * touchesWillEndHandler holds the touch stationary before it is lifted, which reduces the release
+ * velocity and can suppress scroll or pan deceleration.
+ *
+ * If a handler raises an exception, the rest of the gesture still runs and the exception
+ * propagates after the touch is lifted. If touchesBeganHandler raises, touchesWillEndHandler is
+ * not called.
+ *
+ * @param touchPath             An array of @c CGPoints. The first point in @c touchPath is the
+ *                              point where touch begins, and the last point in @c touchPath is the
+ *                              final touch point where touch ends. Points in @c touchPath must be
+ *                              in @c window coordinates.
+ * @param window                The UIWindow that contains the points in the @c touchPath where
+ *                              the touches are performed. Interaction will begin on the view
+ *                              inside @c window which passes the hit-test for the first point in
+ *                              @c touchPath.
+ * @param duration              The time interval over which to space the touches evenly. If 0,
+ *                              all touches will be sent one after the other without any delay
+ *                              in-between them.
+ * @param timeout               The length of time that the method should wait for each batch of
+ *                              touches to be delivered.
+ * @param element               The touched element used to find the overriding UIResponder that
+ *                              will receive the touch event if any for swiftUI iOS 18+. Optional.
+ * @param touchesBeganHandler   If non-nil, called after the touch-began event is delivered and
+ *                              before any touch-moved events are delivered.
+ * @param touchesWillEndHandler If non-nil, called immediately before the touch-ended event is
+ *                              delivered: after the last touch-moved event or, for a single-point
+ *                              path, after the touch has been held for @c duration.
+ */
++ (void)touchAlongPath:(NSArray<NSValue *> *)touchPath
+         relativeToWindow:(UIWindow *)window
+              forDuration:(NSTimeInterval)duration
+                  timeout:(NSTimeInterval)timeout
+                  element:(id _Nullable)element
+      touchesBeganHandler:(dispatch_block_t _Nullable)touchesBeganHandler
+    touchesWillEndHandler:(dispatch_block_t _Nullable)touchesWillEndHandler;
 
 /**
  * Injects a multi touch sequence specified by the array of @c touchPaths in the specified @c
@@ -107,7 +157,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param duration   The time interval over which to space the touches evenly. If 0, all
  *                   touches will be sent one after the other without any delay in-between them.
  * @param timeout    The length of time that the method should wait for the interaction to complete.
- * @param element    "The touched element used to find " the overriding UIResponder that will
+ * @param element    The touched element used to find the overriding UIResponder that will
  *                   receive the touch event if any for swiftUI iOS 18+. Optional.
  */
 + (void)touchAlongMultiplePaths:(NSArray *)touchPaths
@@ -145,7 +195,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param immediate If @c YES, this method blocks until touch is delivered, otherwise the touch is
  *                  enqueued for delivery the next time runloop drains.
  * @param timeout   The length of time that the method should wait for the interaction to complete.
- * @param element   "The touched element used to find " the overriding UIResponder that will receive
+ * @param element   The touched element used to find the overriding UIResponder that will receive
  *                  the touch event if any for swiftUI iOS 18+. Optional.
  */
 - (void)beginTouchAtPoint:(CGPoint)point
@@ -179,7 +229,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param immediate If @c YES, this method blocks until touch is delivered, otherwise the touch is
  *                  enqueued for delivery the next time runloop drains.
  * @param timeout   The length of time that the method should wait for the interaction to complete.
- * @param element   "The touched element used to find " the overriding UIResponder that will receive
+ * @param element   The touched element used to find the overriding UIResponder that will receive
  *                  the touch event if any for swiftUI iOS 18+. Optional.
  */
 - (void)continueTouchAtPoint:(CGPoint)point
@@ -202,7 +252,7 @@ NS_ASSUME_NONNULL_BEGIN
  * delivered.
  *
  * @param timeout The length of time that the method should wait for the interaction to complete.
- * @param element "The touched element used to find " the overriding UIResponder that will receive
+ * @param element The touched element used to find the overriding UIResponder that will receive
  *                the touch event if any for swiftUI iOS 18+. Optional.
  */
 - (void)endTouchWithTimeout:(NSTimeInterval)timeout element:(id _Nullable)element;
@@ -220,7 +270,7 @@ NS_ASSUME_NONNULL_BEGIN
  *                 time. It corresponding to the UITouch's tapCount and gesture recognizers use
  *                 it to detect single-tapped, double-tapped, and multi-tapped.
  * @param timeout  The length of time that the method should wait for the interaction to complete.
- * @param element  "The touched element used to find " the overriding UIResponder that will receive
+ * @param element  The touched element used to find the overriding UIResponder that will receive
  *                 the touch event if any for swiftUI iOS 18+. Optional.
  */
 void GREYPerformMultipleTap(CGPoint location, UIWindow *window, NSUInteger tapCount,
