@@ -251,6 +251,11 @@ static BOOL RouteURLInApp(NSURL *targetURL, double timeoutInSeconds) {
     }
   }
 
+  // Steps B and C intentionally target the legacy UIApplicationDelegate URL handlers for apps
+  // that have not adopted the UIScene lifecycle. These handlers are deprecated as of iOS 26 in
+  // favor of UISceneDelegate (handled in Step A above).
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   // Step B: Universal links (http/https) route via NSUserActivityTypeBrowsingWeb on app delegate.
   if (isWebURL) {
     NSUserActivity *activity = [[GREY_REMOTE_CLASS_IN_APP(NSUserActivity) alloc]
@@ -271,9 +276,7 @@ static BOOL RouteURLInApp(NSURL *targetURL, double timeoutInSeconds) {
   if ([delegate respondsToSelector:@selector(application:openURL:options:)]) {
     return [delegate application:app openURL:targetURL options:@{}];
   }
-  if ([delegate respondsToSelector:@selector(application:openURL:sourceApplication:annotation:)]) {
-    return [delegate application:app openURL:targetURL sourceApplication:nil annotation:@{}];
-  }
+#pragma clang diagnostic pop
 
   // Step D: Fallback to system openURL if neither scene nor app delegates handle custom URLs.
   // Synchronized using GREYCondition on the caller thread to prevent blocking eDO's appProxyQueue.
