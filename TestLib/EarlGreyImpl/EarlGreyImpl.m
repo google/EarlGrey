@@ -24,6 +24,7 @@
 #import "GREYError.h"
 #import "GREYAppleInternals.h"
 
+#import "GREYAssertDefaultConfiguration.h"
 
 #import "GREYElementInteractionErrorHandler.h"
 #import "GREYElementInteractionProxy.h"
@@ -147,6 +148,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   // This needs to be done in load as there may be calls to GREYAssert APIs that access the failure
   // handler directy. If it's not set, they won't be able to raise an error.
   GREYGetCurrentFailureHandler();
+  GREYIAssertDefaultConfiguration();
 }
 
 + (instancetype)invokedFromFile:(NSString *)fileName lineNumber:(NSUInteger)lineNumber {
