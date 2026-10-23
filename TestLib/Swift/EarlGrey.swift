@@ -15,6 +15,7 @@
 //
 
 import Foundation
+@_exported import third_party_objective_c_EarlGreyV2_TestLib_TestLib
 public func GREYAssert(
   _ expression: @autoclosure () -> Bool,
   _ reason: @autoclosure () -> String = "Assert on expression Failed",
@@ -188,6 +189,7 @@ public func GREYRemoteClassInApp<T: NSObject>(_ classVal: T.Type) -> T.Type {
   }
   return remoteClass
 }
+
 
 // Allows calling `EarlGreyImpl` methods that would typically rely on the `EarlGrey` macro in
 // Objective-C.
