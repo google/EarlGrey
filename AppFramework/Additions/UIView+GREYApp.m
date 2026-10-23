@@ -341,47 +341,33 @@ __unused static Class gScrollViewIndicatorClass;
 }
 
 - (void)greyswizzled_setNeedsDisplayInRect:(CGRect)rect {
-  GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, self);
   // Next runloop drain will perform the draw pass.
-  dispatch_async(dispatch_get_main_queue(), ^{
-    UNTRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, object);
-  });
+  TRACK_STATE_UNTIL_NEXT_MAIN_QUEUE_DRAIN_FOR_OBJECT(kGREYPendingDrawLayoutPass, self);
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setNeedsDisplayInRect:), rect);
 }
 
 - (void)greyswizzled_sizeToFit {
-  GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, self);
   // Next runloop drain will perform the draw pass.
-  dispatch_async(dispatch_get_main_queue(), ^{
-    UNTRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, object);
-  });
+  TRACK_STATE_UNTIL_NEXT_MAIN_QUEUE_DRAIN_FOR_OBJECT(kGREYPendingDrawLayoutPass, self);
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_sizeToFit));
 }
 
 - (void)greyswizzled_setNeedsDisplay {
-  GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, self);
   // Next runloop drain will perform the draw pass.
-  dispatch_async(dispatch_get_main_queue(), ^{
-    UNTRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, object);
-  });
+  TRACK_STATE_UNTIL_NEXT_MAIN_QUEUE_DRAIN_FOR_OBJECT(kGREYPendingDrawLayoutPass, self);
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_setNeedsDisplay));
 }
 
 - (void)greyswizzled_setNeedsLayout {
-  GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, self);
   // Next runloop drain will perform the draw pass.
-  dispatch_async(dispatch_get_main_queue(), ^{
-    UNTRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, object);
-  });
-  INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_setNeedsLayout));
+  if (TRACK_DRAW_LAYOUT_PASS_UNTIL_NEXT_MAIN_QUEUE_DRAIN_FOR_OBJECT(self)) {
+    INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_setNeedsLayout));
+  }
 }
 
 - (void)greyswizzled_setNeedsUpdateConstraints {
-  GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, self);
   // Next runloop drain will perform the draw pass.
-  dispatch_async(dispatch_get_main_queue(), ^{
-    UNTRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, object);
-  });
+  TRACK_STATE_UNTIL_NEXT_MAIN_QUEUE_DRAIN_FOR_OBJECT(kGREYPendingDrawLayoutPass, self);
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_setNeedsUpdateConstraints));
 }
 

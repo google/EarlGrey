@@ -63,6 +63,39 @@ NS_ASSUME_NONNULL_BEGIN
 - (GREYAppStateTrackerObject *_Nullable)trackState:(GREYAppState)state forObject:(id)object;
 
 /**
+ * Tracks @c state for @c object and schedules a single coalesced @c dispatch_async on the main
+ * queue to untrack @c state on the next main runloop/queue drain. Repeated calls for the same
+ * @c state and @c object before the main queue drains are coalesced so at most one main-queue
+ * untrack block is pending per state bit per object.
+ *
+ * @param state  The state that should be tracked until the next main-queue drain.
+ * @param object The object that should have its tracked state updated.
+ *
+ * @return The GREYAppStateTrackerObject associated with @c object, or @c nil if @c object is @c
+ * nil.
+ */
+- (GREYAppStateTrackerObject *_Nullable)trackStateUntilNextMainQueueDrain:(GREYAppState)state
+                                                                forObject:(id)object;
+
+/**
+ * Tracks @c kGREYPendingDrawLayoutPass for @c object until the next main-queue drain and returns
+ * whether the caller should forward the synchronous layout invalidation to the original
+ * implementation.
+ *
+ * When an object enters a synchronous layout/observation feedback loop inside
+ * @c CA::Layer::layout_if_needed (where @c viewDidLayoutSubviews or @c layoutSubviews repeatedly
+ * calls @c setNeedsLayout without returning to the runloop), this method returns @c NO once the
+ * object exceeds the per-turn synchronous pass threshold, allowing @c CA::Layer::layout_if_needed
+ * to exit cleanly and drain the main runloop.
+ *
+ * @param object The view or layer requesting a layout pass.
+ *
+ * @return @c YES if the original implementation should be invoked synchronously; @c NO if the
+ *         object has exceeded the per-turn synchronous invalidation threshold.
+ */
+- (BOOL)trackDrawLayoutPassUntilNextMainQueueDrainForObject:(id)object;
+
+/**
  * Untracks the state for the object with the specified id. For untracking, it does not matter
  * if the state has been added to being ignored.
  *
@@ -93,6 +126,25 @@ NS_ASSUME_NONNULL_BEGIN
  */
 #define TRACK_STATE_FOR_OBJECT(state_, object_) \
   [[GREYAppStateTracker sharedInstance] trackState:(state_) forObject:(object_)]
+
+/**
+ * Utility macro for tracking the state of an object until the next main-queue drain, coalescing
+ * duplicate main-queue untrack dispatches while the state is already pending untrack.
+ *
+ * @param state_  The state that should be tracked for the object until the next main-queue drain.
+ * @param object_ The object that should have its tracked state updated.
+ */
+#define TRACK_STATE_UNTIL_NEXT_MAIN_QUEUE_DRAIN_FOR_OBJECT(state_, object_)        \
+  [[GREYAppStateTracker sharedInstance] trackStateUntilNextMainQueueDrain:(state_) \
+                                                                forObject:(object_)]
+
+/**
+ * Utility macro for tracking a draw/layout pass until the next main-queue drain and checking
+ * whether the synchronous invalidation should be forwarded to the original implementation.
+ */
+#define TRACK_DRAW_LAYOUT_PASS_UNTIL_NEXT_MAIN_QUEUE_DRAIN_FOR_OBJECT(object_) \
+  [[GREYAppStateTracker sharedInstance]                                        \
+      trackDrawLayoutPassUntilNextMainQueueDrainForObject:(object_)]
 
 /**
  * Utility macro for untracking the state of an object.

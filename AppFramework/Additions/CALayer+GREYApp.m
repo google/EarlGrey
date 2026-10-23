@@ -223,10 +223,7 @@
   }
   // At this point, the app could be in idle state and the next runloop drain may trigger this
   // animation so track this LAYER (not animation) until next runloop drain.
-  GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(kGREYPendingCAAnimation, self);
-  dispatch_async(dispatch_get_main_queue(), ^{
-    UNTRACK_STATE_FOR_OBJECT(kGREYPendingCAAnimation, object);
-  });
+  TRACK_STATE_UNTIL_NEXT_MAIN_QUEUE_DRAIN_FOR_OBJECT(kGREYPendingCAAnimation, self);
   INVOKE_ORIGINAL_IMP2(void, @selector(greyswizzled_addAnimation:forKey:), animation, outKey);
 
   // If the beginTime is not set, it is assumed that the animation should start as soon as possible.
@@ -252,30 +249,22 @@
 }
 
 - (void)greyswizzled_setNeedsDisplayInRect:(CGRect)invalidRect {
-  GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, self);
   // Next runloop drain will perform the draw pass.
-  dispatch_async(dispatch_get_main_queue(), ^{
-    UNTRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, object);
-  });
+  TRACK_STATE_UNTIL_NEXT_MAIN_QUEUE_DRAIN_FOR_OBJECT(kGREYPendingDrawLayoutPass, self);
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setNeedsDisplayInRect:), invalidRect);
 }
 
 - (void)greyswizzled_setNeedsDisplay {
-  GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, self);
   // Next runloop drain will perform the draw pass.
-  dispatch_async(dispatch_get_main_queue(), ^{
-    UNTRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, object);
-  });
+  TRACK_STATE_UNTIL_NEXT_MAIN_QUEUE_DRAIN_FOR_OBJECT(kGREYPendingDrawLayoutPass, self);
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_setNeedsDisplay));
 }
 
 - (void)greyswizzled_setNeedsLayout {
-  GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, self);
   // Next runloop drain will perform the layout pass.
-  dispatch_async(dispatch_get_main_queue(), ^{
-    UNTRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, object);
-  });
-  INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_setNeedsLayout));
+  if (TRACK_DRAW_LAYOUT_PASS_UNTIL_NEXT_MAIN_QUEUE_DRAIN_FOR_OBJECT(self)) {
+    INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_setNeedsLayout));
+  }
 }
 
 #pragma mark - Internal Methods Exposed For Testing
