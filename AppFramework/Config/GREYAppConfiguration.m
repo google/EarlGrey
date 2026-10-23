@@ -126,6 +126,7 @@ static NSDictionary *GetFakeLocalTestingAppConfig(void) {
       kGREYConfigKeyInteractionTimeoutDuration : @(30),
       kGREYConfigKeyCALayerMaxAnimationDuration : @(10),
       kGREYConfigKeySynchronizationEnabled : @YES,
+      kGREYConfigKeyMainQueueTrackingEnabled : @YES,
       kGREYConfigKeyNSTimerMaxTrackableInterval : @(1.5),
       kGREYConfigKeyCALayerModifyAnimations : @YES,
       kGREYConfigKeyDispatchAfterMaxTrackableDelay : @(1.5),
