@@ -289,6 +289,64 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
 }
 
 /**
+ * Verifies that replacing text with `sendEditingDidEndEvents` set to `NO` updates the text and
+ * sends `UIControlEventEditingDidBegin` and `UIControlEventEditingChanged`, without sending
+ * `UIControlEventEditingDidEndOnExit` or `UIControlEventEditingDidEnd` (or triggering
+ * `UIControlEventPrimaryActionTriggered`), whereas replacing text with the default behavior sends
+ * them.
+ */
+- (void)testReplaceTextWithoutSendingEditingDidEndEvents {
+  [self openTestViewNamed:@"Basic Views"];
+  [self tapTabNamed:@"Tab 2"];
+  GREYHostApplicationDistantObject *host = [GREYHostApplicationDistantObject sharedInstance];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
+      performAction:[host actionForObservingControlEvents]];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
+      performAction:grey_replaceTextSendEditingDidEndEvents(@"first value", NO)];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
+      assertWithMatcher:GREYText(@"first value")];
+
+  UIControlEvents events = [host observedControlEvents];
+  XCTAssertNotEqual(events & UIControlEventEditingDidBegin, 0u);
+  XCTAssertNotEqual(events & UIControlEventEditingChanged, 0u);
+  XCTAssertEqual(events & UIControlEventEditingDidEndOnExit, 0u);
+  XCTAssertEqual(events & UIControlEventEditingDidEnd, 0u);
+  XCTAssertEqual(events & UIControlEventPrimaryActionTriggered, 0u);
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
+      performAction:GREYReplaceTextSendEditingDidEndEvents(@"second value", NO)];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
+      assertWithMatcher:GREYText(@"second value")];
+
+  events = [host observedControlEvents];
+  XCTAssertEqual(events & UIControlEventEditingDidEndOnExit, 0u);
+  XCTAssertEqual(events & UIControlEventEditingDidEnd, 0u);
+  XCTAssertEqual(events & UIControlEventPrimaryActionTriggered, 0u);
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
+      performAction:[GREYActions actionForReplaceText:@"direct action value"
+                              sendEditingDidEndEvents:NO]];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
+      assertWithMatcher:GREYText(@"direct action value")];
+
+  events = [host observedControlEvents];
+  XCTAssertEqual(events & UIControlEventEditingDidEndOnExit, 0u);
+  XCTAssertEqual(events & UIControlEventEditingDidEnd, 0u);
+  XCTAssertEqual(events & UIControlEventPrimaryActionTriggered, 0u);
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
+      performAction:GREYReplaceText(@"third value")];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
+      assertWithMatcher:GREYText(@"third value")];
+
+  events = [host observedControlEvents];
+  XCTAssertNotEqual(events & UIControlEventEditingDidEndOnExit, 0u);
+  XCTAssertNotEqual(events & UIControlEventEditingDidEnd, 0u);
+  XCTAssertNotEqual(events & UIControlEventPrimaryActionTriggered, 0u);
+}
+
+/**
  * Check for basic visibility checking in the Basic Views.
  */
 - (void)testAssertionsInBasicViews {

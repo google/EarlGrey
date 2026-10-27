@@ -261,6 +261,15 @@ id<GREYAction> grey_typeText(NSString *text) { return GREYTypeText(text); }
 id<GREYAction> GREYReplaceText(NSString *text) { return [GREYActions actionForReplaceText:text]; }
 id<GREYAction> grey_replaceText(NSString *text) { return GREYReplaceText(text); }
 
+id<GREYAction> GREYReplaceTextSendEditingDidEndEvents(NSString *text,
+                                                      BOOL sendEditingDidEndEvents) {
+  return [GREYActions actionForReplaceText:text sendEditingDidEndEvents:sendEditingDidEndEvents];
+}
+id<GREYAction> grey_replaceTextSendEditingDidEndEvents(NSString *text,
+                                                       BOOL sendEditingDidEndEvents) {
+  return GREYReplaceTextSendEditingDidEndEvents(text, sendEditingDidEndEvents);
+}
+
 id<GREYAction> GREYClearText(void) { return [GREYActions actionForClearText]; }
 id<GREYAction> grey_clearText(void) { return GREYClearText(); }
 

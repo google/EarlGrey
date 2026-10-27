@@ -221,9 +221,24 @@ GREY_EXPORT id<GREYAction> GREYSwipeSlowInDirectionWithStartPointAndTouchHandler
 GREY_EXPORT id<GREYAction> GREYClearText(void);
 GREY_EXPORT id<GREYAction> grey_clearText(void);
 
-/** Shorthand macro for GREYActions::actionForReplaceText:. */
+/** Shorthand function for `GREYActions::actionForReplaceText:`. */
 GREY_EXPORT id<GREYAction> GREYReplaceText(NSString *text);
 GREY_EXPORT id<GREYAction> grey_replaceText(NSString *text);
+
+/**
+ * Shorthand function for `GREYActions::actionForReplaceText:sendEditingDidEndEvents:`.
+ *
+ * Pass `NO` for `sendEditingDidEndEvents` to suppress sending `UIControlEventEditingDidEndOnExit`
+ * and `UIControlEventEditingDidEnd` at the end of replacing `text` (for instance, when
+ * `UIControlEventEditingDidEndOnExit` would trigger `UIControlEventPrimaryActionTriggered` on a
+ * `UITextField` and prematurely submit or dismiss a view).
+ */
+GREY_EXPORT id<GREYAction> GREYReplaceTextSendEditingDidEndEvents(NSString *text,
+                                                                  BOOL sendEditingDidEndEvents)
+    NS_SWIFT_NAME(GREYReplaceText(_:sendEditingDidEndEvents:));
+GREY_EXPORT id<GREYAction> grey_replaceTextSendEditingDidEndEvents(NSString *text,
+                                                                   BOOL sendEditingDidEndEvents)
+    NS_SWIFT_NAME(grey_replaceText(_:sendEditingDidEndEvents:));
 
 /** Shorthand macro for GREYActions::actionForTypeText:. */
 GREY_EXPORT id<GREYAction> GREYTypeText(NSString *text);

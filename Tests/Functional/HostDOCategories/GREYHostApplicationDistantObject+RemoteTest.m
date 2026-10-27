@@ -163,6 +163,47 @@ static BOOL gOrientationChangeNotificationReceived;
                  block);
 }
 
+- (id<GREYAction>)actionForObservingControlEvents {
+  return [GREYActionBlock
+      actionWithName:@"Observe UIControlEvents"
+        performBlock:^BOOL(id element, __strong NSError **errorOrNil) {
+          if (![element isKindOfClass:[UIControl class]]) {
+            return NO;
+          }
+          UIControl *control = (UIControl *)element;
+          grey_dispatch_sync_on_main_thread(^{
+            objc_setAssociatedObject(self, @selector(observedControlEvents), @(0),
+                                     OBJC_ASSOCIATION_RETAIN);
+            [control removeTarget:self action:NULL forControlEvents:UIControlEventAllEvents];
+            [control addTarget:self
+                          action:@selector(grey_didReceiveEditingDidBegin)
+                forControlEvents:UIControlEventEditingDidBegin];
+            [control addTarget:self
+                          action:@selector(grey_didReceiveEditingChanged)
+                forControlEvents:UIControlEventEditingChanged];
+            [control addTarget:self
+                          action:@selector(grey_didReceiveEditingDidEnd)
+                forControlEvents:UIControlEventEditingDidEnd];
+            [control addTarget:self
+                          action:@selector(grey_didReceiveEditingDidEndOnExit)
+                forControlEvents:UIControlEventEditingDidEndOnExit];
+            [control addTarget:self
+                          action:@selector(grey_didReceivePrimaryActionTriggered)
+                forControlEvents:UIControlEventPrimaryActionTriggered];
+          });
+          return YES;
+        }];
+}
+
+- (UIControlEvents)observedControlEvents {
+  __block UIControlEvents events = 0;
+  grey_dispatch_sync_on_main_thread(^{
+    NSNumber *stored = objc_getAssociatedObject(self, @selector(observedControlEvents));
+    events = [stored unsignedIntegerValue];
+  });
+  return events;
+}
+
 #pragma mark - private
 
 /**
@@ -185,6 +226,33 @@ static BOOL gOrientationChangeNotificationReceived;
     didFinishLaunchingWithOptions:(NSDictionary<UIApplicationLaunchOptionsKey, id> *)options {
   objc_setAssociatedObject(self, @selector(appLaunchingHandlerIsInvoked), @(1),
                            OBJC_ASSOCIATION_RETAIN);
+}
+
+- (void)grey_recordControlEvent:(UIControlEvents)event {
+  NSNumber *stored = objc_getAssociatedObject(self, @selector(observedControlEvents));
+  UIControlEvents updated = [stored unsignedIntegerValue] | event;
+  objc_setAssociatedObject(self, @selector(observedControlEvents), @(updated),
+                           OBJC_ASSOCIATION_RETAIN);
+}
+
+- (void)grey_didReceiveEditingDidBegin {
+  [self grey_recordControlEvent:UIControlEventEditingDidBegin];
+}
+
+- (void)grey_didReceiveEditingChanged {
+  [self grey_recordControlEvent:UIControlEventEditingChanged];
+}
+
+- (void)grey_didReceiveEditingDidEnd {
+  [self grey_recordControlEvent:UIControlEventEditingDidEnd];
+}
+
+- (void)grey_didReceiveEditingDidEndOnExit {
+  [self grey_recordControlEvent:UIControlEventEditingDidEndOnExit];
+}
+
+- (void)grey_didReceivePrimaryActionTriggered {
+  [self grey_recordControlEvent:UIControlEventPrimaryActionTriggered];
 }
 
 @end
