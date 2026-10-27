@@ -419,13 +419,43 @@
 + (id<GREYAction>)actionForTypeText:(NSString *)text atPosition:(NSInteger)position;
 
 /**
- * Returns an action that sets text on a UITextField or webview input directly.
+ * Returns an action that sets `text` on a `UITextField`, `UITextView`, `UISearchBar`, or webview
+ * input directly, sending `UIControlEventEditingDidEndOnExit` and `UIControlEventEditingDidEnd` on
+ * `UIControl` elements at the end of replacing the text.
  *
- * @param text The text to be typed.
+ * Equivalent to calling `+actionForReplaceText:sendEditingDidEndEvents:` with `YES`.
  *
- * @return A GREYAction to type a specific text string in a text field.
+ * @param text The text to set on the target element.
+ *
+ * @return A `GREYAction` to set `text` directly on a text input element.
  */
 + (id<GREYAction>)actionForReplaceText:(NSString *)text;
+
+/**
+ * Returns an action that sets `text` on a `UITextField`, `UITextView`, `UISearchBar`, or webview
+ * input directly, optionally sending `UIControlEventEditingDidEndOnExit` and
+ * `UIControlEventEditingDidEnd` on `UIControl` elements at the end of replacing the text.
+ *
+ * Note on `sendEditingDidEndEvents`: On `UITextField`, `UIKit` maps
+ * `UIControlEventEditingDidEndOnExit` (which simulates ending an editing session via the Return
+ * key) to `UIControlEventPrimaryActionTriggered`. If a view controller registers an action for
+ * `UIControlEventPrimaryActionTriggered`, `UIControlEventEditingDidEndOnExit`, or
+ * `UIControlEventEditingDidEnd` (for example, to submit a form or dismiss the view when Return is
+ * pressed), sending these events at the end of replacing text prematurely triggers that submission
+ * or dismissal before the test can continue interacting with the field or tap a confirmation
+ * button. Pass `NO` for `sendEditingDidEndEvents` to replace `text` without simulating Return or
+ * sending those editing-did-end `UIControlEvents` (`UITextFieldTextDidEndEditingNotification` and
+ * `UITextViewTextDidEndEditingNotification` are still posted).
+ *
+ * @param text                    The text to set on the target element.
+ * @param sendEditingDidEndEvents Whether `UIControlEventEditingDidEndOnExit` and
+ *                                `UIControlEventEditingDidEnd` should be sent on `UIControl`
+ *                                elements after setting `text`.
+ *
+ * @return A `GREYAction` to set `text` directly on a text input element.
+ */
++ (id<GREYAction>)actionForReplaceText:(NSString *)text
+               sendEditingDidEndEvents:(BOOL)sendEditingDidEndEvents;
 
 /**
  * @return A GREYAction that clears a text field by injecting back-spaces.

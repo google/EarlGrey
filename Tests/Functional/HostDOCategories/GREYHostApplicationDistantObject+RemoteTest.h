@@ -110,4 +110,18 @@
 /** @return A BOOL signifying if the UI orientation changed. */
 - (BOOL)didOrientationChange;
 
+/**
+ * Resets observed control events and returns a `GREYAction` that registers target-action observers
+ * for editing and primary action `UIControlEvents` on a matched `UIControl`.
+ *
+ * @return A `GREYAction` that attaches control event observers to the matched `UIControl`.
+ */
+- (id<GREYAction>)actionForObservingControlEvents;
+
+/**
+ * @return Bitmask of `UIControlEvents` observed since `-actionForObservingControlEvents` was
+ *         performed.
+ */
+- (UIControlEvents)observedControlEvents;
+
 @end
