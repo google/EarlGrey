@@ -31,6 +31,10 @@
 - (void)setUp {
   [super setUp];
   [self openTestViewNamed:@"Pinch Tests"];
+  // imageViewFrame reads the frame directly in the app without synchronizing, so wait for the image
+  // view controller to finish being pushed before any test reads it.
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Image View")]
+      assertWithMatcher:GREYSufficientlyVisible()];
 }
 
 - (void)testImageViewFrameSizeOnZoomingFastOutward {
