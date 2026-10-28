@@ -588,36 +588,16 @@ static BOOL DispatchInApp(NSString *URL, XCUIApplication *application, NSError *
       if (syncSuccessAfterRotation) {
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
         if (@available(iOS 16.0, *)) {
-          UIWindow *keyWindow =
-              [GREY_REMOTE_CLASS_IN_APP(GREYUIWindowProvider) keyWindowForSharedApplication];
-          UIWindowScene *scene = keyWindow.windowScene;
-          // The app can never end up in an orientation that it or the view controller deciding the
-          // window's orientation doesn't support, so don't spend the whole interaction timeout
-          // waiting for it. Only full screen presentations take over that decision.
-          UIInterfaceOrientationMask supportedOrientations =
-              [[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication]
-                  supportedInterfaceOrientationsForWindow:keyWindow];
-          UIViewController *orientationViewController = keyWindow.rootViewController;
-          UIViewController *presented = orientationViewController.presentedViewController;
-          while (presented &&
-                 (presented.modalPresentationStyle == UIModalPresentationFullScreen ||
-                  presented.modalPresentationStyle == UIModalPresentationOverFullScreen)) {
-            orientationViewController = presented;
-            presented = presented.presentedViewController;
-          }
-          if (orientationViewController) {
-            supportedOrientations &= orientationViewController.supportedInterfaceOrientations;
-          }
-          if (supportedOrientations & (1 << interfaceOrientation)) {
-            GREYCondition *rotationWait =
-                [GREYCondition conditionWithName:@"App Rotation Condition"
-                                           block:^BOOL {
-                                             return scene.effectiveGeometry.interfaceOrientation ==
-                                                    interfaceOrientation;
-                                           }];
-            success = [rotationWait
-                waitWithTimeout:GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration)];
-          }
+          UIWindowScene *scene = [[GREY_REMOTE_CLASS_IN_APP(GREYUIWindowProvider)
+              keyWindowForSharedApplication] windowScene];
+          GREYCondition *rotationWait =
+              [GREYCondition conditionWithName:@"App Rotation Condition"
+                                         block:^BOOL {
+                                           return scene.effectiveGeometry.interfaceOrientation ==
+                                                  interfaceOrientation;
+                                         }];
+          success = [rotationWait
+              waitWithTimeout:GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration)];
         } else {
           success = currentDevice.orientation == deviceOrientation;
         }
