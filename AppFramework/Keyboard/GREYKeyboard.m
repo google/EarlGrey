@@ -275,10 +275,15 @@ __attribute__((constructor)) static void GREYSetupKeyboard(void) {
   }
   GREYRunLoopSpinner *runLoopSpinner = [[GREYRunLoopSpinner alloc] init];
   runLoopSpinner.timeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-  runLoopSpinner.minRunLoopDrains = 0;
+  runLoopSpinner.minRunLoopDrains = 1;
   BOOL result = [runLoopSpinner spinWithStopConditionBlock:^BOOL {
     return atomic_load(&gIsKeyboardShown);
   }];
+  if (result) {
+    grey_dispatch_sync_on_main_thread(^{
+      [[GetKeyboardObject() taskQueue] waitUntilAllTasksAreFinished];
+    });
+  }
   return result;
 }
 
