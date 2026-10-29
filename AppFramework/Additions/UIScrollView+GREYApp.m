@@ -61,6 +61,39 @@
               replaceInstanceMethod:originalSel
                          withMethod:swizzledSel];
   GREYFatalAssertWithMessage(swizzled, @"Cannot swizzle [UIScrollView setContentOffset:]");
+
+  if (@available(iOS 17.4, tvOS 17.4, *)) {
+    originalSel = @selector(setContentOffset:animated:);
+    swizzledSel = @selector(greyswizzled_setContentOffset:animated:);
+    swizzled = [swizzler swizzleClass:[UIScrollView class]
+                replaceInstanceMethod:originalSel
+                           withMethod:swizzledSel];
+    GREYFatalAssertWithMessage(swizzled,
+                               @"Cannot swizzle [UIScrollView setContentOffset:animated:]");
+
+    originalSel = @selector(_delegateScrollViewAnimationEnded);
+    swizzledSel = @selector(greyswizzled_delegateScrollViewAnimationEnded);
+    swizzled = [swizzler swizzleClass:[UIScrollView class]
+                replaceInstanceMethod:originalSel
+                           withMethod:swizzledSel];
+    GREYFatalAssertWithMessage(swizzled,
+                               @"Cannot swizzle [UIScrollView _delegateScrollViewAnimationEnded]");
+
+    originalSel = @selector(_stopScrollingNotify:pin:);
+    swizzledSel = @selector(greyswizzled_stopScrollingNotify:pin:);
+    swizzled = [swizzler swizzleClass:[UIScrollView class]
+                replaceInstanceMethod:originalSel
+                           withMethod:swizzledSel];
+    GREYFatalAssertWithMessage(swizzled,
+                               @"Cannot swizzle [UIScrollView _stopScrollingNotify:pin:]");
+
+    originalSel = @selector(didMoveToWindow);
+    swizzledSel = @selector(greyswizzled_didMoveToWindow);
+    swizzled = [swizzler swizzleClass:[UIScrollView class]
+                replaceInstanceMethod:originalSel
+                           withMethod:swizzledSel];
+    GREYFatalAssertWithMessage(swizzled, @"Cannot swizzle [UIScrollView didMoveToWindow]");
+  }
 }
 
 - (BOOL)grey_hasScrollResistance {
@@ -113,6 +146,7 @@
 }
 
 - (void)greyswizzled_stopScrollDecelerationNotify:(BOOL)notify {
+  [self grey_untrackProgrammaticScrollAnimation];
   GREYAppStateTrackerObject *object =
       objc_getAssociatedObject(self, @selector(greyswizzled_scrollViewWillBeginDragging));
   UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIScrollViewScrolling, object);
@@ -128,6 +162,52 @@
     [self.greyScrollViewDelegate scrollView:self willScrollToOffset:offset];
   }
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setContentOffset:), offset);
+  if (@available(iOS 17.4, tvOS 17.4, *)) {
+    if (!self.window || !self.isScrollAnimating) {
+      [self grey_untrackProgrammaticScrollAnimation];
+    }
+  }
+}
+
+- (void)greyswizzled_setContentOffset:(CGPoint)offset animated:(BOOL)animated {
+  INVOKE_ORIGINAL_IMP2(void, @selector(greyswizzled_setContentOffset:animated:), offset, animated);
+  if (@available(iOS 17.4, tvOS 17.4, *)) {
+    if (animated && self.window && self.isScrollAnimating) {
+      GREYAppStateTrackerObject *object =
+          TRACK_STATE_FOR_OBJECT(kGREYPendingUIScrollViewScrolling, self);
+      objc_setAssociatedObject(self, @selector(greyswizzled_setContentOffset:animated:), object,
+                               OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    } else {
+      [self grey_untrackProgrammaticScrollAnimation];
+    }
+  }
+}
+
+- (void)greyswizzled_delegateScrollViewAnimationEnded {
+  INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_delegateScrollViewAnimationEnded));
+  [self grey_untrackProgrammaticScrollAnimation];
+}
+
+- (void)greyswizzled_stopScrollingNotify:(BOOL)notify pin:(BOOL)pin {
+  INVOKE_ORIGINAL_IMP2(void, @selector(greyswizzled_stopScrollingNotify:pin:), notify, pin);
+  [self grey_untrackProgrammaticScrollAnimation];
+}
+
+- (void)greyswizzled_didMoveToWindow {
+  INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_didMoveToWindow));
+  if (!self.window) {
+    [self grey_untrackProgrammaticScrollAnimation];
+  }
+}
+
+- (void)grey_untrackProgrammaticScrollAnimation {
+  GREYAppStateTrackerObject *object =
+      objc_getAssociatedObject(self, @selector(greyswizzled_setContentOffset:animated:));
+  if (object) {
+    UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIScrollViewScrolling, object);
+    objc_setAssociatedObject(self, @selector(greyswizzled_setContentOffset:animated:), nil,
+                             OBJC_ASSOCIATION_ASSIGN);
+  }
 }
 
 @end
