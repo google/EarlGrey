@@ -25,4 +25,8 @@ API_AVAILABLE(ios(13.0))
 // Makes a new main view controller and sets the root nav controller to it
 - (void)resetRootNavigationController;
 
+// Returns the interface orientations supported by the window scene.
+- (UIInterfaceOrientationMask)supportedInterfaceOrientationsForWindowScene:
+    (UIWindowScene *)windowScene;
+
 @end

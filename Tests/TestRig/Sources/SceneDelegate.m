@@ -47,6 +47,11 @@
   nav.viewControllers = @[ vc ];
 }
 
+- (UIInterfaceOrientationMask)supportedInterfaceOrientationsForWindowScene:
+    (UIWindowScene *)windowScene {
+  return UIInterfaceOrientationMaskAll;
+}
+
 - (void)scene:(UIScene *)scene
     willConnectToSession:(UISceneSession *)session
                  options:(UISceneConnectionOptions *)connectionOptions {
