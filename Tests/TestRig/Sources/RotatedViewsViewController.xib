@@ -82,17 +82,17 @@
             <constraints>
                 <constraint firstAttribute="centerY" secondItem="IPy-36-loq" secondAttribute="centerY" id="351-es-Mbq"/>
                 <constraint firstAttribute="bottom" secondItem="dNe-9e-MDT" secondAttribute="bottom" constant="8" id="A4E-aC-Xdu"/>
-                <constraint firstItem="Hqc-zD-3FI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="83" id="D8o-ap-ZCb"/>
+                <constraint firstItem="Hqc-zD-3FI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="135" id="D8o-ap-ZCb"/>
                 <constraint firstAttribute="centerY" secondItem="mzq-BR-fSp" secondAttribute="centerY" constant="-91.5" id="EvU-ly-6B8"/>
                 <constraint firstAttribute="bottom" secondItem="3Fj-bt-b1h" secondAttribute="bottom" constant="8" id="Ezb-Rg-gG8"/>
-                <constraint firstItem="nqm-2m-Upo" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="83" id="Jx9-0M-KHx"/>
+                <constraint firstItem="nqm-2m-Upo" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="135" id="Jx9-0M-KHx"/>
                 <constraint firstItem="Lzd-Q7-hq7" firstAttribute="top" secondItem="mzq-BR-fSp" secondAttribute="bottom" constant="8" id="VPl-nu-Gle"/>
-                <constraint firstItem="nqm-2m-Upo" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="bTp-08-7Ub"/>
+                <constraint firstItem="nqm-2m-Upo" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leadingMargin" constant="8" id="bTp-08-7Ub"/>
                 <constraint firstAttribute="centerX" secondItem="IPy-36-loq" secondAttribute="centerX" id="cXk-OZ-aBc"/>
                 <constraint firstAttribute="centerX" secondItem="Lzd-Q7-hq7" secondAttribute="centerX" id="iaF-GO-fra"/>
-                <constraint firstAttribute="trailing" secondItem="3Fj-bt-b1h" secondAttribute="trailing" constant="8" id="ikJ-PQ-oGN"/>
-                <constraint firstAttribute="trailing" secondItem="Hqc-zD-3FI" secondAttribute="trailing" constant="8" id="n6E-ql-XkK"/>
-                <constraint firstItem="dNe-9e-MDT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="tVA-Qa-efm"/>
+                <constraint firstAttribute="trailingMargin" secondItem="3Fj-bt-b1h" secondAttribute="trailing" constant="8" id="ikJ-PQ-oGN"/>
+                <constraint firstAttribute="trailingMargin" secondItem="Hqc-zD-3FI" secondAttribute="trailing" constant="8" id="n6E-ql-XkK"/>
+                <constraint firstItem="dNe-9e-MDT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leadingMargin" constant="8" id="tVA-Qa-efm"/>
                 <constraint firstAttribute="centerX" secondItem="mzq-BR-fSp" secondAttribute="centerX" id="wdG-rG-ysm"/>
             </constraints>
             <point key="canvasLocation" x="140" y="155"/>

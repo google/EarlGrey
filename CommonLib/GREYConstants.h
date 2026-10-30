@@ -364,6 +364,17 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIDeviceOrientation)deviceOrientationForInterfaceOrientation:
     (UIInterfaceOrientation)interfaceOrientation;
 
+/**
+ * Maps UIInterfaceOrientation to UIInterfaceOrientationMask for use in rotation API's.
+ *
+ * @param interfaceOrientation The interface orientation to convert.
+ *
+ * @return The corresponding @c UIInterfaceOrientationMask, or @c 0 if @c interfaceOrientation is
+ *         unknown or unsupported.
+ */
++ (UIInterfaceOrientationMask)interfaceOrientationMaskForInterfaceOrientation:
+    (UIInterfaceOrientation)interfaceOrientation;
+
 #endif  // TARGET_OS_IOS
 
 @end
