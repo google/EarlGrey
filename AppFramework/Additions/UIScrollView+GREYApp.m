@@ -61,6 +61,13 @@
               replaceInstanceMethod:originalSel
                          withMethod:swizzledSel];
   GREYFatalAssertWithMessage(swizzled, @"Cannot swizzle [UIScrollView setContentOffset:]");
+
+  originalSel = @selector(setContentOffset:animated:);
+  swizzledSel = @selector(greyswizzled_setContentOffset:animated:);
+  swizzled = [swizzler swizzleClass:[UIScrollView class]
+              replaceInstanceMethod:originalSel
+                         withMethod:swizzledSel];
+  GREYFatalAssertWithMessage(swizzled, @"Cannot swizzle [UIScrollView setContentOffset:animated:]");
 }
 
 - (BOOL)grey_hasScrollResistance {
@@ -128,6 +135,38 @@
     [self.greyScrollViewDelegate scrollView:self willScrollToOffset:offset];
   }
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setContentOffset:), offset);
+}
+
+- (void)greyswizzled_setContentOffset:(CGPoint)offset animated:(BOOL)animated {
+  INVOKE_ORIGINAL_IMP2(void, @selector(greyswizzled_setContentOffset:animated:), offset, animated);
+  if (animated && self.window && [self respondsToSelector:@selector(_isAnimatingScroll)] &&
+      [self _isAnimatingScroll]) {
+    GREYAppStateTrackerObject *existingObject =
+        objc_getAssociatedObject(self, @selector(greyswizzled_setContentOffset:animated:));
+    if (!existingObject) {
+      GREYAppStateTrackerObject *object =
+          TRACK_STATE_FOR_OBJECT(kGREYPendingUIScrollViewScrolling, self);
+      objc_setAssociatedObject(self, @selector(greyswizzled_setContentOffset:animated:), object,
+                               OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+      CADisplayLink *displayLink =
+          [CADisplayLink displayLinkWithTarget:self
+                                      selector:@selector(grey_checkScrollAnimationEnded:)];
+      [displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+    }
+  }
+}
+
+- (void)grey_checkScrollAnimationEnded:(CADisplayLink *)displayLink {
+  if (!self.window || ![self _isAnimatingScroll]) {
+    [displayLink invalidate];
+    GREYAppStateTrackerObject *object =
+        objc_getAssociatedObject(self, @selector(greyswizzled_setContentOffset:animated:));
+    if (object) {
+      UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIScrollViewScrolling, object);
+      objc_setAssociatedObject(self, @selector(greyswizzled_setContentOffset:animated:), nil,
+                               OBJC_ASSOCIATION_ASSIGN);
+    }
+  }
 }
 
 @end

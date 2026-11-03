@@ -145,6 +145,20 @@
   [self.navigationItem setHidesBackButton:YES animated:NO];
 }
 
+- (void)viewSafeAreaInsetsDidChange {
+  [super viewSafeAreaInsetsDidChange];
+  // -viewDidLoad sets additionalSafeAreaInsets to (50, 50, 50, 50), which keeps
+  // view.safeAreaInsets.top (50) within self.scrollview's y-origin (52 in ScrollViewController.xib)
+  // when the navigation bar absorbs the system top inset (systemTopInset == 0). When systemTopInset
+  // is non-zero (e.g. with a floating navigation bar on iOS 27), reduce the additional top inset so
+  // view.safeAreaInsets.top stays capped at 50 and does not spill into self.scrollview's
+  // adjustedContentInset.top.
+  CGFloat systemTopInset = self.view.safeAreaInsets.top - self.additionalSafeAreaInsets.top;
+  if (systemTopInset > 0) {
+    self.additionalSafeAreaInsets = UIEdgeInsetsMake(MAX(0, 50 - systemTopInset), 50, 50, 50);
+  }
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
   // Enable the swipe from edge to go back gesture.

@@ -137,6 +137,7 @@
  * @param notify An indicator specifying if scrolling has finished.
  */
 - (void)_stopScrollDecelerationNotify:(BOOL)notify;
+- (BOOL)_isAnimatingScroll;
 @end
 
 @interface UIDevice (GREYExposed)
