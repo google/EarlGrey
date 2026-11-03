@@ -646,6 +646,7 @@
                GREYAccessibilityLabel(@"Done"),
                GREYAccessibilityTrait(UIAccessibilityTraitButton),
                GREYNot(GREYAccessibilityTrait(UIAccessibilityTraitNotEnabled)),
+               GREYUserInteractionEnabled(),
              ])] performAction:GREYTap()];
 }
 
