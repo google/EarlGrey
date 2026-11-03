@@ -137,6 +137,20 @@
  * @param notify An indicator specifying if scrolling has finished.
  */
 - (void)_stopScrollDecelerationNotify:(BOOL)notify;
+
+/**
+ * Called when a programmatic scroll animation (such as @c setContentOffset:animated:YES) finishes.
+ */
+- (void)_delegateScrollViewAnimationEnded;
+
+/**
+ * Called when scrolling and zooming animations are stopped, optionally notifying the delegate and
+ * pinning the content offset.
+ *
+ * @param notify Whether @c UIScrollViewDelegate should be notified that scrolling stopped.
+ * @param pin    Whether the content offset should be pinned to valid bounds.
+ */
+- (void)_stopScrollingNotify:(BOOL)notify pin:(BOOL)pin;
 @end
 
 @interface UIDevice (GREYExposed)
