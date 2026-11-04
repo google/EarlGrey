@@ -45,6 +45,25 @@
 // Objective-C is only used when a queue starts being tracked, from the GREYDispatchQueueInterposer
 // class, and when dispatch_after(_f) targets a tracked queue (to read the max trackable delay).
 
+// Calls to libdispatch originating inside Interposer.dylib bind directly to uninstrumented
+// libdispatch.dylib (DYLD_INTERPOSE does not interpose its own image), bypassing TSAN's GCD
+// interceptors. Explicit TSAN release/acquire annotations establish the happens-before edges for
+// queue-specific state and tracked dispatch calls regardless of dylib interposition order.
+#if defined(__has_feature)
+#if __has_feature(thread_sanitizer)
+#define GREY_TSAN_ENABLED 1
+#endif
+#endif
+
+#if defined(GREY_TSAN_ENABLED)
+#include <sanitizer/tsan_interface.h>
+#define GREY_TSAN_ACQUIRE(addr) __tsan_acquire((void *)(addr))
+#define GREY_TSAN_RELEASE(addr) __tsan_release((void *)(addr))
+#else
+#define GREY_TSAN_ACQUIRE(addr) ((void)0)
+#define GREY_TSAN_RELEASE(addr) ((void)0)
+#endif
+
 /**
  * The tracking state of an interposed dispatch queue: the number of tracked calls that are still
  * pending on it. It is reference counted. The queue holds one reference (for global queues, the
@@ -88,6 +107,7 @@ static GREYQueueTrackingState *RetainTrackingState(GREYQueueTrackingState *state
 /** Releases a GREYQueueTrackingState. Also used as the queue-specific destructor. */
 static void ReleaseTrackingState(void *context) {
   GREYQueueTrackingState *state = (GREYQueueTrackingState *)context;
+  GREY_TSAN_ACQUIRE(state);
   if (atomic_fetch_sub_explicit(&state->referenceCount, 1, memory_order_acq_rel) == 1) {
     free(state);
   }
@@ -102,6 +122,7 @@ static GREYQueueTrackingState *TrackingStateForQueue(__unsafe_unretained dispatc
   GREYQueueTrackingState *state =
       (GREYQueueTrackingState *)dispatch_queue_get_specific(queue, kGREYQueueTrackingStateKey);
   if (state) {
+    GREY_TSAN_ACQUIRE(state);
     return state;
   }
   int globalCount = atomic_load_explicit(&gTrackedGlobalQueueCount, memory_order_acquire);
@@ -137,7 +158,12 @@ static GREYQueueTrackingState *StartTrackingQueue(dispatch_queue_t queue) {
     state = (GREYQueueTrackingState *)calloc(1, sizeof(GREYQueueTrackingState));
     // The queue's reference is released by the queue-specific destructor when the queue is
     // destroyed.
-    atomic_init(&state->referenceCount, 1);
+    atomic_store_explicit(&state->referenceCount, 1, memory_order_relaxed);
+    // Publish the calloc write (including pendingCalls) and referenceCount initialization to
+    // TrackingStateForQueue and ReleaseTrackingState on other threads; TSAN models calloc as a
+    // plain write and does not intercept dispatch_queue_set_specific (whereas global queues below
+    // are published by the memory_order_release store to gTrackedGlobalQueueCount).
+    GREY_TSAN_RELEASE(state);
     dispatch_queue_set_specific(queue, kGREYQueueTrackingStateKey, state, ReleaseTrackingState);
     return state;
   }
@@ -145,7 +171,7 @@ static GREYQueueTrackingState *StartTrackingQueue(dispatch_queue_t queue) {
   if (index < GREY_MAX_TRACKED_GLOBAL_QUEUES) {
     state = (GREYQueueTrackingState *)calloc(1, sizeof(GREYQueueTrackingState));
     // The table's reference is never released, because global queues are never destroyed.
-    atomic_init(&state->referenceCount, 1);
+    atomic_store_explicit(&state->referenceCount, 1, memory_order_relaxed);
     atomic_store_explicit(&gTrackedGlobalQueueStates[index], state, memory_order_relaxed);
     atomic_store_explicit(&gTrackedGlobalQueues[index], (__bridge void *)queue,
                           memory_order_relaxed);
@@ -210,6 +236,7 @@ static void RunTrackedCallWork(GREYTrackedCall *call) {
 /** A dispatch_function_t that runs a GREYTrackedCall created by NewAsyncTracked*Call. */
 static void RunAsyncTrackedCall(void *context) {
   GREYTrackedCall *call = (GREYTrackedCall *)context;
+  GREY_TSAN_ACQUIRE(call);
   RunTrackedCallWork(call);
   if (call->block) {
     _Block_release(call->block);
@@ -218,7 +245,12 @@ static void RunAsyncTrackedCall(void *context) {
 }
 
 /** A dispatch_function_t that runs a GREYTrackedCall on the caller's stack (for dispatch_sync). */
-static void RunSyncTrackedCall(void *context) { RunTrackedCallWork((GREYTrackedCall *)context); }
+static void RunSyncTrackedCall(void *context) {
+  GREYTrackedCall *call = (GREYTrackedCall *)context;
+  GREY_TSAN_ACQUIRE(call);
+  RunTrackedCallWork(call);
+  GREY_TSAN_RELEASE(call);
+}
 
 /**
  * @return A heap-allocated GREYTrackedCall that runs @c block, to be run and freed by
@@ -229,6 +261,7 @@ static GREYTrackedCall *NewAsyncTrackedBlockCall(GREYQueueTrackingState *state,
   GREYTrackedCall *call = (GREYTrackedCall *)calloc(1, sizeof(GREYTrackedCall));
   call->state = BeginTrackedCall(state);
   call->block = _Block_copy((__bridge const void *)block);
+  GREY_TSAN_RELEASE(call);
   return call;
 }
 
@@ -242,6 +275,7 @@ static GREYTrackedCall *NewAsyncTrackedFunctionCall(GREYQueueTrackingState *stat
   call->state = BeginTrackedCall(state);
   call->work = work;
   call->context = context;
+  GREY_TSAN_RELEASE(call);
   return call;
 }
 
@@ -276,7 +310,12 @@ __unused static void DispatchSync(__unsafe_unretained dispatch_queue_t queue,
         .state = BeginTrackedCall(state),
         .block = (__bridge void *)block,
     };
+    // TSAN retains sync metadata on the stack address `&call` after this frame returns; subsequent
+    // reuse of that stack slot can only inherit benign happens-before edges (false negatives, never
+    // false positives).
+    GREY_TSAN_RELEASE(&call);
     dispatch_sync_f(queue, &call, RunSyncTrackedCall);
+    GREY_TSAN_ACQUIRE(&call);
   } else {
     dispatch_sync(queue, block);
   }
@@ -313,7 +352,12 @@ __unused static void DispatchSyncF(__unsafe_unretained dispatch_queue_t queue, v
         .work = work,
         .context = context,
     };
+    // TSAN retains sync metadata on the stack address `&call` after this frame returns; subsequent
+    // reuse of that stack slot can only inherit benign happens-before edges (false negatives, never
+    // false positives).
+    GREY_TSAN_RELEASE(&call);
     dispatch_sync_f(queue, &call, RunSyncTrackedCall);
+    GREY_TSAN_ACQUIRE(&call);
   } else {
     dispatch_sync_f(queue, context, work);
   }
