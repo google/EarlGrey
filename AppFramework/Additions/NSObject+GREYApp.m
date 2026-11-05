@@ -16,7 +16,9 @@
 
 #import "NSObject+GREYApp.h"
 
+#include <objc/objc-api.h>
 #include <objc/runtime.h>
+#include <stdbool.h>
 
 #import "GREYTimedIdlingResource.h"
 #import "GREYSyncAPI.h"
@@ -25,6 +27,39 @@
 #import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
 #import "GREYSwizzler.h"
+
+// Private libobjc runtime SPI exported by libobjc.A.dylib (declared in
+// Apple's opensource objc4 runtime/objc-internal.h) returning true when an
+// object has entered -dealloc (objc_object::rootIsDeallocating). Suppress
+// google-objc-function-naming because the C symbol name is fixed by
+// Apple's Objective-C runtime ABI.
+// NOLINTNEXTLINE(google-objc-function-naming)
+OBJC_EXPORT bool _objc_rootIsDeallocating(__unsafe_unretained id object);
+
+@interface NSObject (GREYExposedDeallocating)
+- (BOOL)_isDeallocating;
+@end
+
+/**
+ * Returns whether the specified object has entered its @c -dealloc teardown sequence.
+ *
+ * @param object The object to inspect, or @c nil.
+ *
+ * @return @c YES if @c object is non-nil and is currently deallocating; otherwise @c NO.
+ */
+static BOOL GREYIsObjectDeallocating(__unsafe_unretained id object) {
+  if (!object || object_isClass(object)) {
+    return NO;
+  }
+  Method isDeallocatingMethod =
+      class_getInstanceMethod(object_getClass(object), @selector(_isDeallocating));
+  if (isDeallocatingMethod) {
+    BOOL (*isDeallocatingIMP)(__unsafe_unretained id, SEL) =
+        (BOOL (*)(__unsafe_unretained id, SEL))method_getImplementation(isDeallocatingMethod);
+    return isDeallocatingIMP(object, @selector(_isDeallocating));
+  }
+  return _objc_rootIsDeallocating(object) ? YES : NO;
+}
 
 @implementation NSObject (GREYApp)
 
@@ -87,8 +122,8 @@
 
 #pragma mark - Swizzled Implementation
 
-+ (void)greyswizzled_cancelPreviousPerformRequestsWithTarget:(id)aTarget {
-  if ([NSThread isMainThread]) {
++ (void)greyswizzled_cancelPreviousPerformRequestsWithTarget:(__unsafe_unretained id)aTarget {
+  if ([NSThread isMainThread] && !GREYIsObjectDeallocating(aTarget)) {
     [aTarget grey_unmapAllTrackersForAllPerformSelectorArguments];
   }
 
@@ -96,12 +131,13 @@
   INVOKE_ORIGINAL_IMP1(void, swizzledSEL, aTarget);
 }
 
-+ (void)greyswizzled_cancelPreviousPerformRequestsWithTarget:(id)aTarget
++ (void)greyswizzled_cancelPreviousPerformRequestsWithTarget:(__unsafe_unretained id)aTarget
                                                     selector:(SEL)aSelector
-                                                      object:(id)anArgument {
+                                                      object:(__unsafe_unretained id)anArgument {
   SEL swizzledSEL =
       @selector(greyswizzled_cancelPreviousPerformRequestsWithTarget:selector:object:);
-  if ([NSThread isMainThread]) {
+  if ([NSThread isMainThread] && !GREYIsObjectDeallocating(aTarget) &&
+      !GREYIsObjectDeallocating(anArgument)) {
     NSArray<id> *arguments = [self grey_arrayWithSelector:aSelector argument:anArgument];
     [aTarget grey_unmapAllTrackersForPerformSelectorArguments:arguments];
 
@@ -115,10 +151,11 @@
 #pragma mark - Package Internal
 
 - (void)greyswizzled_performSelector:(SEL)aSelector
-                          withObject:(id)anArgument
+                          withObject:(__unsafe_unretained id)anArgument
                           afterDelay:(NSTimeInterval)delay
                              inModes:(NSArray<NSRunLoopMode> *)modes {
-  if ([NSThread isMainThread]) {
+  if ([NSThread isMainThread] && !GREYIsObjectDeallocating(self) &&
+      !GREYIsObjectDeallocating(anArgument)) {
     NSArray<id> *arguments = [self grey_arrayWithSelector:aSelector argument:anArgument];
     // Track delayed executions on main thread that fall within a trackable duration.
     CFTimeInterval maxDelayToTrack =
@@ -204,7 +241,12 @@
                                toTracker:(GREYTimedIdlingResource *)tracker {
   @synchronized(self) {
     NSMutableDictionary<id, NSMutableArray<GREYTimedIdlingResource *> *> *argsToTrackers =
-        [self grey_performSelectorArgumentsToTrackerMap];
+        objc_getAssociatedObject(self, @selector(grey_customPerformSelectorWithParameters:));
+    if (!argsToTrackers) {
+      argsToTrackers = [[NSMutableDictionary alloc] init];
+      objc_setAssociatedObject(self, @selector(grey_customPerformSelectorWithParameters:),
+                               argsToTrackers, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
     NSMutableArray<GREYTimedIdlingResource *> *trackers = argsToTrackers[arguments];
     if (!trackers) {
       trackers = [[NSMutableArray alloc] init];
@@ -224,6 +266,9 @@
   @synchronized(self) {
     NSMutableDictionary<id, NSMutableArray<GREYTimedIdlingResource *> *> *argsToTrackers =
         [self grey_performSelectorArgumentsToTrackerMap];
+    if (!argsToTrackers) {
+      return;
+    }
     NSMutableArray<GREYTimedIdlingResource *> *trackers = argsToTrackers[arguments];
     [[trackers lastObject] stopMonitoring];
     [trackers removeLastObject];
@@ -245,6 +290,9 @@
   @synchronized(self) {
     NSMutableDictionary<id, NSMutableArray<GREYTimedIdlingResource *> *> *argsToTrackers =
         [self grey_performSelectorArgumentsToTrackerMap];
+    if (!argsToTrackers) {
+      return;
+    }
     NSMutableArray<GREYTimedIdlingResource *> *trackers = argsToTrackers[arguments];
     while (trackers.count > 0) {
       [[trackers lastObject] stopMonitoring];
@@ -261,6 +309,9 @@
   @synchronized(self) {
     NSMutableDictionary<id, NSMutableArray<GREYTimedIdlingResource *> *> *argsToTrackers =
         [self grey_performSelectorArgumentsToTrackerMap];
+    if (!argsToTrackers) {
+      return;
+    }
     for (NSArray<GREYTimedIdlingResource *> *arguments in [[argsToTrackers allKeys] copy]) {
       [self grey_unmapAllTrackersForPerformSelectorArguments:arguments];
     }
@@ -270,19 +321,11 @@
 }
 
 /**
- * @return A mutable dictionary for storing all tracked performSelector calls.
+ * @return The mutable dictionary storing tracked performSelector calls, or @c nil if none exists.
+ *         Retained as a zero-argument accessor for Key-Value Coding (KVC) inspection in tests.
  */
 - (NSMutableDictionary *)grey_performSelectorArgumentsToTrackerMap {
-  @synchronized(self) {
-    NSMutableDictionary<id, GREYTimedIdlingResource *> *dictionary =
-        objc_getAssociatedObject(self, @selector(grey_customPerformSelectorWithParameters:));
-    if (!dictionary) {
-      dictionary = [[NSMutableDictionary alloc] init];
-      objc_setAssociatedObject(self, @selector(grey_customPerformSelectorWithParameters:),
-                               dictionary, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    }
-    return dictionary;
-  }
+  return objc_getAssociatedObject(self, @selector(grey_customPerformSelectorWithParameters:));
 }
 
 @end

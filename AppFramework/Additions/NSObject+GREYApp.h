@@ -51,7 +51,7 @@
  * @remark This is available only for internal testing purposes.
  */
 - (void)greyswizzled_performSelector:(SEL)aSelector
-                          withObject:(id)anArgument
+                          withObject:(__unsafe_unretained id)anArgument
                           afterDelay:(NSTimeInterval)delay
                              inModes:(NSArray *)modes;
 
