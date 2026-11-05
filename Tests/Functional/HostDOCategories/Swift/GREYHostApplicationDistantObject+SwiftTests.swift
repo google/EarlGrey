@@ -139,7 +139,24 @@ extension GREYHostApplicationDistantObject: SwiftTestsHost {
     } else {
       navController = delegateWindow.rootViewController?.navigationController
     }
-    _ = navController?.popToRootViewController(animated: true)
+    if navController?.presentedViewController != nil {
+      navController?.dismiss(animated: false, completion: nil)
+    }
+    navController?.view.layer.removeAllAnimations()
+    _ = navController?.popToRootViewController(animated: false)
+    if let rootView = navController?.topViewController?.view {
+      if let tableView = rootView as? UITableView {
+        tableView.setContentOffset(
+          CGPoint(x: 0, y: -tableView.adjustedContentInset.top), animated: false)
+      } else {
+        for subview in rootView.subviews {
+          if let tableView = subview as? UITableView {
+            tableView.setContentOffset(
+              CGPoint(x: 0, y: -tableView.adjustedContentInset.top), animated: false)
+          }
+        }
+      }
+    }
   }
 
   public func invoke(remoteClosure: @escaping () -> Void, delay: TimeInterval) {

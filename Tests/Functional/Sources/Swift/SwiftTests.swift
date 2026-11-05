@@ -349,7 +349,7 @@ class SwiftTests: XCTestCase {
       return
     }
     EarlGrey.selectElement(with: grey_kindOfClass(UITableView.self))
-      .perform(grey_scrollToContentEdge(GREYContentEdge.top))
+      .perform(grey_scrollToContentEdgeWithStartPoint(GREYContentEdge.top, 0.5, 0.5))
     let nameMatcher = grey_allOf([
       GREYAccessibilityLabel(name),
       grey_interactable(),
@@ -372,7 +372,7 @@ class SwiftTests: XCTestCase {
 
     if shouldSearch {
       try await EarlGrey.selectElement(with: grey_kindOfClass(UITableView.self)).perform(
-        grey_scrollToContentEdge(GREYContentEdge.top))
+        grey_scrollToContentEdgeWithStartPoint(GREYContentEdge.top, 0.5, 0.5))
       let nameMatcher = grey_allOf([
         GREYAccessibilityLabel(name),
         grey_interactable(),

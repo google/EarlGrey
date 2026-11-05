@@ -47,7 +47,7 @@
   }
   // The view is probably not visible, scroll to top of the table view and go searching for it.
   [[EarlGrey selectElementWithMatcher:GREYKindOfClass([UITableView class])]
-      performAction:GREYScrollToContentEdge(kGREYContentEdgeTop)];
+      performAction:GREYScrollToContentEdgeWithStartPoint(kGREYContentEdgeTop, 0.5, 0.5)];
   // Scroll to the cell we need and tap it.
   [[[EarlGrey selectElementWithMatcher:grey_allOf(cellMatcher, GREYInteractable(), nil)]
          usingSearchAction:GREYScrollInDirection(kGREYDirectionDown, 240)
