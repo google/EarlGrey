@@ -18,6 +18,7 @@
 
 #import <UIKit/UIKit.h>
 #include <objc/runtime.h>
+#include <stddef.h>
 
 #import "GREYFatalAsserts.h"
 #import "GREYTestApplicationDistantObject+Private.h"
@@ -53,6 +54,11 @@ NSString *const kGREYXCTestCaseInstanceDidFail = @"GREYXCTestCaseInstanceDidFail
 NSString *const kGREYXCTestCaseInstanceDidFinish = @"GREYXCTestCaseInstanceDidFinish";
 NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey";
 
+@interface XCTestCase (GREYTestPrivate)
+- (void)grey_sendNotification:(NSString *)notificationName;
+- (void)saveXCUITestRelatedScreenshot;
+@end
+
 /**
  * Checks if there's an app-under-test crash which hasn't been handled yet. If that's the case,
  * @c handler will be invoked. @c handler can indicate that the crash has been handled by returning
@@ -62,6 +68,124 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
  * @param handler The block that will be invoked when there is an unhandled app-under-test crash.
  */
 static void CheckUnhandledHostApplicationCrashWithHandler(BOOL (^handler)(void));
+
+static void *const kGREYSetUpRunKey = (void *)&kGREYSetUpRunKey;
+static void *const kGREYTearDownRunKey = (void *)&kGREYTearDownRunKey;
+static void *const kGREYTearDownWithCompletionRunKey = (void *)&kGREYTearDownWithCompletionRunKey;
+
+/**
+ * Swizzles either -[setUp] or -[tearDown] on |klass| using a block-based implementation.
+ *
+ * Every class is hooked directly because tests are not expected to call `[super setUp]` or
+ * `[super tearDown]`. The run key guards against nested hooks and duplicate notifications
+ * when a subclass does call `[super ...]`.
+ */
+static void SwizzleLifecycleMethod(Class klass, SEL selector, void *const runKey,
+                                   void (^preInvokeBlock)(XCTestCase *testCase),
+                                   void (^postInvokeBlock)(XCTestCase *testCase)) {
+  Method method = class_getInstanceMethod(klass, selector);
+  GREYFatalAssertWithMessage(method != NULL, @"Cannot swizzle %@ %@", klass,
+                             NSStringFromSelector(selector));
+  IMP originalIMP = method_getImplementation(method);
+  const char *types = method_getTypeEncoding(method);
+  IMP hookIMP = imp_implementationWithBlock(^(XCTestCase *testCase) {
+    if (!objc_getAssociatedObject(testCase, runKey)) {
+      objc_setAssociatedObject(testCase, runKey, @(YES), OBJC_ASSOCIATION_RETAIN);
+      @try {
+        if (preInvokeBlock) {
+          preInvokeBlock(testCase);
+        }
+
+        ((void (*)(id, SEL))originalIMP)(testCase, selector);
+
+        if (postInvokeBlock) {
+          postInvokeBlock(testCase);
+        }
+      } @finally {
+        objc_setAssociatedObject(testCase, runKey, nil, OBJC_ASSOCIATION_RETAIN);
+      }
+    } else {
+      ((void (*)(id, SEL))originalIMP)(testCase, selector);
+    }
+  });
+  if (!class_addMethod(klass, selector, hookIMP, types)) {
+    method_setImplementation(method, hookIMP);
+  }
+}
+
+static void SwizzleSetUp(Class klass) {
+  SwizzleLifecycleMethod(
+      klass, @selector(setUp), kGREYSetUpRunKey,
+      ^(XCTestCase *testCase) {
+        gFailureCount = testCase.testRun.failureCount;
+        [testCase grey_sendNotification:kGREYXCTestCaseInstanceWillSetUp];
+        CheckUnhandledHostApplicationCrashWithHandler(^{
+          if (gHostApplicationCrashHandler) {
+            gHostApplicationCrashHandler();
+          }
+          return YES;
+        });
+      },
+      ^(XCTestCase *testCase) {
+        [testCase grey_sendNotification:kGREYXCTestCaseInstanceDidSetUp];
+      });
+}
+
+static void SwizzleTearDown(Class klass) {
+  SwizzleLifecycleMethod(
+      klass, @selector(tearDown), kGREYTearDownRunKey,
+      ^(XCTestCase *testCase) {
+        [testCase saveXCUITestRelatedScreenshot];
+        [testCase grey_sendNotification:kGREYXCTestCaseInstanceWillTearDown];
+        CheckUnhandledHostApplicationCrashWithHandler(^{
+          if (gHostApplicationCrashHandler) {
+            gHostApplicationCrashHandler();
+          }
+          return YES;
+        });
+      },
+      nil);
+}
+
+/**
+ * Swizzles -[tearDownWithCompletionHandler:] on |klass| using a block-based implementation.
+ *
+ * Every class is hooked directly because tests are not expected to call
+ * `[super tearDownWithCompletionHandler:]`. The run key guards against nested hooks when a
+ * subclass calls super.
+ */
+static void SwizzleTearDownWithCompletionHandler(Class klass) {
+  SEL selector = @selector(tearDownWithCompletionHandler:);
+  Method method = class_getInstanceMethod(klass, selector);
+  if (!method) {
+    return;
+  }
+  IMP originalIMP = method_getImplementation(method);
+  const char *types = method_getTypeEncoding(method);
+  IMP hookIMP = imp_implementationWithBlock(^(XCTestCase *testCase,
+                                              void (^completion)(NSError *error)) {
+    if (!objc_getAssociatedObject(testCase, kGREYTearDownWithCompletionRunKey)) {
+      objc_setAssociatedObject(testCase, kGREYTearDownWithCompletionRunKey, @(YES),
+                               OBJC_ASSOCIATION_RETAIN);
+      __weak __typeof__(testCase) weakSelf = testCase;
+      void (^customCompletion)(NSError *) = ^(NSError *error) {
+        __typeof__(testCase) strongSelf = weakSelf;
+        GREYFatalAssertWithMessage(strongSelf, @"The test case should not have been deallocated.");
+        completion(error);
+        [strongSelf grey_sendNotification:kGREYXCTestCaseInstanceDidTearDown];
+        objc_setAssociatedObject(strongSelf, kGREYTearDownWithCompletionRunKey, nil,
+                                 OBJC_ASSOCIATION_RETAIN);
+      };
+
+      ((void (*)(id, SEL, void (^)(NSError *)))originalIMP)(testCase, selector, customCompletion);
+    } else {
+      ((void (*)(id, SEL, void (^)(NSError *)))originalIMP)(testCase, selector, completion);
+    }
+  });
+  if (!class_addMethod(klass, selector, hookIMP, types)) {
+    method_setImplementation(method, hookIMP);
+  }
+}
 
 @implementation XCTestCase (GREYTest)
 
@@ -88,7 +212,7 @@ static void CheckUnhandledHostApplicationCrashWithHandler(BOOL (^handler)(void))
                              @"You must set the crash handler on main thread.");
   CheckUnhandledHostApplicationCrashWithHandler(^{
     GREYLog(
-        @"WARNING: The crash handler is overriden right after the crash of app-under-test. This "
+        @"WARNING: The crash handler is overridden right after the crash of app-under-test. This "
         @"may cause the crash being handled in an unexpected way.");
     return NO;
   });
@@ -166,36 +290,10 @@ static void CheckUnhandledHostApplicationCrashWithHandler(BOOL (^handler)(void))
   self.continueAfterFailure = YES;
   @autoreleasepool {
     if (![self grey_isSwizzled]) {
-      GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
       Class selfClass = [self class];
-      // Swizzle the setUp and tearDown for this test to allow observing different execution states
-      // of the test.
-      IMP setUpIMP = [self methodForSelector:@selector(grey_setUp)];
-      BOOL swizzleSuccess = [swizzler swizzleClass:selfClass
-                                 addInstanceMethod:@selector(grey_setUp)
-                                withImplementation:setUpIMP
-                      andReplaceWithInstanceMethod:@selector(setUp)];
-      GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle %@ setUp",
-                                 NSStringFromClass(selfClass));
-
-      // Swizzle tearDown.
-      IMP tearDownIMP = [self methodForSelector:@selector(grey_tearDown)];
-      swizzleSuccess = [swizzler swizzleClass:selfClass
-                            addInstanceMethod:@selector(grey_tearDown)
-                           withImplementation:tearDownIMP
-                 andReplaceWithInstanceMethod:@selector(tearDown)];
-      GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle %@ tearDown",
-                                 NSStringFromClass(selfClass));
-
-      IMP tearDownWithCompletionHandlerIMP =
-          [self methodForSelector:@selector(grey_tearDownWithCompletionHandler:)];
-      swizzleSuccess = [swizzler swizzleClass:selfClass
-                            addInstanceMethod:@selector(grey_tearDownWithCompletionHandler:)
-                           withImplementation:tearDownWithCompletionHandlerIMP
-                 andReplaceWithInstanceMethod:@selector(tearDownWithCompletionHandler:)];
-      GREYFatalAssertWithMessage(
-          swizzleSuccess,
-          @"Cannot swizzle %@ tearDownWithCompletionHandler:", NSStringFromClass(selfClass));
+      SwizzleSetUp(selfClass);
+      SwizzleTearDown(selfClass);
+      SwizzleTearDownWithCompletionHandler(selfClass);
       [self grey_markSwizzled];
     }
 
@@ -247,62 +345,6 @@ static void CheckUnhandledHostApplicationCrashWithHandler(BOOL (^handler)(void))
       [gExecutingTestCaseStack removeLastObject];
     }
   }
-}
-
-/**
- * A swizzled implementation for XCTestCase::setUp.
- *
- * @remark These methods need to be added to each instance of XCTestCase because we don't expect
- *         test to invoke <tt> [super setUp] </tt>.
- */
-- (void)grey_setUp {
-  gFailureCount = self.testRun.failureCount;
-  [self grey_sendNotification:kGREYXCTestCaseInstanceWillSetUp];
-  CheckUnhandledHostApplicationCrashWithHandler(^{
-    if (gHostApplicationCrashHandler) {
-      gHostApplicationCrashHandler();
-    }
-    return YES;
-  });
-  INVOKE_ORIGINAL_IMP(void, @selector(grey_setUp));
-  [self grey_sendNotification:kGREYXCTestCaseInstanceDidSetUp];
-}
-
-/**
- * A swizzled implementation for XCTestCase::tearDown.
- *
- * @remark These methods need to be added to each instance of XCTestCase because we don't expect
- *         tests to invoke <tt> [super tearDown] </tt>.
- */
-- (void)grey_tearDown {
-  [self saveXCUITestRelatedScreenshot];
-
-  [self grey_sendNotification:kGREYXCTestCaseInstanceWillTearDown];
-  CheckUnhandledHostApplicationCrashWithHandler(^{
-    if (gHostApplicationCrashHandler) {
-      gHostApplicationCrashHandler();
-    }
-    return YES;
-  });
-  INVOKE_ORIGINAL_IMP(void, @selector(grey_tearDown));
-}
-
-/**
- * A swizzled implementation for XCTestCase::tearDownWithCompletionHandler:.
- *
- * @remark These methods need to be added to each instance of XCTestCase because we don't expect
- *         tests to invoke <tt> [super tearDownWithCompletionHandler:] </tt>.
- */
-- (void)grey_tearDownWithCompletionHandler:(void (^)(NSError *error))completion {
-  __weak __typeof__(self) weakSelf = self;
-  INVOKE_ORIGINAL_IMP1(void, @selector(grey_tearDownWithCompletionHandler:), ^(NSError *error) {
-    __typeof__(self) strongSelf = weakSelf;
-    GREYFatalAssertWithMessage(strongSelf, @"The test case should not have been deallocated.");
-
-    completion(error);
-
-    [strongSelf grey_sendNotification:kGREYXCTestCaseInstanceDidTearDown];
-  });
 }
 
 /**
