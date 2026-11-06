@@ -44,7 +44,7 @@
   // No cancel button on iPad and newer iOS; use the identifier of the popover window instead.
   if (iOS26_OR_ABOVE() || UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
     [[EarlGrey selectElementWithMatcher:GREYAccessibilityID(@"PopoverDismissRegion")]
-        performAction:GREYTapAtPoint(CGPointMake(0, 0))];
+        performAction:GREYTap()];
   } else {
     [[EarlGrey selectElementWithMatcher:GREYText(@"Cancel")] performAction:GREYTap()];
   }
@@ -70,7 +70,7 @@
   // No cancel button on iPad and newer iOS; use the identifier of the popover window instead.
   if (iOS26_OR_ABOVE() || UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
     [[EarlGrey selectElementWithMatcher:GREYAccessibilityID(@"PopoverDismissRegion")]
-        performAction:GREYTapAtPoint(CGPointMake(0, 0))];
+        performAction:GREYTap()];
   } else {
     [[EarlGrey selectElementWithMatcher:GREYText(@"Cancel")] performAction:GREYTap()];
   }

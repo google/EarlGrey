@@ -285,6 +285,16 @@ static NSString *const kEditMenuPasteButtonAxeLabel = @"Paste";
   NSInteger lowerY = (NSInteger)CGRectGetMinY(translatedRect);
   NSInteger upperY = (NSInteger)CGRectGetMaxY(translatedRect);
   NSInteger width = (NSInteger)CGRectGetWidth(translatedRect);
+  if (_interactability) {
+    // Include the exclusive maxX/maxY boundary pixel (and account for CGRectIntegralInside
+    // flooring) when checking interactability. lowerX and lowerY are already inclusive.
+    if (lowerX + width < bitVectorRectWidth) {
+      width++;
+    }
+    if (upperY < bitVectorRectHeight) {
+      upperY++;
+    }
+  }
   for (NSInteger y = lowerY; y < upperY; y++) {
     // Pixel aligned rect
     if (y < bitVectorRectHeight) {
@@ -332,14 +342,22 @@ static NSString *const kEditMenuPasteButtonAxeLabel = @"Paste";
   if (!IsElementVisible(object)) {
     // Check if view is hidden or has alpha less than 0.01.
     return YES;
-  } else if ([NSStringFromClass([view class]) isEqualToString:@"_UIVisualEffectBackdropView"]) {
-    // _UIVisualEffectBackdropView is an iOS internal view that is used for blurred view. This
-    // includes, but not limited to, system navigation bar, system keyboard, etc. Elements behind
-    // this view should not be considered visible. Custom drawn view as this does not have any
-    // distinguishable traits in the UIView property that could rule it as an "obscuring view" from
-    // the current algorithm.
+  } else if (IsObscuringSystemContainerView(view)) {
+    // _UIVisualEffectBackdropView, _UIPopoverView, _UIPopoverGlassBackground,
+    // _UIPopoverShapeLayerChromeView, _UIAlertControllerPhoneTVMacView, and GlassPopoverView are
+    // iOS internal views used for blurred/glass views,
+    // popovers, and alert controllers. This includes, but not limited to, system navigation bar,
+    // system keyboard, popovers, action sheets, etc. Elements behind this view should not be
+    // considered visible. Custom drawn view as this does not have any distinguishable traits in the
+    // UIView property that could rule it as an "obscuring view" from the current algorithm.
     // TODO(b/146083877): Add support for custom drawn views.
     return NO;
+  } else if (HasObscuringSystemContainerAncestor(view, _targetContainerView)) {
+    // If view is inside an obscuring system container (such as _UIPopoverView) that does not
+    // contain the target, the container's bounds have already been recorded as obscuring the
+    // target. Skip strict descendants so internal shape-layer views (e.g. _UIPopoverShapeLayerView
+    // or SwiftUI PopoverGlassBackgroundShape) do not trigger a fallback to the thorough checker.
+    return YES;
   } else if (MeetsFallbackCondition(view)) {
     // This doesn't necessarily mean you should perform a fallback. It doesn't have to fallback if
     // view doesn't intersect with the target view.
@@ -426,15 +444,16 @@ static CGRect VisibleRectOnScreen(GREYTraversalObject *object) {
   CGRect boundingRect = object.properties.boundingRect;
   UIView *container = [element grey_viewContainingSelf];
   CGRect containerRect = ConvertToScreenCoordinate(container);
-  // If element has a mask view, use that mask view instead.
+  CGRect elementRect = ConvertToScreenCoordinate(element);
+  // If element has a mask view with a non-empty frame, intersect with the mask view's frame in
+  // screen coordinates.
   if ([element isKindOfClass:[UIView class]]) {
     UIView *maskView = [element maskView];
-    if (maskView) {
-      element = maskView;
+    if (maskView && !CGRectIsEmpty(maskView.frame)) {
+      CGRect maskRect = [(UIView *)element convertRect:maskView.frame toView:nil];
+      elementRect = CGRectIntersectionStrict(elementRect, maskRect);
     }
   }
-
-  CGRect elementRect = ConvertToScreenCoordinate(element);
   elementRect = CGRectIntersectionStrict(elementRect, [GREYUILibUtils screen].bounds);
   if (!CGRectIsNull(boundingRect)) {
     CGRect boundingRectScreenCoord = [container convertRect:boundingRect toView:nil];
@@ -497,6 +516,37 @@ static BOOL IsElementVisible(GREYTraversalObject *object) {
     }
   }
   return !(object.properties.hidden || alphaTooLowForVisibility);
+}
+
+/**
+ * @return A @c BOOL indicating whether @c view is an internal iOS system container or backdrop
+ *         view (such as a popover, alert controller, or visual effect/glass backdrop) that
+ *         obscures elements behind it.
+ */
+static BOOL IsObscuringSystemContainerView(UIView *view) {
+  NSString *className = NSStringFromClass([view class]);
+  return [className isEqualToString:@"_UIVisualEffectBackdropView"] ||
+         [className isEqualToString:@"_UIPopoverView"] ||
+         [className isEqualToString:@"_UIPopoverGlassBackground"] ||
+         [className isEqualToString:@"_UIPopoverShapeLayerChromeView"] ||
+         [className isEqualToString:@"_UIAlertControllerPhoneTVMacView"] ||
+         [className containsString:@"GlassPopoverView"];
+}
+
+/**
+ * @return A @c BOOL indicating whether @c view is a strict descendant of an obscuring system
+ *         container view that does not contain @c targetContainerView.
+ */
+static BOOL HasObscuringSystemContainerAncestor(UIView *view, UIView *targetContainerView) {
+  UIView *ancestor = view.superview;
+  while (ancestor) {
+    if (IsObscuringSystemContainerView(ancestor) && ancestor != targetContainerView &&
+        ![ancestor grey_isAncestorOfView:targetContainerView]) {
+      return YES;
+    }
+    ancestor = ancestor.superview;
+  }
+  return NO;
 }
 
 /**
