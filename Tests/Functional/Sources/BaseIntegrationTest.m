@@ -56,8 +56,8 @@
 
 - (void)tapBackButton {
   [[EarlGrey selectElementWithMatcher:GREYAllOfMatchers(@[
-               GREYAccessibilityLabel(@"EarlGrey TestApp"),
-               GREYAccessibilityTrait(UIAccessibilityTraitButton),
+               GREYAccessibilityID(@"BackButton"),
+               GREYKindOfClass([UIControl class]),
                GREYNot(GREYAccessibilityTrait(UIAccessibilityTraitNotEnabled)),
              ])] performAction:GREYTap()];
 }

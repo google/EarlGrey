@@ -88,8 +88,8 @@
   [_application activate];
 
   id<GREYMatcher> buttonMatcher = GREYAllOfMatchers(@[
-    GREYAccessibilityLabel(@"EarlGrey TestApp"),
-    GREYAccessibilityTrait(UIAccessibilityTraitButton),
+    GREYAccessibilityID(@"BackButton"),
+    GREYKindOfClass([UIControl class]),
     GREYNot(GREYAccessibilityTrait(UIAccessibilityTraitNotEnabled)),
   ]);
   GREYCondition *condition =
