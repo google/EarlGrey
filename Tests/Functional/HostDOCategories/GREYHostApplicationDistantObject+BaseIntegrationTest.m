@@ -28,7 +28,24 @@
   } else {
     navController = delegateWindow.rootViewController.navigationController;
   }
+  if (navController.presentedViewController) {
+    [navController dismissViewControllerAnimated:NO completion:nil];
+  }
+  [navController.view.layer removeAllAnimations];
   [navController popToRootViewControllerAnimated:NO];
+  UIView *rootView = navController.topViewController.view;
+  if ([rootView isKindOfClass:[UITableView class]]) {
+    UITableView *tableView = (UITableView *)rootView;
+    [tableView setContentOffset:CGPointMake(0, -tableView.adjustedContentInset.top) animated:NO];
+  } else {
+    for (UIView *subview in rootView.subviews) {
+      if ([subview isKindOfClass:[UITableView class]]) {
+        UITableView *tableView = (UITableView *)subview;
+        [tableView setContentOffset:CGPointMake(0, -tableView.adjustedContentInset.top)
+                           animated:NO];
+      }
+    }
+  }
 }
 
 @end
