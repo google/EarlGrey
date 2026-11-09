@@ -322,8 +322,8 @@
  * Checks if a visibility related exception thrown by EarlGrey contains the right screenshots.
  */
 - (void)testExceptionDetails {
-  [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = [[FailureHandler alloc] init];
   [self openTestViewNamed:@"Visibility Tests"];
+  [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = [[FailureHandler alloc] init];
   @try {
     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"orangeView")]
         assertWithMatcher:GREYSufficientlyVisible()];

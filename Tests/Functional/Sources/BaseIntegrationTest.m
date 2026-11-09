@@ -19,10 +19,14 @@
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+BaseIntegrationTest.h"
 
-@implementation BaseIntegrationTest
+@implementation BaseIntegrationTest {
+  /** The original failure handler. */
+  id<GREYFailureHandler> _originalFailureHandler;
+}
 
 - (void)setUp {
   [super setUp];
+  _originalFailureHandler = [NSThread mainThread].threadDictionary[GREYFailureHandlerKey];
   self.application = [[XCUIApplication alloc] init];
 
   static dispatch_once_t onceToken;
@@ -72,6 +76,7 @@
 }
 
 - (void)tearDown {
+  [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = _originalFailureHandler;
   [[GREYHostApplicationDistantObject sharedInstance] resetNavigationStack];
   [[GREYConfiguration sharedConfiguration] reset];
 
