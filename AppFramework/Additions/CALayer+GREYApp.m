@@ -29,6 +29,45 @@
 #import "GREYSwizzler.h"
 #import "CGGeometry+GREYUI.h"
 
+/**
+ * Returns @c YES if @c animation on @c layer is a continuous system animation (such as the text
+ * caret blink animation) that EarlGrey should not wait on. The animation is still added to the
+ * layer; it is only not tracked.
+ */
+static BOOL GREYShouldSkipTrackingAnimationOnLayer(CALayer *layer, CAAnimation *animation,
+                                                   NSString *key) {
+  static Class sStandardTextCursorViewClass;
+  static Class sTextCursorViewClass;
+  static Class sTextCursorGlowViewClass;
+  static Class sTextSelectionViewClass;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    sStandardTextCursorViewClass = NSClassFromString(@"UIStandardTextCursorView");
+    sTextCursorViewClass = NSClassFromString(@"_UITextCursorView");
+    sTextCursorGlowViewClass = NSClassFromString(@"_UITextCursorTrailingGlowView");
+    sTextSelectionViewClass = NSClassFromString(@"UITextSelectionView");
+  });
+
+  if ([animation grey_shouldIgnoreTracking] ||
+      [key isEqualToString:@"UITextSelectionViewCaretBlinkAnimation"]) {
+    return YES;
+  }
+
+  // Walk the superlayer chain to check if the layer belongs to a text cursor or selection view.
+  for (CALayer *curr = layer; curr != nil; curr = curr.superlayer) {
+    id delegate = curr.delegate;
+    if (delegate) {
+      if ((sStandardTextCursorViewClass && [delegate isKindOfClass:sStandardTextCursorViewClass]) ||
+          (sTextCursorViewClass && [delegate isKindOfClass:sTextCursorViewClass]) ||
+          (sTextCursorGlowViewClass && [delegate isKindOfClass:sTextCursorGlowViewClass]) ||
+          (sTextSelectionViewClass && [delegate isKindOfClass:sTextSelectionViewClass])) {
+        return YES;
+      }
+    }
+  }
+  return NO;
+}
+
 @implementation CALayer (GREYApp)
 
 + (void)load {
@@ -97,8 +136,11 @@
   // For a layer, only track its animations if it isn't hidden, else move on to sublayers.
   if (!self.hidden) {
     for (NSString *animationKey in self.animationKeys) {
-      // This re-tracking will continue till EarlGrey's animation timeout.
-      [[self animationForKey:animationKey] grey_trackForDurationOfAnimation];
+      CAAnimation *animation = [self animationForKey:animationKey];
+      if (!GREYShouldSkipTrackingAnimationOnLayer(self, animation, animationKey)) {
+        // This re-tracking will continue till EarlGrey's animation timeout.
+        [animation grey_trackForDurationOfAnimation];
+      }
     }
   }
   for (CALayer *sublayer in self.sublayers) {
@@ -153,7 +195,7 @@
 - (void)grey_pauseAnimationTracking {
   if (self.animationKeys.count > 0) {
     // Keep track of animation keys that have been idled. Used for resuming tracking.
-    NSMutableSet *pausedAnimationKeys = [self grey_pausedAnimationKeys];
+    NSMutableSet<NSString *> *pausedAnimationKeys = [self grey_pausedAnimationKeys];
     if (!pausedAnimationKeys) {
       pausedAnimationKeys = [[NSMutableSet alloc] init];
       objc_setAssociatedObject(self, @selector(grey_pauseAnimationTracking), pausedAnimationKeys,
@@ -177,7 +219,7 @@
 }
 
 - (void)grey_resumeAnimationTracking {
-  NSMutableSet *pausedAnimationKeys = [self grey_pausedAnimationKeys];
+  NSMutableSet<NSString *> *pausedAnimationKeys = [self grey_pausedAnimationKeys];
   for (NSString *key in pausedAnimationKeys) {
     CAAnimation *animation = [self animationForKey:key];
     if ([animation grey_animationState] == kGREYAnimationStarted) {
@@ -214,6 +256,18 @@
 }
 
 - (void)greyswizzled_addAnimation:(CAAnimation *)animation forKey:(NSString *)key {
+  // Continuous system animations must still be added so that UIKit renders them and receives their
+  // delegate callbacks (e.g. UIView animation completion blocks), but EarlGrey should neither
+  // modify their duration/repeatCount nor track them.
+  if (GREYShouldSkipTrackingAnimationOnLayer(self, animation, key)) {
+    [animation grey_setShouldIgnoreTracking:YES];
+    INVOKE_ORIGINAL_IMP2(void, @selector(greyswizzled_addAnimation:forKey:), animation, key);
+    if (key) {
+      [[self animationForKey:key] grey_setShouldIgnoreTracking:YES];
+    }
+    return;
+  }
+
   [self grey_adjustAnimationToAllowableRange:animation];
 
   // If no key is given, give it one.  We need a key to track what animations have been idled.
@@ -280,7 +334,7 @@
 
 #pragma mark - Internal Methods Exposed For Testing
 
-- (NSMutableSet *)grey_pausedAnimationKeys {
+- (NSMutableSet<NSString *> *)grey_pausedAnimationKeys {
   return objc_getAssociatedObject(self, @selector(grey_pauseAnimationTracking));
 }
 

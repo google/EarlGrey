@@ -167,9 +167,12 @@ static void DedupeAndAppendAnimationInfoForLayerOfView(
   for (NSString *animationKey in layer.animationKeys) {
     CAAnimation *animation = [layer animationForKey:animationKey];
     // Animations with @c isRemovedOnCompletion set to @c NO may still be attached to the layer even
-    // after they have completed, so the states need to be explicitly checked.
-    if (![animation respondsToSelector:@selector(grey_animationState)] ||
-        animation.grey_animationState != kGREYAnimationStopped) {
+    // after they have completed, so the states need to be explicitly checked. Ignored continuous
+    // system animations are also excluded.
+    BOOL isIgnored = [animation respondsToSelector:@selector(grey_shouldIgnoreTracking)] &&
+                     [animation grey_shouldIgnoreTracking];
+    if (!isIgnored && (![animation respondsToSelector:@selector(grey_animationState)] ||
+                       animation.grey_animationState != kGREYAnimationStopped)) {
       NSString *animationInfo =
           [NSString stringWithFormat:@"\nUIView: %@\n    AnimationKey: %@ withAnimation: %@",
                                      [view grey_objectDescription], animationKey, animation];

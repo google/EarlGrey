@@ -41,14 +41,43 @@
                     replaceInstanceMethod:@selector(setDelegate:)
                                withMethod:@selector(greyswizzled_setDelegate:)];
   GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle CAAnimation setDelegate:");
+  swizzleSuccess = [swizzler swizzleClass:self
+                    replaceInstanceMethod:@selector(copyWithZone:)
+                               withMethod:@selector(greyswizzled_copyWithZone:)];
+  GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle CAAnimation copyWithZone:");
 }
 
 - (void)greyswizzled_setDelegate:(id)delegate {
+  if ([self grey_shouldIgnoreTracking]) {
+    INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setDelegate:), delegate);
+    return;
+  }
   id surrogate = GREYSurrogateDelegateForCAAnimationDelegate(delegate);
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setDelegate:), surrogate);
 }
 
+- (id)greyswizzled_copyWithZone:(NSZone *)zone {
+  CAAnimation *copy = INVOKE_ORIGINAL_IMP1(id, @selector(greyswizzled_copyWithZone:), zone);
+  if ([self grey_shouldIgnoreTracking]) {
+    [copy grey_setShouldIgnoreTracking:YES];
+  }
+  return copy;
+}
+
+- (BOOL)grey_shouldIgnoreTracking {
+  NSNumber *shouldIgnore = objc_getAssociatedObject(self, @selector(grey_shouldIgnoreTracking));
+  return shouldIgnore.boolValue;
+}
+
+- (void)grey_setShouldIgnoreTracking:(BOOL)shouldIgnore {
+  objc_setAssociatedObject(self, @selector(grey_shouldIgnoreTracking), @(shouldIgnore),
+                           OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
 - (void)grey_setAnimationState:(GREYCAAnimationState)state {
+  if ([self grey_shouldIgnoreTracking]) {
+    return;
+  }
   objc_setAssociatedObject(self, @selector(grey_animationState), @(state),
                            OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
@@ -60,6 +89,9 @@
 }
 
 - (GREYCAAnimationState)grey_animationState {
+  if ([self grey_shouldIgnoreTracking]) {
+    return kGREYAnimationStopped;
+  }
   NSNumber *animationState = objc_getAssociatedObject(self, @selector(grey_animationState));
   if (!animationState) {
     return kGREYAnimationPendingStart;
@@ -69,6 +101,9 @@
 }
 
 - (void)grey_trackForDurationOfAnimation {
+  if ([self grey_shouldIgnoreTracking]) {
+    return;
+  }
   GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(kGREYPendingCAAnimation, self);
   objc_setAssociatedObject(self, @selector(grey_trackForDurationOfAnimation), object,
                            OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -99,6 +134,9 @@
  */
 - (id)greyswizzled_delegate {
   id delegate = INVOKE_ORIGINAL_IMP(id, @selector(greyswizzled_delegate));
+  if ([self grey_shouldIgnoreTracking]) {
+    return delegate;
+  }
   return GREYSurrogateDelegateForCAAnimationDelegate(delegate);
 }
 

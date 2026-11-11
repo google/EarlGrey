@@ -24,6 +24,8 @@
 /** Category for UITextSelectionView to call the -setHidden: method on it. */
 @interface UITextSelectionView_GREYApp (Private)
 - (void)setHidden:(BOOL)hidden;
+- (void)setBlinking:(BOOL)blinking;
+- (void)resetBlinkAnimation;
 @end
 
 @implementation UITextSelectionView_GREYApp
@@ -48,6 +50,33 @@
               andReplaceWithInstanceMethod:@selector(setCaretBlinks:)];
     GREYFatalAssertWithMessage(swizzled, @"Failed to swizzle UITextSelectionView setCaretBlinks:");
   }
+
+  if (iOS17_OR_ABOVE()) {
+    // These are private UIKit classes and selectors that vary between iOS versions, so only swizzle
+    // them when present rather than crashing the app under test.
+    Class textCursorViewClass =
+        NSClassFromString(@"UIStandardTextCursorView") ?: NSClassFromString(@"_UITextCursorView");
+    if ([textCursorViewClass instancesRespondToSelector:@selector(setBlinking:)]) {
+      SEL swizzledSetBlinkingSelector = @selector(greyswizzled_setBlinking:);
+      IMP setBlinkingImp = [self instanceMethodForSelector:swizzledSetBlinkingSelector];
+      BOOL swizzledSetBlinking = [swizzler swizzleClass:textCursorViewClass
+                                      addInstanceMethod:swizzledSetBlinkingSelector
+                                     withImplementation:setBlinkingImp
+                           andReplaceWithInstanceMethod:@selector(setBlinking:)];
+      GREYFatalAssertWithMessage(swizzledSetBlinking,
+                                 @"Failed to swizzle text cursor view setBlinking:");
+    }
+    if ([textCursorViewClass instancesRespondToSelector:@selector(resetBlinkAnimation)]) {
+      SEL swizzledResetBlinkSelector = @selector(greyswizzled_resetBlinkAnimation);
+      IMP resetBlinkImp = [self instanceMethodForSelector:swizzledResetBlinkSelector];
+      BOOL swizzledResetBlink = [swizzler swizzleClass:textCursorViewClass
+                                     addInstanceMethod:swizzledResetBlinkSelector
+                                    withImplementation:resetBlinkImp
+                          andReplaceWithInstanceMethod:@selector(resetBlinkAnimation)];
+      GREYFatalAssertWithMessage(swizzledResetBlink,
+                                 @"Failed to swizzle text cursor view resetBlinkAnimation");
+    }
+  }
 }
 
 // The continuous caret blink animation is disabled by default in order to prevent it from causing
@@ -63,6 +92,22 @@
 - (void)greyswizzled_setCaretBlinks:(BOOL)arg1 {
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setCaretBlinks:), NO);
   [self setHidden:YES];
+}
+
+- (void)greyswizzled_setBlinking:(BOOL)blinking {
+  for (UIView *subview in [(UIView *)self subviews]) {
+    [subview setHidden:YES];
+  }
+  INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setBlinking:), NO);
+}
+
+- (void)greyswizzled_resetBlinkAnimation {
+  // Intentionally do not invoke the original implementation: unlike -setBlinking:,
+  // -resetBlinkAnimation takes no arguments and unconditionally re-attaches the repeating opacity
+  // animation to the cursor subviews.
+  for (UIView *subview in [(UIView *)self subviews]) {
+    [subview setHidden:YES];
+  }
 }
 
 @end
@@ -85,11 +130,11 @@
 
 - (void)greyswizzled_setCursorBlinks:(BOOL)act {
   if (@available(iOS 17.0, *)) {
-    // Just setting cursorView to hidden does nothing. It was found that setting the subview of
-    // the cursorView to hidden hides the entire cursor. The subview is of class _UIShapeView
-    // as of Xcode 15.1.
-    UIView *shapeView = [[self.cursorView subviews] firstObject];
-    [shapeView setHidden:YES];
+    // Just setting cursorView to hidden does nothing. It was found that setting the subviews of
+    // the cursorView to hidden hides the entire cursor.
+    for (UIView *subview in [self.cursorView subviews]) {
+      [subview setHidden:YES];
+    }
     INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setCursorBlinks:), 0);
   } else {
     INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setCursorBlinks:), 0);

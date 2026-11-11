@@ -65,4 +65,18 @@ typedef NS_ENUM(NSUInteger, GREYCAAnimationState) {
  */
 - (void)grey_untrack;
 
+/**
+ * Returns @c YES if EarlGrey should ignore tracking this animation (e.g. continuous system
+ * animations such as @c CAMatchMoveAnimation, @c CAMatchPropertyAnimation, or text cursor blink
+ * animations).
+ */
+- (BOOL)grey_shouldIgnoreTracking;
+
+/**
+ * Marks whether EarlGrey should ignore tracking this animation.
+ *
+ * @param shouldIgnore @c YES if EarlGrey should skip tracking this animation.
+ */
+- (void)grey_setShouldIgnoreTracking:(BOOL)shouldIgnore;
+
 @end

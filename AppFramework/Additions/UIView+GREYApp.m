@@ -19,6 +19,7 @@
 #import "UIView+GREYApp.h"
 
 #include <objc/runtime.h>
+#include <stddef.h>
 
 #import "GREYTimedIdlingResource.h"
 #import "GREYAppStateTracker.h"
@@ -48,6 +49,19 @@ BOOL gPrintFunctionPointer;
  * Class for Scroll view indicators. Unused directive added as this will be utilized only in iOS 13.
  **/
 __unused static Class gScrollViewIndicatorClass;
+
+/**
+ * Class for UIKit morph animation container views introduced in iOS 26 for context menu transitions
+ * that bypass standard Objective-C UIView block animation APIs.
+ */
+static Class gMorphAnimationContainerViewClass;
+
+/**
+ * Thread-local re-entrancy flag indicating that execution is currently inside one of EarlGrey's
+ * swizzled public +[UIView animateWithDuration:...] / transition APIs. When YES, private
+ * UIKit animation setup swizzles will not double-wrap or re-track the animation.
+ */
+static _Thread_local BOOL gInPublicUIViewAnimation = NO;
 
 @implementation UIView (GREYApp)
 
@@ -212,6 +226,10 @@ __unused static Class gScrollViewIndicatorClass;
   GREYFatalAssertWithMessage(
       swizzleSuccess, @"Cannot swizzle UIScrollView _adjustScrollerIndicators:alwaysShowingThem:");
 
+  gMorphAnimationContainerViewClass = NSClassFromString(@"UIKit._UIMorphAnimationContainerView");
+
+  [self grey_swizzlePrivateAnimationSetupWithSwizzler:swizzler];
+
   if (GREYVerboseLoggingEnabled()) {
     gPrintFunctionPointer = YES;
   }
@@ -302,6 +320,7 @@ __unused static Class gScrollViewIndicatorClass;
 
 - (void)greyswizzled_addSubview:(UIView *)view {
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_addSubview:), view);
+  [self grey_trackMorphAnimationContainerOnViewAdded:view];
   [self grey_bringAlwaysTopSubviewToFront];
 }
 
@@ -320,17 +339,20 @@ __unused static Class gScrollViewIndicatorClass;
 - (void)greyswizzled_insertSubview:(UIView *)view aboveSubview:(UIView *)siblingSubview {
   INVOKE_ORIGINAL_IMP2(void, @selector(greyswizzled_insertSubview:aboveSubview:), view,
                        siblingSubview);
+  [self grey_trackMorphAnimationContainerOnViewAdded:view];
   [self grey_bringAlwaysTopSubviewToFront];
 }
 
 - (void)greyswizzled_insertSubview:(UIView *)view belowSubview:(UIView *)siblingSubview {
   INVOKE_ORIGINAL_IMP2(void, @selector(greyswizzled_insertSubview:belowSubview:), view,
                        siblingSubview);
+  [self grey_trackMorphAnimationContainerOnViewAdded:view];
   [self grey_bringAlwaysTopSubviewToFront];
 }
 
 - (void)greyswizzled_insertSubview:(UIView *)view atIndex:(NSInteger)index {
   INVOKE_ORIGINAL_IMP2(void, @selector(greyswizzled_insertSubview:atIndex:), view, index);
+  [self grey_trackMorphAnimationContainerOnViewAdded:view];
   [self grey_bringAlwaysTopSubviewToFront];
 }
 
@@ -389,8 +411,14 @@ __unused static Class gScrollViewIndicatorClass;
 
 + (void)greyswizzled_animateWithDuration:(NSTimeInterval)duration
                               animations:(void (^)(void))animations {
-  INVOKE_ORIGINAL_IMP2(void, @selector(greyswizzled_animateWithDuration:animations:), duration,
-                       animations);
+  BOOL wasInPublic = gInPublicUIViewAnimation;
+  gInPublicUIViewAnimation = YES;
+  @try {
+    INVOKE_ORIGINAL_IMP2(void, @selector(greyswizzled_animateWithDuration:animations:), duration,
+                         animations);
+  } @finally {
+    gInPublicUIViewAnimation = wasInPublic;
+  }
   [GREYTimedIdlingResource resourceForObject:FuncPtrFromAnimationsBlock(animations)
                        thatIsBusyForDuration:duration
                                         name:NSStringFromSelector(_cmd)];
@@ -412,8 +440,14 @@ __unused static Class gScrollViewIndicatorClass;
       }];
     };
   }
-  INVOKE_ORIGINAL_IMP3(void, @selector(greyswizzled_animateWithDuration:animations:completion:),
-                       duration, animations, wrappedCompletion);
+  BOOL wasInPublic = gInPublicUIViewAnimation;
+  gInPublicUIViewAnimation = YES;
+  @try {
+    INVOKE_ORIGINAL_IMP3(void, @selector(greyswizzled_animateWithDuration:animations:completion:),
+                         duration, animations, wrappedCompletion);
+  } @finally {
+    gInPublicUIViewAnimation = wasInPublic;
+  }
   [GREYTimedIdlingResource resourceForObject:FuncPtrFromAnimationsBlock(animations)
                        thatIsBusyForDuration:duration
                                         name:NSStringFromSelector(_cmd)];
@@ -440,7 +474,14 @@ __unused static Class gScrollViewIndicatorClass;
 
   SEL swizzledSEL =
       @selector(greyswizzled_animateWithDuration:delay:options:animations:completion:);
-  INVOKE_ORIGINAL_IMP5(void, swizzledSEL, duration, delay, options, animations, wrappedCompletion);
+  BOOL wasInPublic = gInPublicUIViewAnimation;
+  gInPublicUIViewAnimation = YES;
+  @try {
+    INVOKE_ORIGINAL_IMP5(void, swizzledSEL, duration, delay, options, animations,
+                         wrappedCompletion);
+  } @finally {
+    gInPublicUIViewAnimation = wasInPublic;
+  }
   // The call stack check is done as a workaround for certain MediaPlayer animations that are not
   // truncated by EarlGrey's CALayer truncation code and make the idling resource busy infinitely.
   if ((options & UIViewAnimationOptionAllowUserInteraction) == 0) {
@@ -480,8 +521,14 @@ __unused static Class gScrollViewIndicatorClass;
       @selector(greyswizzled_animateWithDuration:
                                            delay:usingSpringWithDamping:initialSpringVelocity
                                                 :options:animations:completion:);
-  INVOKE_ORIGINAL_IMP7(void, swizzledSEL, duration, delay, dampingRatio, velocity, options,
-                       animations, wrappedCompletion);
+  BOOL wasInPublic = gInPublicUIViewAnimation;
+  gInPublicUIViewAnimation = YES;
+  @try {
+    INVOKE_ORIGINAL_IMP7(void, swizzledSEL, duration, delay, dampingRatio, velocity, options,
+                         animations, wrappedCompletion);
+  } @finally {
+    gInPublicUIViewAnimation = wasInPublic;
+  }
   if ((options & UIViewAnimationOptionAllowUserInteraction) == 0) {
     [GREYTimedIdlingResource resourceForObject:FuncPtrFromAnimationsBlock(animations)
                          thatIsBusyForDuration:(delay + duration)
@@ -510,7 +557,14 @@ __unused static Class gScrollViewIndicatorClass;
 
   SEL swizzledSEL =
       @selector(greyswizzled_animateKeyframesWithDuration:delay:options:animations:completion:);
-  INVOKE_ORIGINAL_IMP5(void, swizzledSEL, duration, delay, options, animations, wrappedCompletion);
+  BOOL wasInPublic = gInPublicUIViewAnimation;
+  gInPublicUIViewAnimation = YES;
+  @try {
+    INVOKE_ORIGINAL_IMP5(void, swizzledSEL, duration, delay, options, animations,
+                         wrappedCompletion);
+  } @finally {
+    gInPublicUIViewAnimation = wasInPublic;
+  }
 
   if ((options & UIViewKeyframeAnimationOptionAllowUserInteraction) == 0) {
     [GREYTimedIdlingResource resourceForObject:FuncPtrFromAnimationsBlock(animations)
@@ -539,7 +593,13 @@ __unused static Class gScrollViewIndicatorClass;
   }
 
   SEL swizzledSEL = @selector(greyswizzled_transitionFromView:toView:duration:options:completion:);
-  INVOKE_ORIGINAL_IMP5(void, swizzledSEL, fromView, toView, duration, options, wrappedCompletion);
+  BOOL wasInPublic = gInPublicUIViewAnimation;
+  gInPublicUIViewAnimation = YES;
+  @try {
+    INVOKE_ORIGINAL_IMP5(void, swizzledSEL, fromView, toView, duration, options, wrappedCompletion);
+  } @finally {
+    gInPublicUIViewAnimation = wasInPublic;
+  }
 
   if ((options & UIViewAnimationOptionAllowUserInteraction) == 0) {
     NSObject *trackingObject = [[NSObject alloc] init];
@@ -569,7 +629,13 @@ __unused static Class gScrollViewIndicatorClass;
   }
   SEL swizzledSEL =
       @selector(greyswizzled_transitionWithView:duration:options:animations:completion:);
-  INVOKE_ORIGINAL_IMP5(void, swizzledSEL, view, duration, options, animations, wrappedCompletion);
+  BOOL wasInPublic = gInPublicUIViewAnimation;
+  gInPublicUIViewAnimation = YES;
+  @try {
+    INVOKE_ORIGINAL_IMP5(void, swizzledSEL, view, duration, options, animations, wrappedCompletion);
+  } @finally {
+    gInPublicUIViewAnimation = wasInPublic;
+  }
 
   if ((options & UIViewAnimationOptionAllowUserInteraction) == 0) {
     [GREYTimedIdlingResource resourceForObject:FuncPtrFromAnimationsBlock(animations)
@@ -601,6 +667,254 @@ __unused static Class gScrollViewIndicatorClass;
   };
   INVOKE_ORIGINAL_IMP5(void, swizzledSEL, animation, views, options, parallelAnimations,
                        wrappedCompletion);
+}
+
+#pragma mark - Private UIKit Animation Setup
+
+/** The private UIKit selector that all block-based UIView animations are set up through. */
+static NSString *const kGREYPrivateAnimationSetupSelectorName =
+    @"_setupAnimationWithDuration:delay:view:options:factory:animations:start:"
+    @"animationStateGenerator:completion:";
+
+/** Typedef for the original private animation setup implementation that returns nothing. */
+typedef void (*GREYVoidAnimationSetupIMP)(id, SEL, double, double, id, UIViewAnimationOptions, id,
+                                          id, id, id, id);
+
+/** Typedef for the original private animation setup implementation that returns an object. */
+typedef id (*GREYObjectAnimationSetupIMP)(id, SEL, double, double, id, UIViewAnimationOptions, id,
+                                          id, id, id, id);
+
+/**
+ * The private UIKit selector that UIKit's own spring/fluid animations (e.g. context menu
+ * presentation and dismissal on iOS 17 and 18) are set up through.
+ */
+static NSString *const kGREYPrivateComposerAnimationSelectorName =
+    @"_animateWithAnimationAndComposerGetter:animations:completion:animationStateSetup:";
+
+/** Typedef for the original private composer-getter animation implementation. */
+typedef void (*GREYComposerAnimationIMP)(id, SEL, id, id, id, id);
+
+/**
+ * Returns @c YES if the argument at @c index of @c method has a type encoding starting with
+ * @c expected.
+ */
+static BOOL GREYMethodArgumentTypeHasPrefix(Method method, unsigned int index, char expected) {
+  char type[16] = {0};
+  method_getArgumentType(method, index, type, sizeof(type));
+  return type[0] == expected;
+}
+
+/**
+ * Tracks a UIView animation set up through UIKit's private animation setup method as
+ * @c kGREYPendingUIAnimation until its completion block is invoked.
+ *
+ * Several iOS 26+ UIKit transitions (e.g. context menu morphs and in-place menu updates) are set up
+ * directly through this private method, bypassing the public
+ * @c +[UIView animateWithDuration:...] APIs that EarlGrey swizzles.
+ *
+ * Repeating animations, and animations that allow user interaction but have no completion block,
+ * are not tracked. As a safeguard
+ * against a completion that is never invoked, the animation is untracked after its expected
+ * runtime (plus padding), capped at @c kGREYConfigKeyCALayerMaxAnimationDuration.
+ *
+ * @return A completion block to pass to the original implementation in place of @c completion.
+ */
+static GREYAnimationCompletionBlock GREYTrackedCompletionForPrivateAnimation(
+    NSTimeInterval duration, NSTimeInterval delay, UIViewAnimationOptions options,
+    GREYAnimationCompletionBlock completion) {
+  // If there is no completion block, do not synthesize one. Instead, for animations that do not
+  // allow user interaction and do not repeat, track their duration using a timed idling resource.
+  if (!completion) {
+    if ((options & UIViewAnimationOptionRepeat) == 0 &&
+        (options & UIViewAnimationOptionAllowUserInteraction) == 0 && (delay + duration) > 0) {
+      NSObject *trackingObject = [[NSObject alloc] init];
+      [GREYTimedIdlingResource resourceForObject:trackingObject
+                           thatIsBusyForDuration:(delay + duration)
+                                            name:@"PrivateAnimationSetup"];
+    }
+    return nil;
+  }
+  if (options & UIViewAnimationOptionRepeat) {
+    return completion;
+  }
+  __block NSObject *trackerObject = [[NSObject alloc] init];
+  GREYAppStateTrackerObject *object =
+      TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, trackerObject);
+  __block BOOL untracked = NO;
+  dispatch_block_t untrack = ^{
+    if (untracked) {
+      return;
+    }
+    untracked = YES;
+    UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
+    trackerObject = nil;
+  };
+  CFTimeInterval maxDuration =
+      (CFTimeInterval)GREY_CONFIG_DOUBLE(kGREYConfigKeyCALayerMaxAnimationDuration);
+  CFTimeInterval expectedDuration = MAX(delay, 0) + MAX(duration, 0);
+  CFTimeInterval fallbackDelay = MIN(expectedDuration + 2.0, maxDuration);
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(fallbackDelay * NSEC_PER_SEC)),
+                 dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                   dispatch_async(dispatch_get_main_queue(), untrack);
+                 });
+  return ^(BOOL finished) {
+    completion(finished);
+    untrack();
+  };
+}
+
++ (void)grey_swizzlePrivateAnimationSetupWithSwizzler:(GREYSwizzler *)swizzler {
+  [self grey_swizzlePrivateComposerAnimationWithSwizzler:swizzler];
+  SEL originalSel = NSSelectorFromString(kGREYPrivateAnimationSetupSelectorName);
+  Method method = class_getClassMethod(self, originalSel);
+  if (!method) {
+    return;
+  }
+  // Only swizzle if the private method's signature is exactly what EarlGrey expects:
+  // (double, double, id, NSUInteger, id, block, block, block, block).
+  BOOL argumentsMatch = method_getNumberOfArguments(method) == 11 &&
+                        GREYMethodArgumentTypeHasPrefix(method, 2, 'd') &&
+                        GREYMethodArgumentTypeHasPrefix(method, 3, 'd') &&
+                        GREYMethodArgumentTypeHasPrefix(method, 4, '@') &&
+                        (GREYMethodArgumentTypeHasPrefix(method, 5, 'Q') ||
+                         GREYMethodArgumentTypeHasPrefix(method, 5, 'q')) &&
+                        GREYMethodArgumentTypeHasPrefix(method, 6, '@') &&
+                        GREYMethodArgumentTypeHasPrefix(method, 7, '@') &&
+                        GREYMethodArgumentTypeHasPrefix(method, 8, '@') &&
+                        GREYMethodArgumentTypeHasPrefix(method, 9, '@') &&
+                        GREYMethodArgumentTypeHasPrefix(method, 10, '@');
+  char returnType[16] = {0};
+  method_getReturnType(method, returnType, sizeof(returnType));
+  SEL swizzledSel = nullptr;
+  if (returnType[0] == 'v') {
+    swizzledSel = @selector(greyswizzled_setupAnimationWithDuration:delay:view:options:factory:
+                            animations:start:animationStateGenerator:completion:);
+  } else if (returnType[0] == '@') {
+    swizzledSel = @selector(greyswizzled_setupObjectAnimationWithDuration:delay:view:options:
+                            factory:animations:start:animationStateGenerator:completion:);
+  }
+  if (!argumentsMatch || !swizzledSel) {
+    GREYLogVerbose(@"Not swizzling +[UIView %@] with unexpected type encoding: %s",
+                   kGREYPrivateAnimationSetupSelectorName, method_getTypeEncoding(method));
+    return;
+  }
+  BOOL swizzleSuccess = [swizzler swizzleClass:self
+                            replaceClassMethod:originalSel
+                                    withMethod:swizzledSel];
+  GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle +[UIView %@]",
+                             kGREYPrivateAnimationSetupSelectorName);
+}
+
++ (void)grey_swizzlePrivateComposerAnimationWithSwizzler:(GREYSwizzler *)swizzler {
+  SEL originalSel = NSSelectorFromString(kGREYPrivateComposerAnimationSelectorName);
+  Method method = class_getClassMethod(self, originalSel);
+  if (!method) {
+    return;
+  }
+  // Only swizzle if the private method's signature is exactly what EarlGrey expects:
+  // void (block, block, block, block).
+  char returnType[16] = {0};
+  method_getReturnType(method, returnType, sizeof(returnType));
+  BOOL signatureMatches = returnType[0] == 'v' && method_getNumberOfArguments(method) == 6 &&
+                          GREYMethodArgumentTypeHasPrefix(method, 2, '@') &&
+                          GREYMethodArgumentTypeHasPrefix(method, 3, '@') &&
+                          GREYMethodArgumentTypeHasPrefix(method, 4, '@') &&
+                          GREYMethodArgumentTypeHasPrefix(method, 5, '@');
+  if (!signatureMatches) {
+    GREYLogVerbose(@"Not swizzling +[UIView %@] with unexpected type encoding: %s",
+                   kGREYPrivateComposerAnimationSelectorName, method_getTypeEncoding(method));
+    return;
+  }
+  SEL swizzledSel = @selector(greyswizzled_animateWithAnimationAndComposerGetter:animations:
+                              completion:animationStateSetup:);
+  BOOL swizzleSuccess = [swizzler swizzleClass:self
+                            replaceClassMethod:originalSel
+                                    withMethod:swizzledSel];
+  GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle +[UIView %@]",
+                             kGREYPrivateComposerAnimationSelectorName);
+}
+
++ (void)greyswizzled_animateWithAnimationAndComposerGetter:(id)composerGetter
+                                                animations:(id)animations
+                                                completion:(GREYAnimationCompletionBlock)completion
+                                       animationStateSetup:(id)animationStateSetup {
+  // If called from within a public animation API, the animation is already tracked.
+  GREYAnimationCompletionBlock wrappedCompletion =
+      gInPublicUIViewAnimation ? completion
+                               : GREYTrackedCompletionForPrivateAnimation(0, 0, 0, completion);
+  SEL swizzledSel = @selector(greyswizzled_animateWithAnimationAndComposerGetter:animations:
+                              completion:animationStateSetup:);
+  GREYComposerAnimationIMP original =
+      (GREYComposerAnimationIMP)[self methodForSelector:swizzledSel];
+  original(self, _cmd, composerGetter, animations, wrappedCompletion, animationStateSetup);
+}
+
++ (void)greyswizzled_setupAnimationWithDuration:(double)duration
+                                          delay:(double)delay
+                                           view:(UIView *)view
+                                        options:(UIViewAnimationOptions)options
+                                        factory:(id)factory
+                                     animations:(id)animations
+                                          start:(id)start
+                        animationStateGenerator:(id)animationStateGenerator
+                                     completion:(GREYAnimationCompletionBlock)completion {
+  // If called from within a public animation API, the animation is already tracked.
+  GREYAnimationCompletionBlock wrappedCompletion =
+      gInPublicUIViewAnimation
+          ? completion
+          : GREYTrackedCompletionForPrivateAnimation(duration, delay, options, completion);
+  SEL swizzledSel = @selector(greyswizzled_setupAnimationWithDuration:delay:view:options:factory:
+                              animations:start:animationStateGenerator:completion:);
+  GREYVoidAnimationSetupIMP original =
+      (GREYVoidAnimationSetupIMP)[self methodForSelector:swizzledSel];
+  original(self, _cmd, duration, delay, view, options, factory, animations, start,
+           animationStateGenerator, wrappedCompletion);
+}
+
++ (id)greyswizzled_setupObjectAnimationWithDuration:(double)duration
+                                              delay:(double)delay
+                                               view:(UIView *)view
+                                            options:(UIViewAnimationOptions)options
+                                            factory:(id)factory
+                                         animations:(id)animations
+                                              start:(id)start
+                            animationStateGenerator:(id)animationStateGenerator
+                                         completion:(GREYAnimationCompletionBlock)completion {
+  // If called from within a public animation API, the animation is already tracked.
+  GREYAnimationCompletionBlock wrappedCompletion =
+      gInPublicUIViewAnimation
+          ? completion
+          : GREYTrackedCompletionForPrivateAnimation(duration, delay, options, completion);
+  SEL swizzledSel = @selector(greyswizzled_setupObjectAnimationWithDuration:delay:view:options:
+                              factory:animations:start:animationStateGenerator:completion:);
+  GREYObjectAnimationSetupIMP original =
+      (GREYObjectAnimationSetupIMP)[self methodForSelector:swizzledSel];
+  return original(self, _cmd, duration, delay, view, options, factory, animations, start,
+                  animationStateGenerator, wrappedCompletion);
+}
+
+- (void)grey_trackMorphAnimationContainerOnViewAdded:(UIView *)subview {
+  if (!gMorphAnimationContainerViewClass) {
+    return;
+  }
+  UIView *morphView = nil;
+  if ([subview isKindOfClass:gMorphAnimationContainerViewClass]) {
+    morphView = subview;
+  } else if ([self isKindOfClass:gMorphAnimationContainerViewClass]) {
+    morphView = self;
+  }
+  if (!morphView) {
+    return;
+  }
+  if (!objc_getAssociatedObject(morphView,
+                                @selector(grey_trackMorphAnimationContainerOnViewAdded:))) {
+    objc_setAssociatedObject(morphView, @selector(grey_trackMorphAnimationContainerOnViewAdded:),
+                             @YES, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    NSObject *trackingObject = [[NSObject alloc] init];
+    [GREYTimedIdlingResource resourceForObject:trackingObject
+                         thatIsBusyForDuration:0.6
+                                          name:@"UIMorphAnimationContainer"];
+  }
 }
 
 /**
