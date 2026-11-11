@@ -637,11 +637,18 @@ static BOOL IsBackgroundColorTranslucent(UIColor *backgroundColor) {
     return NO;
   }
 
-  // Convert point to bitvector index
-  CGPoint pixelCoordinate = CGPointToPixel(pointInTargetRectCoordinate);
+  // Convert point to bitvector index using integer pixel coordinates so fractional y values do
+  // not shift the horizontal offset by a fraction of _bitVectorRect width.
+  CGPoint pixelCoordinate = CGPointToPixel(pointInScreenCoordinate);
+  NSInteger bitVectorRectWidth = (NSInteger)CGRectGetWidth(_bitVectorRect);
+  NSInteger bitVectorRectHeight = (NSInteger)CGRectGetHeight(_bitVectorRect);
+  NSInteger pixelX = (NSInteger)grey_floor(pixelCoordinate.x - CGRectGetMinX(_bitVectorRect));
+  NSInteger pixelY = (NSInteger)grey_floor(pixelCoordinate.y - CGRectGetMinY(_bitVectorRect));
+  if (pixelX < 0 || pixelX >= bitVectorRectWidth || pixelY < 0 || pixelY >= bitVectorRectHeight) {
+    return NO;
+  }
 
-  NSUInteger index =
-      (NSUInteger)(pixelCoordinate.y * CGRectGetWidth(_bitVectorRect) + pixelCoordinate.x);
+  NSUInteger index = (NSUInteger)(pixelY * bitVectorRectWidth + pixelX);
   return (BOOL)!CFBitVectorGetBitAtIndex(_bitVector, (CFIndex)index);
 }
 
