@@ -17,6 +17,8 @@
 #import "GREYVisibilityChecker.h"
 
 #import <CoreGraphics/CoreGraphics.h>
+#include <limits.h>
+#include <stddef.h>
 
 #import "NSObject+GREYCommon.h"
 #import "GREYLogger.h"

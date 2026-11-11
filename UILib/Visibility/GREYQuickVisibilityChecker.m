@@ -17,6 +17,7 @@
 #import "GREYQuickVisibilityChecker.h"
 
 #import <UIKit/UIKit.h>
+#include <stddef.h>
 
 #import "NSObject+GREYCommon.h"
 #import "CGGeometry+GREYUI.h"
@@ -24,6 +25,7 @@
 #import "GREYTraversalDFS.h"
 #import "GREYTraversalFunctions.h"
 #import "GREYTraversalObject.h"
+#import "GREYTraversalProperties.h"
 #import "GREYVisibilityCheckerTarget.h"
 
 @implementation GREYQuickVisibilityChecker

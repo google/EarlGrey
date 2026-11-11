@@ -17,6 +17,7 @@
 #import "GREYThoroughVisibilityChecker.h"
 
 #include <CoreGraphics/CoreGraphics.h>
+#include <stddef.h>
 
 #import "NSObject+GREYCommon.h"
 #import "UIView+GREYCommon.h"

@@ -15,6 +15,7 @@
 //
 
 #import "GREYTraversalObject.h"
+#import "GREYTraversalProperties.h"
 
 /**
  * An empty implementation since GREYTraversalObject is a wrapper object.

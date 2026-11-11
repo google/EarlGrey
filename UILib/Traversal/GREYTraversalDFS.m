@@ -19,6 +19,7 @@
 #import "GREYThrowDefines.h"
 #import "GREYTraversalFunctions.h"
 #import "GREYTraversalObject.h"
+#import "GREYTraversalProperties.h"
 
 @implementation GREYTraversalDFS {
   /**

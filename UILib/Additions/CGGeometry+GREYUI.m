@@ -17,6 +17,7 @@
 #import "CGGeometry+GREYUI.h"
 
 #import <Foundation/Foundation.h>
+#include <stddef.h>
 #include <tgmath.h>
 
 #import "GREYDefines.h"
