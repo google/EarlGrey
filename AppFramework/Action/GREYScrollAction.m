@@ -44,6 +44,7 @@
 #import "GREYConstants.h"
 #import "GREYDiagnosable.h"
 #import "GREYLogger.h"
+#import "GREYMatcher.h"
 #import "CGGeometry+GREYUI.h"
 #import "GREYElementHierarchy.h"
 

@@ -23,7 +23,6 @@
 #import "GREYHostBackgroundDistantObject.h"
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "GREYTestApplicationDistantObject.h"
-#import "GREYFrameworkException.h"
 #import "GREYConstants.h"
 #import "EDOChannel.h"
 #import "EDOHostPort.h"

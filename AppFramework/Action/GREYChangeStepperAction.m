@@ -28,6 +28,7 @@
 #import "GREYErrorConstants.h"
 #import "GREYObjectFormatter.h"
 #import "GREYDiagnosable.h"
+#import "GREYMatcher.h"
 #import "GREYElementHierarchy.h"
 #import "GREYElementProvider.h"
 

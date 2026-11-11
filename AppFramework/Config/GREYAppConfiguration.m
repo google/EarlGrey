@@ -16,6 +16,8 @@
 
 #import "GREYAppConfiguration.h"
 
+#include <stddef.h>
+
 #import "GREYAppState.h"
 #import "GREYConfigKey.h"
 #import "GREYConfiguration+Private.h"

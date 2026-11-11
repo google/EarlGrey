@@ -17,8 +17,10 @@
 #import "GREYTouchInjector.h"
 
 #import <QuartzCore/QuartzCore.h>
+#include <float.h>  // IWYU pragma: no_include "__float_float.h"
 #include <mach/mach_time.h>
 #include <objc/runtime.h>
+#include <stddef.h>
 
 #import "GREYIOHIDEventTypes.h"
 #import "GREYRunLoopSpinner.h"

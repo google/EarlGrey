@@ -31,6 +31,7 @@
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "GREYDiagnosable.h"
+#import "GREYMatcher.h"
 #import "GREYElementHierarchy.h"
 
 /**

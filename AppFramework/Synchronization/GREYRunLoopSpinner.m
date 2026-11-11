@@ -15,6 +15,10 @@
 //
 #import "GREYRunLoopSpinner.h"
 
+#include <float.h>  // IWYU pragma: no_include "__float_float.h"
+#include <limits.h>
+#include <stddef.h>
+
 #import "UIApplication+ActiveRunLoopMode.h"
 #import "GREYFatalAsserts.h"
 

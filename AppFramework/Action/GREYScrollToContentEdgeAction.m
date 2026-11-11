@@ -15,6 +15,7 @@
 //
 
 #import "GREYScrollToContentEdgeAction.h"
+#import "GREYMatcher.h"
 #import "GREYUILibUtils.h"
 
 #if TARGET_OS_IOS

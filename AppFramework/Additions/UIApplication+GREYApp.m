@@ -21,8 +21,6 @@
 #import "GREYAppStateTracker.h"
 #import "GREYFatalAsserts.h"
 #import "GREYAppState.h"
-#import "GREYAppleInternals.h"
-#import "GREYDefines.h"
 #import "GREYLogger.h"
 #import "GREYSwizzler.h"
 

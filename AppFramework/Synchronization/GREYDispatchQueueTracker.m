@@ -19,7 +19,8 @@
 #include <dlfcn.h>
 #include <fishhook.h>
 #include <libkern/OSAtomic.h>
-#include <stdatomic.h>
+#include <stdatomic.h>  // IWYU pragma: no_include "stdatomic.h"
+#include <stddef.h>
 
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"

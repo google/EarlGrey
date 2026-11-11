@@ -16,6 +16,7 @@
 
 #import "GREYElementInteraction.h"
 #import <Foundation/Foundation.h>
+#include <limits.h>
 
 #import "GREYAction.h"
 #import "GREYAssertions.h"
@@ -43,6 +44,7 @@
 #import "GREYLogger.h"
 #import "GREYStopwatch.h"
 #import "GREYMatcher.h"
+#import "GREYProvider.h"
 #import "GREYElementHierarchy.h"
 #import "GREYElementProvider.h"
 #import "GREYUIWindowProvider.h"

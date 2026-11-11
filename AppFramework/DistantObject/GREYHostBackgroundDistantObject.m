@@ -16,6 +16,8 @@
 
 #import "GREYHostBackgroundDistantObject.h"
 
+#include <stddef.h>
+
 #import "EDOHostService.h"
 #import "EDOServicePort.h"
 

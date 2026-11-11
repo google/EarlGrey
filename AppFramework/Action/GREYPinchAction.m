@@ -32,6 +32,7 @@
 #import "GREYErrorConstants.h"
 #import "GREYConstants.h"
 #import "GREYDiagnosable.h"
+#import "GREYMatcher.h"
 #import "CGGeometry+GREYUI.h"
 #import "GREYElementHierarchy.h"
 
