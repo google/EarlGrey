@@ -43,11 +43,28 @@ static const CFTimeInterval kPollInterval = 5.0;
 
 - (BOOL)backgroundApplication {
   XCUIApplication *currentApplication = [[XCUIApplication alloc] init];
+#if TARGET_OS_IOS
+  XCUIApplication *springboard =
+      [[XCUIApplication alloc] initWithBundleIdentifier:@"com.apple.springboard"];
+  __block BOOL shouldActivateSpringboard = NO;
+#endif  // TARGET_OS_IOS
   // Tell the system to background the app.
   [[XCUIDevice sharedDevice] pressButton:XCUIDeviceButtonHome];
   BOOL (^conditionBlock)(void) = ^BOOL {
-    return currentApplication.state == XCUIApplicationStateRunningBackground ||
-           currentApplication.state == XCUIApplicationStateRunningBackgroundSuspended;
+    if (currentApplication.state == XCUIApplicationStateRunningBackground ||
+        currentApplication.state == XCUIApplicationStateRunningBackgroundSuspended) {
+      return YES;
+    }
+#if TARGET_OS_IOS
+    // GREYCondition evaluates conditionBlock immediately at t = 0 before waiting kPollInterval.
+    // Skip activating SpringBoard on the first check so pressButton:XCUIDeviceButtonHome has time
+    // to finish its background transition before falling back to activating SpringBoard.
+    if (shouldActivateSpringboard) {
+      [springboard activate];
+    }
+    shouldActivateSpringboard = YES;
+#endif  // TARGET_OS_IOS
+    return NO;
   };
   // TODO: Make GREYCondition support event driven checks. // NOLINT
   CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
