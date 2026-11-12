@@ -588,16 +588,56 @@ static BOOL DispatchInApp(NSString *URL, XCUIApplication *application, NSError *
       if (syncSuccessAfterRotation) {
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
         if (@available(iOS 16.0, *)) {
-          UIWindowScene *scene = [[GREY_REMOTE_CLASS_IN_APP(GREYUIWindowProvider)
-              keyWindowForSharedApplication] windowScene];
-          GREYCondition *rotationWait =
-              [GREYCondition conditionWithName:@"App Rotation Condition"
-                                         block:^BOOL {
-                                           return scene.effectiveGeometry.interfaceOrientation ==
-                                                  interfaceOrientation;
-                                         }];
-          success = [rotationWait
-              waitWithTimeout:GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration)];
+          UIWindow *keyWindow =
+              [GREY_REMOTE_CLASS_IN_APP(GREYUIWindowProvider) keyWindowForSharedApplication];
+          UIWindowScene *scene = keyWindow.windowScene;
+          if (scene.effectiveGeometry.interfaceOrientation == interfaceOrientation) {
+            success = YES;
+          } else {
+            // The app can never end up in an orientation that it or the view controller deciding
+            // the window's orientation doesn't support, so don't spend the whole interaction
+            // timeout waiting for it. Only full screen presentations take over that decision, and
+            // on iPad with multitasking enabled (!UIRequiresFullScreen), UIKit ignores the view
+            // controller's supportedInterfaceOrientations when rotating the scene.
+            UIInterfaceOrientationMask supportedOrientations =
+                [[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication]
+                    supportedInterfaceOrientationsForWindow:keyWindow];
+            BOOL requiresFullScreen =
+                currentDevice.userInterfaceIdiom != UIUserInterfaceIdiomPad ||
+                [[[GREY_REMOTE_CLASS_IN_APP(NSBundle) mainBundle]
+                    objectForInfoDictionaryKey:@"UIRequiresFullScreen"] boolValue];
+            if (requiresFullScreen) {
+              UIViewController *orientationViewController = keyWindow.rootViewController;
+              UIViewController *presented = orientationViewController.presentedViewController;
+              while (presented &&
+                     (presented.modalPresentationStyle == UIModalPresentationFullScreen ||
+                      presented.modalPresentationStyle == UIModalPresentationOverFullScreen)) {
+                orientationViewController = presented;
+                presented = presented.presentedViewController;
+              }
+              if (orientationViewController) {
+                UIInterfaceOrientationMask vcSupportedOrientations =
+                    orientationViewController.supportedInterfaceOrientations;
+                // An empty UINavigationController or similar container returns 0 from
+                // supportedInterfaceOrientations, in which case UIKit falls back to the window's
+                // supported orientations. Only mask by the view controller's supported orientations
+                // if it specifies a non-zero mask (fixing the rollback in cl/1009043486).
+                if (vcSupportedOrientations != 0) {
+                  supportedOrientations &= vcSupportedOrientations;
+                }
+              }
+            }
+            if ((supportedOrientations & (1 << interfaceOrientation)) != 0) {
+              GREYCondition *rotationWait = [GREYCondition
+                  conditionWithName:@"App Rotation Condition"
+                              block:^BOOL {
+                                return scene.effectiveGeometry.interfaceOrientation ==
+                                       interfaceOrientation;
+                              }];
+              success = [rotationWait
+                  waitWithTimeout:GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration)];
+            }
+          }
         } else {
           success = currentDevice.orientation == deviceOrientation;
         }
