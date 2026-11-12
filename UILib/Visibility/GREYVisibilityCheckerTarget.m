@@ -96,6 +96,11 @@ static NSString *const kEditMenuPasteButtonAxeLabel = @"Paste";
    * support.
    */
   id<UICoordinateSpace> _targetCoordinateSpace;
+  /**
+   * Enclosing @c _UITableViewCellSwipeContainerView if @c _target is inside one and not inside a
+   * @c UITableViewCell.
+   */
+  UIView *_targetSwipeContainer;
 }
 
 - (instancetype)initWithObject:(GREYTraversalObject *)object interactability:(BOOL)interactability {
@@ -137,6 +142,28 @@ static NSString *const kEditMenuPasteButtonAxeLabel = @"Paste";
       }
       _targetWindowScene = [targetWindow windowScene];
       _targetCoordinateSpace = [_targetWindowScene coordinateSpace];
+    }
+
+    // Cache the enclosing @c _UITableViewCellSwipeContainerView when @c _target is inside one but
+    // outside a @c UITableViewCell, so @c shouldSkipObject: does not need to walk the target's
+    // ancestor chain for every traversed view.
+    static Class swipeContainerClass = nil;
+    if (!swipeContainerClass) {
+      swipeContainerClass = NSClassFromString(@"_UITableViewCellSwipeContainerView");
+    }
+    if (swipeContainerClass) {
+      Class cellClass = [UITableViewCell class];
+      id current = _target;
+      while (current) {
+        if ([current isKindOfClass:cellClass]) {
+          break;
+        }
+        if (current != _target && [current isKindOfClass:swipeContainerClass]) {
+          _targetSwipeContainer = (UIView *)current;
+          break;
+        }
+        current = [current grey_container];
+      }
     }
   }
   return self;
@@ -345,7 +372,30 @@ static NSString *const kEditMenuPasteButtonAxeLabel = @"Paste";
   if (!IsElementVisible(object)) {
     // Check if view is hidden or has alpha less than 0.01.
     return YES;
-  } else if (IsObscuringSystemContainerView(view)) {
+  }
+  // When a @c UITableViewCell is swiped to reveal action buttons (e.g. "Delete"), UIKit wraps both
+  // @c UISwipeActionPullView (containing the action buttons) and the @c UITableViewCell inside
+  // @c _UITableViewCellSwipeContainerView, with @c UISwipeActionPullView ordered behind
+  // @c UITableViewCell in @c subviews. On iOS 27+, both @c frame and @c accessibilityFrame of the
+  // swiped @c UITableViewCell and its background subview (@c _UISystemBackgroundView) still span
+  // the full table width across the trailing safe-area margin, overlapping the swipe action button
+  // while UIKit visually clips the cell. Skip the sibling @c UITableViewCell subtree when
+  // @c _target is inside the swipe container but outside the cell.
+  if (_targetSwipeContainer) {
+    Class cellClass = [UITableViewCell class];
+    BOOL isInCell = NO;
+    UIView *current = view;
+    while (current && current != _targetSwipeContainer) {
+      if ([current isKindOfClass:cellClass]) {
+        isInCell = YES;
+      }
+      current = current.superview;
+    }
+    if (current == _targetSwipeContainer && isInCell) {
+      return YES;
+    }
+  }
+  if (IsObscuringSystemContainerView(view)) {
     // _UIVisualEffectBackdropView, _UIPopoverView, _UIPopoverGlassBackground,
     // _UIPopoverShapeLayerChromeView, _UIAlertControllerPhoneTVMacView, and GlassPopoverView are
     // iOS internal views used for blurred/glass views,
