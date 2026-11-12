@@ -19,11 +19,13 @@
 #include <stdatomic.h>
 
 #import "GREYElementInteraction.h"
+#import "GREYInteraction.h"
 #import "GREYHostBackgroundDistantObject+GREYApp.h"
 #import "GREYThrowDefines.h"
 #import "GREYHostBackgroundDistantObject.h"
 #import "GREYError+Private.h"
 #import "GREYError.h"
+#import "GREYMatcher.h"
 #import "GREYElementInteractionErrorHandler.h"
 #import "GREYRemoteExecutor.h"
 

@@ -16,6 +16,8 @@
 
 #import "GREYRemoteExecutor.h"
 
+#include <stddef.h>
+
 #import "GREYFatalAsserts.h"
 #import "EDOHostService.h"
 

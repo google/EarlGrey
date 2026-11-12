@@ -27,8 +27,6 @@
 #import "GREYAssertionDefinesPrivate.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
-#import "GREYFailureHandler.h"
-#import "GREYFrameworkException.h"
 #import "GREYAssert+Private.h"
 #import "GREYWaitFunctions.h"
 

@@ -16,13 +16,15 @@
 
 #import "GREYElementInteractionErrorHandler.h"
 
+#if __has_include(<XCUIAutomation/XCUIAutomation.h>)
+#import <XCUIAutomation/XCUIAutomation.h>
+#else
 #import <XCTest/XCTest.h>
+#endif
 
 #import "GREYAssertionDefinesPrivate.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
-#import "GREYFailureHandler.h"
-#import "GREYFrameworkException.h"
 #import "GREYConstants.h"
 
 

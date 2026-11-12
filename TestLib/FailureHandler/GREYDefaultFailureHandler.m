@@ -22,7 +22,6 @@
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
 #import "GREYErrorConstants.h"
-#import "GREYFrameworkException.h"
 #import "GREYFailureHandlerHelpers.h"
 #import "GREYFailureScreenshotSaver.h"
 #import "XCTestCase+GREYTest.h"

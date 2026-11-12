@@ -16,6 +16,8 @@
 
 #import "GREYTestConfiguration.h"
 
+#include <stddef.h>
+
 #import "GREYAppConfiguration.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
