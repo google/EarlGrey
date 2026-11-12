@@ -37,7 +37,8 @@ void GREYExecuteAsyncBlockInBackgroundQueue(void (^block)(void), void (^completi
  * Runs the given block in a background queue. It also takes the current (caller) thread's runloop
  * and spins it, in order to enable the test's main thread to process messages from other threads.
  * On completion of the block in the background thread, it stops spinning the runloop on the caller
- * thread.
+ * thread. Any @c NSException raised while executing @c block is caught on the background queue and
+ * rethrown on the caller thread.
  *
  * @note This is essential for calls made on the test side to remote objects on the application
  *       side. If a resource is required in the app-side call from the test process' main thread,
@@ -49,6 +50,8 @@ void GREYExecuteAsyncBlockInBackgroundQueue(void (^block)(void), void (^completi
  *       be accessed via a background queue.
  *
  * @param block A void block that will be run in a background queue created in the method.
+ *
+ * @throws NSException Rethrows on the caller thread any @c NSException raised by @c block.
  */
 void GREYExecuteSyncBlockInBackgroundQueue(void (^block)(void));
 

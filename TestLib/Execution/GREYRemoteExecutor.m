@@ -47,13 +47,21 @@ void GREYExecuteSyncBlockInBackgroundQueue(void (^block)(void)) {
   // The timeout for the interaction is set to be forever since EarlGrey's interaction
   // should handle the interaction timeout.
   __block BOOL blockProcessed = NO;
+  __block NSException *capturedException = nil;
   dispatch_block_t blockToStopMainRunloopSpinning =
       dispatch_block_create(DISPATCH_BLOCK_ASSIGN_CURRENT, ^{
         blockProcessed = YES;
         CFRunLoopStop(CFRunLoopGetCurrent());
       });
+  void (^wrappedBlock)() = ^{
+    @try {
+      block();
+    } @catch (NSException *exception) {
+      capturedException = exception;
+    }
+  };
 
-  GREYExecuteAsyncBlockInBackgroundQueue(block, blockToStopMainRunloopSpinning);
+  GREYExecuteAsyncBlockInBackgroundQueue(wrappedBlock, blockToStopMainRunloopSpinning);
 
   while (!blockProcessed) {
     CFRunLoopRun();
@@ -61,4 +69,7 @@ void GREYExecuteSyncBlockInBackgroundQueue(void (^block)(void)) {
 
   // Cancel any future executions of the CFRunLoopStop block.
   dispatch_block_cancel(blockToStopMainRunloopSpinning);
+  if (capturedException) {
+    @throw capturedException;
+  }
 }
