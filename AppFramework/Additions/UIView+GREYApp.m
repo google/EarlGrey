@@ -785,7 +785,7 @@ static GREYAnimationCompletionBlock GREYTrackedCompletionForPrivateAnimation(
                         GREYMethodArgumentTypeHasPrefix(method, 10, '@');
   char returnType[16] = {0};
   method_getReturnType(method, returnType, sizeof(returnType));
-  SEL swizzledSel = nullptr;
+  SEL swizzledSel = NULL;
   if (returnType[0] == 'v') {
     swizzledSel = @selector(greyswizzled_setupAnimationWithDuration:delay:view:options:factory:
                             animations:start:animationStateGenerator:completion:);
