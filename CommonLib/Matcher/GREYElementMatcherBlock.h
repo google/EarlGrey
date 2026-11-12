@@ -15,6 +15,7 @@
 //
 
 #import "GREYBaseMatcher.h"
+#import "GREYDescription.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -33,8 +34,6 @@ typedef BOOL (^GREYMatchesBlock)(id _Nullable element);
  * @param description The description for the matcher.
  */
 typedef void (^GREYDescribeToBlock)(id<GREYDescription> description);
-
-@protocol GREYDescription;
 
 /**
  * A block based implementation of GREYBaseMatcher. Enables custom implementation of protocol

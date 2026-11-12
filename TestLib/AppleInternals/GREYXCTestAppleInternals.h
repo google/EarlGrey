@@ -14,7 +14,11 @@
 // limitations under the License.
 //
 
+#if __has_include(<XCUIAutomation/XCUIAutomation.h>)
+#import <XCUIAutomation/XCUIAutomation.h>
+#else
 #import <XCTest/XCTest.h>
+#endif
 
 /**
  * @file GREYXCTestAppleInternals.h
