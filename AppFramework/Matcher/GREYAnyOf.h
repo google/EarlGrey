@@ -15,6 +15,7 @@
 //
 
 #import "GREYBaseMatcher.h"
+#import "GREYMatcher.h"
 
 #import <Foundation/Foundation.h>
 
