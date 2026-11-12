@@ -16,6 +16,8 @@
 
 #import "GREYConfiguration.h"
 
+#import "GREYDefines.h"
+
 @interface GREYConfiguration ()
 // Access the merged configuration.
 @property(readonly, nonatomic) NSMutableDictionary *mergedConfiguration;

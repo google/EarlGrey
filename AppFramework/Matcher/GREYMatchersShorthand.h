@@ -16,7 +16,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "GREYConstants.h"
+#import " IWYU pragma: keep. Needed for enum GREYContentEdge.
 #import "GREYDefines.h"
 
 NS_ASSUME_NONNULL_BEGIN

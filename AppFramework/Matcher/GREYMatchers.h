@@ -16,7 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "GREYConstants.h"
+#import " IWYU pragma: keep. Needed for enum GREYContentEdge.
 
 NS_ASSUME_NONNULL_BEGIN
 
