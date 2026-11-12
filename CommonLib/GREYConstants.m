@@ -16,6 +16,7 @@
 
 #import "GREYConstants.h"
 
+#include <float.h>  // IWYU pragma: no_include "__float_float.h"
 #include <math.h>
 
 /** Timeouts */

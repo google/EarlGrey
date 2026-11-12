@@ -20,6 +20,7 @@
 
 #include <ctype.h>
 #include <objc/runtime.h>
+#include <stddef.h>
 
 NSString *_Nonnull GREYDescribeValue(const char *_Nonnull encoding, void *_Nonnull valuePointer) {
   GREYThrowInFunctionOnNilParameter(encoding);

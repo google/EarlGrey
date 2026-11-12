@@ -16,11 +16,13 @@
 
 #import "GREYSetup.h"
 
+#if !TARGET_IPHONE_SIMULATOR
 #include <dlfcn.h>
 
 #import "GREYFatalAsserts.h"
 #import "GREYAppleInternals.h"
 #import "GREYDefines.h"
+#endif  // #if !TARGET_IPHONE_SIMULATOR
 
 void GREYSetupKeyboardPreferences(BOOL isTestProcess) {
 #if TARGET_IPHONE_SIMULATOR

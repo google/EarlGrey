@@ -17,6 +17,9 @@
 #import "GREYLogger.h"
 
 #import <Foundation/Foundation.h>
+#include <stdarg.h>
+// IWYU pragma: no_include "__stdarg_va_list.h"
+// IWYU pragma: no_include "__stdarg_va_arg.h"
 
 NSString* const kGREYAllowVerboseLogging = @"eg_verbose_logs";
 
