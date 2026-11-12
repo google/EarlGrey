@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+#include <stddef.h>
+
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+BasicInteractionTest.h"
 #import "GREYHostApplicationDistantObject+RemoteTest.h"

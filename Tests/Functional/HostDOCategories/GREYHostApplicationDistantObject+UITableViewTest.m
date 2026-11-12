@@ -16,12 +16,8 @@
 
 #import "GREYHostApplicationDistantObject+UITableViewTest.h"
 
-#import "GREYActionBlock.h"
-#import "GREYAllOf.h"
-#import "GREYMatchers.h"
+#import "ExposedForTesting.h"
 #import "GREYSyncAPI.h"
-#import "GREYDescription.h"
-#import "GREYElementMatcherBlock.h"
 
 @implementation GREYHostApplicationDistantObject (UITableViewTest)
 

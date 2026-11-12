@@ -16,6 +16,9 @@
 
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
+#if __has_include(<XCUIAutomation/XCUIAutomation.h>)
+#import <XCUIAutomation/XCUIAutomation.h>
+#endif
 
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "EarlGrey.h"

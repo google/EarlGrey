@@ -16,6 +16,9 @@
 
 #import <XCTest/XCTest.h>
 
+#if __has_include(<XCUIAutomation/XCUIAutomation.h>)
+#import <XCUIAutomation/XCUIAutomation.h>
+#endif
 #include <stddef.h>
 
 #import "EarlGrey.h"

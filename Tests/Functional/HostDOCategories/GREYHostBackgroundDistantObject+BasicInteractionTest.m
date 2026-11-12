@@ -18,7 +18,7 @@
 
 #include <objc/runtime.h>
 
-#import "GREYElementHierarchy.h"
+#import "ExposedForTesting.h"
 
 @implementation GREYHostBackgroundDistantObject (BasicInteractionTest)
 

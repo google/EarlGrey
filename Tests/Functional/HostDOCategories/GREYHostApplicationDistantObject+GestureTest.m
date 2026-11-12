@@ -16,11 +16,8 @@
 
 #import "GREYHostApplicationDistantObject+GestureTest.h"
 
-#import "GREYActionBlock.h"
-
+#import "ExposedForTesting.h"
 #import "GREYSyncAPI.h"
-
-#import "EDORemoteVariable.h"
 
 @implementation GREYHostApplicationDistantObject (GestureTest)
 

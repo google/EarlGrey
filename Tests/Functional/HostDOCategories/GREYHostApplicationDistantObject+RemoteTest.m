@@ -18,15 +18,8 @@
 #include <UIKit/UIKit.h>
 #include <objc/runtime.h>
 
-#import "GREYAction.h"
-#import "GREYActionBlock.h"
-#import "GREYActions.h"
+#import "ExposedForTesting.h"
 #import "GREYSyncAPI.h"
-#import "GREYAssertionBlock.h"
-#import "GREYDistantObjectUtils.h"
-#import "GREYTestApplicationDistantObject.h"
-#import "GREYDescription.h"
-#import "GREYElementMatcherBlock.h"
 #import "GREYUIWindowProvider.h"
 
 /** BOOL to specify that the orientation has changed. */

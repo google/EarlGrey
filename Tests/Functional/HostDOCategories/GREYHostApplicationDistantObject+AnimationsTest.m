@@ -15,7 +15,8 @@
 //
 
 #import "GREYHostApplicationDistantObject+AnimationsTest.h"
-#import "GREYUILibUtils.h"
+
+#import "ExposedForTesting.h"
 
 @implementation GREYHostApplicationDistantObject (AnimationsTest)
 

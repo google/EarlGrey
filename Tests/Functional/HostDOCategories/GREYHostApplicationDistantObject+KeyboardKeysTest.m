@@ -16,8 +16,7 @@
 
 #import "GREYHostApplicationDistantObject+KeyboardKeysTest.h"
 
-#import "GREYActionBlock.h"
-
+#import "ExposedForTesting.h"
 #import "GREYSyncAPI.h"
 
 @implementation GREYHostApplicationDistantObject (KeyboardKeysTest)
