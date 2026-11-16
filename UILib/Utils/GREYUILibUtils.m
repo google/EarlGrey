@@ -17,6 +17,7 @@
 #import "GREYUILibUtils.h"
 
 #import "GREYAppleInternals.h"
+#import "GREYConstants.h"
 
 UIWindow *GREYUILibUtilsGetApplicationKeyWindow(UIApplication *application) {
   if (@available(iOS 13.0, *)) {
@@ -131,6 +132,46 @@ NSArray<UIWindow *> *GREYUILibUtilsGetAllWindowsFromConnectedScenes() {
 + (NSSet<UIScene *> *)connectedScenes API_AVAILABLE(ios(13.0)) {
   return UIApplication.sharedApplication.connectedScenes;
 }
+
++ (UIWindowScene *)activeWindowScene API_AVAILABLE(ios(13.0)) {
+  UIWindowScene *keyWindowScene = [self window].windowScene;
+  if (keyWindowScene && keyWindowScene.activationState == UISceneActivationStateForegroundActive) {
+    return keyWindowScene;
+  }
+  for (UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
+    if ([scene isKindOfClass:[UIWindowScene class]] &&
+        scene.activationState == UISceneActivationStateForegroundActive) {
+      return (UIWindowScene *)scene;
+    }
+  }
+  for (UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
+    if ([scene isKindOfClass:[UIWindowScene class]]) {
+      return (UIWindowScene *)scene;
+    }
+  }
+  return nil;
+}
+
+#if TARGET_OS_IOS
++ (BOOL)rotateWindowSceneToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+                                   errorHandler:(void (^)(NSError *error))errorHandler {
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
+  if (@available(iOS 16.0, *)) {
+    UIWindowScene *scene = [self activeWindowScene];
+    UIInterfaceOrientationMask mask =
+        [GREYConstants interfaceOrientationMaskForInterfaceOrientation:interfaceOrientation];
+    if (mask == 0 || !scene) {
+      return NO;
+    }
+    UIWindowSceneGeometryPreferencesIOS *prefs =
+        [[UIWindowSceneGeometryPreferencesIOS alloc] initWithInterfaceOrientations:mask];
+    [scene requestGeometryUpdateWithPreferences:prefs errorHandler:errorHandler];
+    return YES;
+  }
+#endif
+  return NO;
+}
+#endif  // TARGET_OS_IOS
 
 + (CGRect)scaledKeyboardFrame {
   UIWindow *keyboardWindow = GREYUILibUtilsGetKeyboardWindow();

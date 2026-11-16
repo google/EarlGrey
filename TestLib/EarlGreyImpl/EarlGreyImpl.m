@@ -31,6 +31,7 @@
 #import "GREYDefaultFailureHandler.h"
 #import "XCTestCase+GREYTest.h"
 #import "GREYUIWindowProvider.h"
+#import "GREYUILibUtils.h"
 
 #if TARGET_OS_IOS
 
@@ -122,6 +123,13 @@ static inline id<GREYFailureHandler> GREYGetCurrentFailureHandler(void) {
 @interface GREYMatchers (GREYTest)
 + (id<GREYMatcher>)activitySheetPresentMatcher;
 @end
+
+#if TARGET_OS_IOS
+@interface NSObject (GREYWindowSceneDelegateOrientation)
+- (UIInterfaceOrientationMask)supportedInterfaceOrientationsForWindowScene:
+    (UIWindowScene *)windowScene;
+@end
+#endif  // TARGET_OS_IOS
 
 /**
  * The root window matcher that can be set when writing tests on a multi-scene application.
@@ -544,179 +552,364 @@ static BOOL DispatchInApp(NSString *URL, XCUIApplication *application, NSError *
 
 #if TARGET_OS_IOS
 
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
+static const CFTimeInterval kUnsupportedOrientationWaitTimeout = 1.0;
+
+/**
+ * Returns @c YES if @c scene and its active orientation-governing view controller support
+ * rotating to @c interfaceOrientation.
+ */
+static BOOL IsInterfaceOrientationSupportedByScene(UIWindowScene *scene,
+                                                   UIInterfaceOrientation interfaceOrientation,
+                                                   UIDevice *currentDevice)
+    API_AVAILABLE(ios(16.0)) {
+  if (!scene) {
+    return NO;
+  }
+  UIInterfaceOrientationMask targetMask =
+      [GREYConstants interfaceOrientationMaskForInterfaceOrientation:interfaceOrientation];
+  if (targetMask == 0) {
+    return NO;
+  }
+
+  UIWindow *keyWindow =
+      [GREY_REMOTE_CLASS_IN_APP(GREYUIWindowProvider) keyWindowForSharedApplication];
+  if (!keyWindow || (keyWindow.windowScene && keyWindow.windowScene != scene)) {
+    keyWindow = scene.keyWindow ?: scene.windows.firstObject;
+  }
+  // Only full screen presentations take over the orientation decision, and on iPad with
+  // multitasking enabled (!UIRequiresFullScreen), UIKit ignores the view controller's
+  // supportedInterfaceOrientations when rotating the scene.
+  BOOL requiresFullScreen = currentDevice.userInterfaceIdiom != UIUserInterfaceIdiomPad ||
+                            [[[GREY_REMOTE_CLASS_IN_APP(NSBundle) mainBundle]
+                                objectForInfoDictionaryKey:@"UIRequiresFullScreen"] boolValue];
+
+  UIInterfaceOrientationMask supportedOrientations = 0;
+  BOOL hasSceneSupportedOrientations = NO;
+  if (@available(iOS 27.0, *)) {
+    id sceneDelegate = scene.delegate;
+    if ([sceneDelegate
+            respondsToSelector:@selector(supportedInterfaceOrientationsForWindowScene:)]) {
+      supportedOrientations = [sceneDelegate supportedInterfaceOrientationsForWindowScene:scene];
+      hasSceneSupportedOrientations = YES;
+    }
+  }
+  if (!hasSceneSupportedOrientations) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    UIApplication *sharedApp = [GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication];
+    id<UIApplicationDelegate> appDelegate = sharedApp.delegate;
+    if (requiresFullScreen &&
+        [appDelegate
+            respondsToSelector:@selector(application:supportedInterfaceOrientationsForWindow:)]) {
+      supportedOrientations = [appDelegate application:sharedApp
+               supportedInterfaceOrientationsForWindow:keyWindow];
+    }
+    if (!supportedOrientations) {
+      supportedOrientations = [sharedApp supportedInterfaceOrientationsForWindow:keyWindow];
+    }
+#pragma clang diagnostic pop
+  }
+
+  if (requiresFullScreen) {
+    UIViewController *orientationViewController = keyWindow.rootViewController;
+    if (!orientationViewController) {
+      for (UIWindow *window in scene.windows) {
+        if (window.rootViewController) {
+          orientationViewController = window.rootViewController;
+          break;
+        }
+      }
+    }
+    UIViewController *presented = orientationViewController.presentedViewController;
+    while (presented && (presented.modalPresentationStyle == UIModalPresentationFullScreen ||
+                         presented.modalPresentationStyle == UIModalPresentationOverFullScreen)) {
+      orientationViewController = presented;
+      presented = presented.presentedViewController;
+    }
+    if (orientationViewController) {
+      UIInterfaceOrientationMask vcSupportedOrientations =
+          orientationViewController.supportedInterfaceOrientations;
+      // An empty UINavigationController or similar container returns 0 from
+      // supportedInterfaceOrientations, in which case UIKit falls back to the window's
+      // supported orientations. Only mask by the view controller's supported orientations
+      // if it specifies a non-zero mask.
+      if (vcSupportedOrientations != 0) {
+        supportedOrientations &= vcSupportedOrientations;
+      }
+    }
+  }
+  return (supportedOrientations & targetMask) != 0;
+}
+#endif  // (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
+
+/**
+ * Rotates the application's active window scene (on iOS 16+) or UIDevice (on earlier iOS versions)
+ * to match @c interfaceOrientation.
+ *
+ * @param interfaceOrientation           The target interface orientation.
+ * @param currentDevice                  The remote UIDevice instance in the host application.
+ * @param interactionTimeout             Maximum time in seconds to wait for scene rotation.
+ * @param[out] outScene                  Populated with the active UIWindowScene on iOS 16+.
+ * @param[out] outGeometryError          Populated if UIKit rejects the scene geometry update.
+ * @param[out] outSyncErrorAfterRotation Populated if the application fails to idle after rotation.
+ *
+ * @return @c YES if the application rotated to @c interfaceOrientation, @c NO otherwise.
+ */
+static BOOL RotateApplicationToOrientation(UIInterfaceOrientation interfaceOrientation,
+                                           UIDevice *currentDevice,
+                                           CFTimeInterval interactionTimeout,
+                                           UIWindowScene **outScene, NSError **outGeometryError,
+                                           GREYError **outSyncErrorAfterRotation) {
+  UIDeviceOrientation deviceOrientation =
+      [GREYConstants deviceOrientationForInterfaceOrientation:interfaceOrientation];
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
+  if (@available(iOS 16.0, *)) {
+    UIWindowScene *scene = [GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) activeWindowScene];
+    if (outScene) {
+      *outScene = scene;
+    }
+    if (!scene) {
+      return NO;
+    }
+    if (scene.effectiveGeometry.interfaceOrientation == interfaceOrientation) {
+      if (currentDevice.orientation != deviceOrientation) {
+        [currentDevice setOrientation:deviceOrientation animated:NO];
+        return GREYWaitForAppToIdleWithTimeoutAndError(interactionTimeout,
+                                                       outSyncErrorAfterRotation);
+      }
+      return YES;
+    }
+
+    if (@available(iOS 27.0, *)) {
+      if (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown &&
+          currentDevice.orientation != deviceOrientation) {
+        [currentDevice setOrientation:deviceOrientation animated:NO];
+        if (!GREYWaitForAppToIdleWithTimeoutAndError(interactionTimeout,
+                                                     outSyncErrorAfterRotation)) {
+          return NO;
+        }
+        scene = [GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) activeWindowScene];
+        if (outScene) {
+          *outScene = scene;
+        }
+        if (!scene) {
+          return NO;
+        }
+        if (scene.effectiveGeometry.interfaceOrientation == interfaceOrientation) {
+          return YES;
+        }
+      }
+    }
+
+    // Synchronizes access between the eDO callback thread and the test thread.
+    NSObject *errorLock = [[NSObject alloc] init];
+    __block NSError *geometryError = nil;
+    void (^geometryErrorHandler)(NSError *) = ^(NSError *err) {
+      if (!err) {
+        return;
+      }
+      NSString *domain = [err.domain copy];
+      NSInteger code = err.code;
+      NSString *desc = [err.localizedDescription copy];
+      NSDictionary<NSErrorUserInfoKey, id> *userInfo =
+          desc ? @{NSLocalizedDescriptionKey : desc} : nil;
+      NSError *localErr =
+          [NSError errorWithDomain:(domain ?: @"UnknownDomain") code:code userInfo:userInfo];
+      @synchronized(errorLock) {
+        geometryError = localErr;
+      }
+    };
+    if (![GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils)
+            rotateWindowSceneToInterfaceOrientation:interfaceOrientation
+                                       errorHandler:geometryErrorHandler]) {
+      return NO;
+    }
+
+    BOOL appSupportsOrientation =
+        IsInterfaceOrientationSupportedByScene(scene, interfaceOrientation, currentDevice);
+    GREYCondition *rotationWait = [GREYCondition
+        conditionWithName:@"Wait for scene geometry orientation"
+                    block:^BOOL {
+                      if (scene.effectiveGeometry.interfaceOrientation == interfaceOrientation) {
+                        return YES;
+                      }
+                      @synchronized(errorLock) {
+                        if (geometryError) {
+                          BOOL isRequestDenied =
+                              [geometryError.domain isEqualToString:UISceneErrorDomain] &&
+                              geometryError.code == UISceneErrorCodeGeometryRequestDenied;
+                          if (!isRequestDenied) {
+                            return YES;
+                          }
+                        }
+                      }
+                      return NO;
+                    }];
+    CFTimeInterval waitTimeout = appSupportsOrientation
+                                     ? interactionTimeout
+                                     : MIN(interactionTimeout, kUnsupportedOrientationWaitTimeout);
+    (void)[rotationWait waitWithTimeout:waitTimeout pollInterval:0.1];
+
+    if (scene.effectiveGeometry.interfaceOrientation != interfaceOrientation &&
+        !appSupportsOrientation &&
+        IsInterfaceOrientationSupportedByScene(scene, interfaceOrientation, currentDevice)) {
+      @synchronized(errorLock) {
+        geometryError = nil;
+      }
+      (void)[GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils)
+          rotateWindowSceneToInterfaceOrientation:interfaceOrientation
+                                     errorHandler:geometryErrorHandler];
+      (void)[rotationWait waitWithTimeout:interactionTimeout pollInterval:0.1];
+    }
+
+    if (scene.effectiveGeometry.interfaceOrientation != interfaceOrientation) {
+      @synchronized(errorLock) {
+        if (outGeometryError) {
+          *outGeometryError = geometryError;
+        }
+      }
+      return NO;
+    }
+    if (currentDevice.orientation != deviceOrientation) {
+      [currentDevice setOrientation:deviceOrientation animated:NO];
+    }
+    return GREYWaitForAppToIdleWithTimeoutAndError(interactionTimeout, outSyncErrorAfterRotation);
+  }
+#endif  // (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
+  if (currentDevice.orientation != deviceOrientation) {
+    [currentDevice setOrientation:deviceOrientation animated:NO];
+  }
+  if (currentDevice.orientation != deviceOrientation) {
+    return NO;
+  }
+  return GREYWaitForAppToIdleWithTimeoutAndError(interactionTimeout, outSyncErrorAfterRotation);
+}
+
+/**
+ * Builds a @c GREYError describing why interface rotation to @c interfaceOrientation failed.
+ */
+static GREYError *CreateRotationError(UIInterfaceOrientation interfaceOrientation,
+                                      UIDeviceOrientation deviceOrientation,
+                                      XCUIDevice *sharedDevice, UIDevice *currentDevice,
+                                      UIWindowScene *scene, GREYError *syncErrorBeforeRotation,
+                                      GREYError *syncErrorAfterRotation, NSError *geometryError) {
+  NSString *errorDescription = nil;
+  NSMutableDictionary<NSString *, id> *errorDetails = [[NSMutableDictionary alloc] init];
+
+  if (syncErrorBeforeRotation) {
+    errorDetails[kErrorDetailRecoverySuggestionKey] =
+        syncErrorBeforeRotation.userInfo[kErrorFailureReasonKey];
+    errorDescription = @"Application did not idle before rotating.";
+  } else if (syncErrorAfterRotation) {
+    errorDetails[kErrorDetailRecoverySuggestionKey] =
+        syncErrorAfterRotation.userInfo[kErrorFailureReasonKey];
+    errorDescription =
+        @"Application did not idle after rotating and before verifying the rotation.";
+  } else if (interfaceOrientation == UIInterfaceOrientationUnknown) {
+    errorDescription = [NSString
+        stringWithFormat:
+            @"Could not rotate application to orientation: %tu because the orientation is not "
+            @"supported by the rotation API. The supported orientations are "
+            @"UIDeviceOrientationPortrait (%tu), UIDeviceOrientationPortraitUpsideDown (%tu), "
+            @"UIDeviceOrientationLandscapeLeft (%tu), UIDeviceOrientationLandscapeRight (%tu).",
+            deviceOrientation, UIDeviceOrientationPortrait, UIDeviceOrientationPortraitUpsideDown,
+            UIDeviceOrientationLandscapeLeft, UIDeviceOrientationLandscapeRight];
+  } else if (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
+    errorDescription = @"Could not rotate the device to portraitUpsideDown because the hosting "
+                       @"device doesn't support this orientation.";
+  } else {
+    UIDeviceOrientation appDeviceOrientation = currentDevice.orientation;
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
+    if (@available(iOS 16.0, *)) {
+      if (!scene) {
+        scene = [GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) activeWindowScene];
+      }
+      appDeviceOrientation = [GREYConstants
+          deviceOrientationForInterfaceOrientation:scene.effectiveGeometry.interfaceOrientation];
+    }
+#endif  // (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
+    errorDescription = [NSString
+        stringWithFormat:@"Could not rotate application to orientation: %tu. After applying "
+                         @"the orientation, either XCUIDevice orientation (%tu) or application "
+                         @"orientation (%tu) doesn't match the requested orientation.",
+                         deviceOrientation, sharedDevice.orientation, appDeviceOrientation];
+    if (geometryError) {
+      NSString *geometryErrorDetails =
+          [NSString stringWithFormat:@"%@ (%@:%ld)", geometryError.localizedDescription,
+                                     geometryError.domain, (long)geometryError.code];
+      errorDescription = [NSString stringWithFormat:@"%@ Underlying geometry update error: %@.",
+                                                    errorDescription, geometryErrorDetails];
+      errorDetails[kErrorDescriptionKey] = geometryErrorDetails;
+    }
+    errorDetails[kErrorDetailRecoverySuggestionKey] =
+        @"Verify if orientation is locked (e.g. shouldAutorotate returns NO, or "
+        @"supportedInterfaceOrientations does not match the target orientation).";
+  }
+
+  return GREYErrorMakeWithUserInfo(kGREYSyntheticEventInjectionErrorDomain,
+                                   kGREYOrientationChangeFailedErrorCode, errorDescription,
+                                   errorDetails);
+}
+
 - (BOOL)rotateInterfaceToOrientation:(UIInterfaceOrientation)interfaceOrientation
                                error:(NSError **)error {
-  GREYError *syncErrorBeforeRotation;
-  __block GREYError *syncErrorAfterRotation;
+  GREYError *syncErrorBeforeRotation = nil;
+  GREYError *syncErrorAfterRotation = nil;
+  NSError *geometryError = nil;
+  UIWindowScene *scene = nil;
   BOOL success = NO;
   __block BOOL sendOrientationChangeNotification = NO;
   XCUIDevice *sharedDevice = [XCUIDevice sharedDevice];
   UIDevice *currentDevice = [GREY_REMOTE_CLASS_IN_APP(UIDevice) currentDevice];
   UIDeviceOrientation deviceOrientation =
       [GREYConstants deviceOrientationForInterfaceOrientation:interfaceOrientation];
+
   if (interfaceOrientation != UIInterfaceOrientationUnknown) {
     NSNotificationCenter *notificationCenter =
         [GREY_REMOTE_CLASS_IN_APP(NSNotificationCenter) defaultCenter];
+    // Listen for UIDeviceOrientationDidChangeNotification on the app side to check if an
+    // orientation change notification was posted.
+    id notificationObserver =
+        [notificationCenter addObserverForName:UIDeviceOrientationDidChangeNotification
+                                        object:nil
+                                         queue:nil
+                                    usingBlock:^(NSNotification *_Nonnull note) {
+                                      sendOrientationChangeNotification = YES;
+                                    }];
 
-    // Add an orientation change notification observer.
-    [notificationCenter addObserverForName:UIDeviceOrientationDidChangeNotification
-                                    object:nil
-                                     queue:nil
-                                usingBlock:^(NSNotification *_Nonnull note) {
-                                  sendOrientationChangeNotification = YES;
-                                }];
     CFTimeInterval interactionTimeout =
         GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-    BOOL syncSuccessBeforeRotation =
-        GREYWaitForAppToIdleWithTimeoutAndError(interactionTimeout, &syncErrorBeforeRotation);
-    if (syncSuccessBeforeRotation) {
+    if (GREYWaitForAppToIdleWithTimeoutAndError(interactionTimeout, &syncErrorBeforeRotation)) {
       [sharedDevice setOrientation:deviceOrientation];
-#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
-      if (@available(iOS 16.0, *)) {
-        // no-op. There's no need to perform extra process when checking app orientation with
-        // UIScene.
-      } else {
-        [currentDevice setOrientation:deviceOrientation animated:NO];
-      }
-#else
-      [currentDevice setOrientation:deviceOrientation animated:NO];
-#endif  // (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
-
-      BOOL syncSuccessAfterRotation =
-          !syncErrorAfterRotation &&
-          GREYWaitForAppToIdleWithTimeoutAndError(interactionTimeout, &syncErrorAfterRotation);
-      if (syncSuccessAfterRotation) {
-#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
-        if (@available(iOS 16.0, *)) {
-          UIWindow *keyWindow =
-              [GREY_REMOTE_CLASS_IN_APP(GREYUIWindowProvider) keyWindowForSharedApplication];
-          UIWindowScene *scene = keyWindow.windowScene;
-          if (scene.effectiveGeometry.interfaceOrientation == interfaceOrientation) {
-            success = YES;
-          } else {
-            // The app can never end up in an orientation that it or the view controller deciding
-            // the window's orientation doesn't support, so don't spend the whole interaction
-            // timeout waiting for it. Only full screen presentations take over that decision, and
-            // on iPad with multitasking enabled (!UIRequiresFullScreen), UIKit ignores the view
-            // controller's supportedInterfaceOrientations when rotating the scene.
-            UIInterfaceOrientationMask supportedOrientations =
-                [[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication]
-                    supportedInterfaceOrientationsForWindow:keyWindow];
-            BOOL requiresFullScreen =
-                currentDevice.userInterfaceIdiom != UIUserInterfaceIdiomPad ||
-                [[[GREY_REMOTE_CLASS_IN_APP(NSBundle) mainBundle]
-                    objectForInfoDictionaryKey:@"UIRequiresFullScreen"] boolValue];
-            if (requiresFullScreen) {
-              UIViewController *orientationViewController = keyWindow.rootViewController;
-              UIViewController *presented = orientationViewController.presentedViewController;
-              while (presented &&
-                     (presented.modalPresentationStyle == UIModalPresentationFullScreen ||
-                      presented.modalPresentationStyle == UIModalPresentationOverFullScreen)) {
-                orientationViewController = presented;
-                presented = presented.presentedViewController;
-              }
-              if (orientationViewController) {
-                UIInterfaceOrientationMask vcSupportedOrientations =
-                    orientationViewController.supportedInterfaceOrientations;
-                // An empty UINavigationController or similar container returns 0 from
-                // supportedInterfaceOrientations, in which case UIKit falls back to the window's
-                // supported orientations. Only mask by the view controller's supported orientations
-                // if it specifies a non-zero mask (fixing the rollback in cl/1009043486).
-                if (vcSupportedOrientations != 0) {
-                  supportedOrientations &= vcSupportedOrientations;
-                }
-              }
-            }
-            if ((supportedOrientations & (1 << interfaceOrientation)) != 0) {
-              GREYCondition *rotationWait = [GREYCondition
-                  conditionWithName:@"App Rotation Condition"
-                              block:^BOOL {
-                                return scene.effectiveGeometry.interfaceOrientation ==
-                                       interfaceOrientation;
-                              }];
-              success = [rotationWait
-                  waitWithTimeout:GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration)];
-            }
-          }
-        } else {
-          success = currentDevice.orientation == deviceOrientation;
-        }
-#else
-        success = currentDevice.orientation == deviceOrientation;
-#endif  // (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
+      if (GREYWaitForAppToIdleWithTimeoutAndError(interactionTimeout, &syncErrorAfterRotation)) {
+        success =
+            RotateApplicationToOrientation(interfaceOrientation, currentDevice, interactionTimeout,
+                                           &scene, &geometryError, &syncErrorAfterRotation);
       }
     }
 
-    // Remove the orientation change notification observer.
-    [notificationCenter removeObserver:self
-                                  name:UIDeviceOrientationDidChangeNotification
-                                object:nil];
+    // Stop listening for orientation change notifications.
+    [notificationCenter removeObserver:notificationObserver];
   }
 
   if (!success) {
-    NSString *errorDescription;
-    NSMutableDictionary<NSString *, id> *errorDetails = [[NSMutableDictionary alloc] init];
-
-    if (syncErrorBeforeRotation) {
-      errorDetails[kErrorDetailRecoverySuggestionKey] =
-          syncErrorBeforeRotation.userInfo[kErrorFailureReasonKey];
-      errorDescription = @"Application did not idle before rotating.";
-    } else if (syncErrorAfterRotation) {
-      errorDetails[kErrorDetailRecoverySuggestionKey] =
-          syncErrorAfterRotation.userInfo[kErrorFailureReasonKey];
-      errorDescription =
-          @"Application did not idle after rotating and before verifying the rotation.";
-    } else if (!syncErrorBeforeRotation && !syncErrorAfterRotation) {
-      if (interfaceOrientation == UIInterfaceOrientationUnknown) {
-        errorDescription = [NSString
-            stringWithFormat:
-                @"Could not rotate application to orientation: %tu because the orientation is not "
-                @"supported by the rotation API. The supported orientations are "
-                @"UIDeviceOrientationPortrait (%tu), UIDeviceOrientationPortraitUpsideDown (%tu), "
-                @"UIDeviceOrientationLandscapeLeft (%tu), UIDeviceOrientationLandscapeRight (%tu).",
-                deviceOrientation, UIDeviceOrientationPortrait,
-                UIDeviceOrientationPortraitUpsideDown, UIDeviceOrientationLandscapeLeft,
-                UIDeviceOrientationLandscapeRight];
-      } else if (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
-        errorDescription = @"Could not rotate the device to portraitUpsideDown because the hosting "
-                           @"device doesn't support this orientation.";
-      } else {
-        UIDeviceOrientation appDeviceOrientation = currentDevice.orientation;
-#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
-        if (@available(iOS 16.0, *)) {
-          UIWindowScene *scene = [[GREY_REMOTE_CLASS_IN_APP(GREYUIWindowProvider)
-              keyWindowForSharedApplication] windowScene];
-          appDeviceOrientation =
-              [GREYConstants deviceOrientationForInterfaceOrientation:scene.effectiveGeometry
-                                                                          .interfaceOrientation];
-        }
-#endif  // (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
-        errorDescription = [NSString
-            stringWithFormat:@"Could not rotate application to orientation: %tu. After applying "
-                             @"the orientation, either XCUIDevice orientation (%tu) or application "
-                             @"orientation (%tu) doesn't match the requested orientation.",
-                             deviceOrientation, sharedDevice.orientation, appDeviceOrientation];
-        errorDetails[kErrorDetailRecoverySuggestionKey] =
-            @"Verify if orientation is locked (e.g. shouldAutorotate returns NO, or "
-            @"supportedInterfaceOrientations does not match the target orientation).";
-      }
-    }
-
-    GREYError *rotationError = GREYErrorMakeWithUserInfo(kGREYSyntheticEventInjectionErrorDomain,
-                                                         kGREYOrientationChangeFailedErrorCode,
-                                                         errorDescription, errorDetails);
+    GREYError *rotationError =
+        CreateRotationError(interfaceOrientation, deviceOrientation, sharedDevice, currentDevice,
+                            scene, syncErrorBeforeRotation, syncErrorAfterRotation, geometryError);
     GREYHandleInteractionError(rotationError, error);
-  } else {
-    // Send a notification for the orientation change to the test side since we have confirmed the
-    // app has changed its orientation.
-    if (sendOrientationChangeNotification) {
-      [[NSNotificationCenter defaultCenter]
-          postNotificationName:UIDeviceOrientationDidChangeNotification
-                        object:nil];
-    }
+    return NO;
   }
 
-  return success;
+  // Send a notification for the orientation change to the test side since we have confirmed the
+  // app has changed its orientation.
+  if (sendOrientationChangeNotification) {
+    [[NSNotificationCenter defaultCenter]
+        postNotificationName:UIDeviceOrientationDidChangeNotification
+                      object:nil];
+  }
+
+  return YES;
 }
 
 - (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation error:(NSError **)error {
