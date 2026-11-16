@@ -17,7 +17,6 @@
 #import <Foundation/Foundation.h>
 
 #import " IWYU pragma: keep. Needed for enums GREYDirection, GREYPinchDirection, GREYContentEdge.
-#import "GREYDefines.h"
 
 #if COCOAPODS
 #import <eDistantObject/EDORemoteVariable.h>

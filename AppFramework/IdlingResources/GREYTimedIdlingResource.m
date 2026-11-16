@@ -16,6 +16,8 @@
 
 #import "GREYTimedIdlingResource.h"
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "GREYUIThreadExecutor+Private.h"
 #import "GREYUIThreadExecutor.h"
 #import "GREYThrowDefines.h"

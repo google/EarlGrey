@@ -16,8 +16,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "GREYDefines.h"
-
 /**
  * @file
  * @brief Header file for GREYUIThreadExecutor.

@@ -16,8 +16,6 @@
 
 #import <UIKit/UIKit.h>
 
-#import "GREYConstants.h"
-
 NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - GREYVisibilityDiffBuffer
