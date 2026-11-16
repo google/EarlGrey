@@ -76,10 +76,12 @@
                                                       preferredStyle:UIAlertControllerStyleAlert];
   [self.alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
     textField.placeholder = @"Login";
+    textField.textContentType = UITextContentTypeOneTimeCode;
   }];
   [self.alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
     textField.placeholder = @"Password";
     textField.secureTextEntry = YES;
+    textField.textContentType = UITextContentTypeOneTimeCode;
   }];
   UIAlertAction *leaveAction =
       [UIAlertAction actionWithTitle:@"Leave"
