@@ -273,14 +273,22 @@ static NSTimeInterval AdjustedDeliveryTimeDelta(GREYTouchInfo *touchInfo) {
   // can retrieve the responder.
   while (!responder && container) {
     if (@available(iOS 27, *)) {
+      // Stop before crossing UICollectionView/UITableView boundaries so default-styled List rows
+      // rely on UIKit cell selection instead of picking up an outer SwiftUI gesture.
       if ([container isKindOfClass:[UICollectionView class]] ||
-          [container isKindOfClass:[UITableView class]] ||
-          [NSStringFromClass([container class]) containsString:@"UIHostingView"]) {
+          [container isKindOfClass:[UITableView class]]) {
         break;
       }
     }
     if ([container respondsToSelector:NSSelectorFromString(@"_hitTestWithContext:")]) {
       responder = [container _hitTestWithContext:context];
+    }
+    if (@available(iOS 27, *)) {
+      // Stop after querying UIHostingView so elements hosted directly inside it still resolve
+      // their SwiftUI gesture responder without walking past into ancestor hosting views.
+      if (!responder && [NSStringFromClass([container class]) containsString:@"UIHostingView"]) {
+        break;
+      }
     }
     container = [container accessibilityContainer];
   }
