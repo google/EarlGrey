@@ -54,12 +54,11 @@
 /**
  * Waits for the condition to be met until the specified @c seconds have elapsed.
  *
- * Will poll the condition as often as possible on the main thread while still giving a fair chance
- * for other sources and handlers to be serviced.
+ * Evaluates the condition immediately, and if not met, polls every 0.5 seconds until the condition
+ * is met or the timeout elapses.
  *
- * @remark Waiting on conditions with this method is very CPU intensive on the main thread. If
- *         you do not need to return immediately after the condition is met, the consider using
- *         GREYCondition::waitWithTimeout:pollInterval:
+ * @remark To poll at a shorter or longer interval than the 0.5-second default, use
+ *         GREYCondition::waitWithTimeout:pollInterval: with a positive poll interval.
  *
  * @param seconds Amount of time to wait for the condition to be met, in seconds.
  *
@@ -76,7 +75,8 @@
  * @remark Will allow the main thread to sleep instead of busily checking the condition.
  *
  * @param seconds  Amount of time to wait for the condition to be met, in seconds.
- * @param interval The minimum time that should elapse between checking the condition.
+ * @param interval The minimum time that should elapse between checking the condition, or 0 to use
+ *                 the default 0.5-second poll interval.
  *
  * @return @c YES if the condition was met before the timeout, @c NO otherwise.
  */

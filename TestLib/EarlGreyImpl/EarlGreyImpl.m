@@ -628,6 +628,7 @@ static BOOL DispatchInApp(NSString *URL, XCUIApplication *application, NSError *
               }
             }
             if ((supportedOrientations & (1 << interfaceOrientation)) != 0) {
+              static const CFTimeInterval kRotationPollInterval = 0.05;
               GREYCondition *rotationWait = [GREYCondition
                   conditionWithName:@"App Rotation Condition"
                               block:^BOOL {
@@ -635,7 +636,8 @@ static BOOL DispatchInApp(NSString *URL, XCUIApplication *application, NSError *
                                        interfaceOrientation;
                               }];
               success = [rotationWait
-                  waitWithTimeout:GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration)];
+                  waitWithTimeout:GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration)
+                     pollInterval:kRotationPollInterval];
             }
           }
         } else {
