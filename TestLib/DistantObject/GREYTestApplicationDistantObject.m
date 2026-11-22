@@ -242,7 +242,9 @@ __attribute__((constructor)) static void SetupTestDistantObject(void) {
       _executingQueue = mainQueue;
       _service = [EDOHostService serviceWithPort:0 rootObject:self queue:_executingQueue];
     } else {
-      _executingQueue = dispatch_queue_create("com.google.earlgrey.TestDO", DISPATCH_QUEUE_SERIAL);
+      dispatch_queue_attr_t queueAttributes = dispatch_queue_attr_make_with_qos_class(
+          DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INTERACTIVE, 0);
+      _executingQueue = dispatch_queue_create("com.google.earlgrey.TestDO", queueAttributes);
       _service = [EDOHostService serviceWithPort:0 rootObject:self queue:_executingQueue];
       _service.originatingQueues = @[ mainQueue ];
     }
