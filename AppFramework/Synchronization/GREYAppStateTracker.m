@@ -107,6 +107,32 @@ static const unsigned short kNumGREYAppStates = 12;
           orExternalAppStateTrackerObject:nil];
 }
 
+- (GREYAppStateTrackerObject *)trackStateUntilNextMainQueueDrain:(GREYAppState)state
+                                                       forObject:(id)object {
+  if (!object || state == kGREYIdle) {
+    return nil;
+  }
+  __block GREYAppState stateToUntrack = kGREYIdle;
+  GREYAppStateTrackerObject *trackerObject = [self performBlockInCriticalSection:^id {
+    GREYAppStateTrackerObject *externalObject = [self trackState:state forObject:object];
+    if (externalObject) {
+      stateToUntrack = state & ~externalObject.pendingMainQueueUntrackState;
+      externalObject.pendingMainQueueUntrackState |= stateToUntrack;
+    }
+    return externalObject;
+  }];
+  if (stateToUntrack != kGREYIdle && trackerObject) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self performBlockInCriticalSection:^id {
+        trackerObject.pendingMainQueueUntrackState &= ~stateToUntrack;
+        [self untrackState:stateToUntrack forObject:trackerObject];
+        return nil;
+      }];
+    });
+  }
+  return trackerObject;
+}
+
 - (void)untrackState:(GREYAppState)state forObject:(GREYAppStateTrackerObject *)object {
   [self changeState:state
                            usingOperation:kGREYUnTrackState
@@ -356,8 +382,21 @@ static NSString *StringFromAppState(GREYAppState state) {
       GREYAppState newState;
       if (operation == kGREYClearState) {
         newState = kGREYIdle;
+        appStateTrackerObjectExternal.pendingMainQueueUntrackState = kGREYIdle;
       } else {
         newState = track ? (originalState | state) : (originalState & ~state);
+      }
+
+      if (newState == originalState && externalObjectExistsAlready) {
+        if (self->_printAppStateTrackerLogs) {
+          GREYLogVerbose(@"Updating state-tracking for object: %@ to state: %@",
+                         appStateTrackerObjectExternal.objectDescription,
+                         GREYKeyForAppState(newState));
+        }
+        if (GREYVerboseLoggingEnabled()) {
+          appStateTrackerObjectExternal.state = newState;
+        }
+        return appStateTrackerObjectExternal;
       }
 
       // We update the @c _currentState so that we can provide quick information if the app is idle
@@ -373,6 +412,7 @@ static NSString *StringFromAppState(GREYAppState state) {
       // This condition signifies that the object is going to be idle, hence, we should remove
       // the object from the map.
       if (newState == kGREYIdle) {
+        appStateTrackerObjectExternal.pendingMainQueueUntrackState = kGREYIdle;
         [self->_externalTrackerObjects removeObject:appStateTrackerObjectExternal];
         if (!appStateTrackerObjectInternal) {
           appStateTrackerObjectInternal = appStateTrackerObjectExternal.object;
@@ -496,6 +536,7 @@ static NSString *StringFromAppState(GREYAppState state) {
     // We get rid of the strong reference from internal to external object so that the external
     // object can get deallocated.
     for (GREYAppStateTrackerObject *externalObject in self->_externalTrackerObjects) {
+      externalObject.pendingMainQueueUntrackState = kGREYIdle;
       GREYObjectDeallocationTracker *internalObject = externalObject.object;
       objc_setAssociatedObject(internalObject, @selector(currentState), nil,
                                OBJC_ASSOCIATION_ASSIGN);
