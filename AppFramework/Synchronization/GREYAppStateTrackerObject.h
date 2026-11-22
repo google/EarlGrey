@@ -51,6 +51,19 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign) GREYAppState state;
 
 /**
+ * State bits that already have a pending main-queue untrack block scheduled via
+ * @c trackStateUntilNextMainQueueDrain:forObject:. Access must be guarded by
+ * @c GREYAppStateTracker's state lock.
+ */
+@property(nonatomic, assign) GREYAppState pendingMainQueueUntrackState;
+
+/**
+ * Number of synchronous draw/layout pass requests recorded for this object since the last
+ * main-queue drain. Access must be guarded by @c GREYAppStateTracker's state lock.
+ */
+@property(nonatomic, assign) NSUInteger pendingMainQueueDrawLayoutPassCount;
+
+/**
  * The description of the object that is being represented by GREYAppStateTrackerObject.
  */
 @property(nonatomic, strong) NSString *objectDescription;

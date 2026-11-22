@@ -47,6 +47,14 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
  */
 static const unsigned short kNumGREYAppStates = 12;
 
+/**
+ * Maximum number of synchronous layout invalidations permitted for a single view or layer
+ * before the main dispatch queue drains once. Exceeding this count within a single runloop turn
+ * indicates a synchronous layout feedback loop (such as UIObservationTracking [viewDidLayout]
+ * invalidations inside CA::Layer::layout_if_needed).
+ */
+static const NSUInteger kGREYMaxSynchronousDrawLayoutPassesPerMainQueueDrain = 256;
+
 @interface GREYAppStateTracker () <GREYObjectDeallocationTrackerDelegate>
 
 @end
@@ -105,6 +113,71 @@ static const unsigned short kNumGREYAppStates = 12;
                                 forObject:object
       orInternalObjectDeallocationTracker:nil
           orExternalAppStateTrackerObject:nil];
+}
+
+- (GREYAppStateTrackerObject *)trackStateUntilNextMainQueueDrain:(GREYAppState)state
+                                                       forObject:(id)object {
+  if (!object || state == kGREYIdle) {
+    return nil;
+  }
+  __block GREYAppState stateToUntrack = kGREYIdle;
+  GREYAppStateTrackerObject *trackerObject = [self performBlockInCriticalSection:^id {
+    GREYAppStateTrackerObject *externalObject = [self trackState:state forObject:object];
+    if (externalObject) {
+      stateToUntrack = state & ~externalObject.pendingMainQueueUntrackState;
+      externalObject.pendingMainQueueUntrackState |= stateToUntrack;
+    }
+    return externalObject;
+  }];
+  if (stateToUntrack != kGREYIdle && trackerObject) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self performBlockInCriticalSection:^id {
+        trackerObject.pendingMainQueueUntrackState &= ~stateToUntrack;
+        if (stateToUntrack & kGREYPendingDrawLayoutPass) {
+          trackerObject.pendingMainQueueDrawLayoutPassCount = 0;
+        }
+        [self untrackState:stateToUntrack forObject:trackerObject];
+        return nil;
+      }];
+    });
+  }
+  return trackerObject;
+}
+
+- (BOOL)trackDrawLayoutPassUntilNextMainQueueDrainForObject:(id)object {
+  if (!object) {
+    return YES;
+  }
+  BOOL isMainThread = [NSThread isMainThread];
+  __block GREYAppState stateToUntrack = kGREYIdle;
+  __block BOOL shouldInvokeOriginal = YES;
+  GREYAppStateTrackerObject *trackerObject = [self performBlockInCriticalSection:^id {
+    GREYAppStateTrackerObject *externalObject = [self trackState:kGREYPendingDrawLayoutPass
+                                                       forObject:object];
+    if (externalObject) {
+      stateToUntrack = kGREYPendingDrawLayoutPass & ~externalObject.pendingMainQueueUntrackState;
+      externalObject.pendingMainQueueUntrackState |= stateToUntrack;
+      if (isMainThread) {
+        externalObject.pendingMainQueueDrawLayoutPassCount += 1;
+        if (externalObject.pendingMainQueueDrawLayoutPassCount >
+            kGREYMaxSynchronousDrawLayoutPassesPerMainQueueDrain) {
+          shouldInvokeOriginal = NO;
+        }
+      }
+    }
+    return externalObject;
+  }];
+  if (stateToUntrack != kGREYIdle && trackerObject) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self performBlockInCriticalSection:^id {
+        trackerObject.pendingMainQueueUntrackState &= ~stateToUntrack;
+        trackerObject.pendingMainQueueDrawLayoutPassCount = 0;
+        [self untrackState:stateToUntrack forObject:trackerObject];
+        return nil;
+      }];
+    });
+  }
+  return shouldInvokeOriginal;
 }
 
 - (void)untrackState:(GREYAppState)state forObject:(GREYAppStateTrackerObject *)object {
@@ -356,8 +429,22 @@ static NSString *StringFromAppState(GREYAppState state) {
       GREYAppState newState;
       if (operation == kGREYClearState) {
         newState = kGREYIdle;
+        appStateTrackerObjectExternal.pendingMainQueueUntrackState = kGREYIdle;
+        appStateTrackerObjectExternal.pendingMainQueueDrawLayoutPassCount = 0;
       } else {
         newState = track ? (originalState | state) : (originalState & ~state);
+      }
+
+      if (newState == originalState && externalObjectExistsAlready) {
+        if (self->_printAppStateTrackerLogs) {
+          GREYLogVerbose(@"Updating state-tracking for object: %@ to state: %@",
+                         appStateTrackerObjectExternal.objectDescription,
+                         GREYKeyForAppState(newState));
+        }
+        if (GREYVerboseLoggingEnabled()) {
+          appStateTrackerObjectExternal.state = newState;
+        }
+        return appStateTrackerObjectExternal;
       }
 
       // We update the @c _currentState so that we can provide quick information if the app is idle
@@ -373,6 +460,8 @@ static NSString *StringFromAppState(GREYAppState state) {
       // This condition signifies that the object is going to be idle, hence, we should remove
       // the object from the map.
       if (newState == kGREYIdle) {
+        appStateTrackerObjectExternal.pendingMainQueueUntrackState = kGREYIdle;
+        appStateTrackerObjectExternal.pendingMainQueueDrawLayoutPassCount = 0;
         [self->_externalTrackerObjects removeObject:appStateTrackerObjectExternal];
         if (!appStateTrackerObjectInternal) {
           appStateTrackerObjectInternal = appStateTrackerObjectExternal.object;
@@ -496,6 +585,8 @@ static NSString *StringFromAppState(GREYAppState state) {
     // We get rid of the strong reference from internal to external object so that the external
     // object can get deallocated.
     for (GREYAppStateTrackerObject *externalObject in self->_externalTrackerObjects) {
+      externalObject.pendingMainQueueUntrackState = kGREYIdle;
+      externalObject.pendingMainQueueDrawLayoutPassCount = 0;
       GREYObjectDeallocationTracker *internalObject = externalObject.object;
       objc_setAssociatedObject(internalObject, @selector(currentState), nil,
                                OBJC_ASSOCIATION_ASSIGN);
