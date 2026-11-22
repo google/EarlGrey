@@ -140,6 +140,93 @@ class SwiftTests: XCTestCase {
       "Text field editing did end event was not received.")
   }
 
+  func testFastTypingWithoutEditingDidEndEvents() {
+    openTestView(named: "Typing Views")
+    #if swift(>=4.2)
+      let beginEditingRecorder = host.makeTextFieldNotificationRecorder(
+        for: UITextField.textDidBeginEditingNotification)
+      let didChangeRecorder = host.makeTextFieldNotificationRecorder(
+        for: UITextField.textDidChangeNotification)
+      let didEndEditingRecorder = host.makeTextFieldNotificationRecorder(
+        for: UITextField.textDidEndEditingNotification)
+    #else
+      let beginEditingRecorder = host.makeTextFieldNotificationRecorder(
+        for: .UITextFieldTextDidBeginEditing)
+      let didChangeRecorder = host.makeTextFieldNotificationRecorder(
+        for: .UITextFieldTextDidChange)
+      let didEndEditingRecorder = host.makeTextFieldNotificationRecorder(
+        for: .UITextFieldTextDidEndEditing)
+    #endif
+    let editingDidBeginRecorderAction =
+      host.makeTextFieldEditingEventRecorder(for: .editingDidBegin)
+    let editingChangedRecorderAction =
+      host.makeTextFieldEditingEventRecorder(for: .editingChanged)
+    let editingDidEndOnExitRecorderAction =
+      host.makeTextFieldEditingEventRecorder(for: .editingDidEndOnExit)
+    let editingDidEndRecorderAction =
+      host.makeTextFieldEditingEventRecorder(for: .editingDidEnd)
+    let primaryActionTriggeredRecorderAction =
+      host.makeTextFieldEditingEventRecorder(for: .primaryActionTriggered)
+    EarlGrey.selectElement(with: grey_accessibilityID("TypingTextField"))
+      .perform(editingDidBeginRecorderAction)
+      .perform(editingChangedRecorderAction)
+      .perform(editingDidEndOnExitRecorderAction)
+      .perform(editingDidEndRecorderAction)
+      .perform(primaryActionTriggeredRecorderAction)
+      .perform(grey_replaceText("Sample Swift Test", sendEditingDidEndEvents: false))
+      .assert(grey_text("Sample Swift Test"))
+    GREYAssertTrue(
+      beginEditingRecorder.wasNotificationReceived,
+      "Text field begin editing notification was not received.")
+    GREYAssertTrue(
+      didChangeRecorder.wasNotificationReceived,
+      "Text field did change notification was not received.")
+    GREYAssertTrue(
+      didEndEditingRecorder.wasNotificationReceived,
+      "Text field did end editing notification was not received.")
+    GREYAssertTrue(
+      editingDidBeginRecorderAction.wasEventReceived,
+      "Text field did begin editing event was not received.")
+    GREYAssertTrue(
+      editingChangedRecorderAction.wasEventReceived,
+      "Text field editing changed event was not received.")
+    GREYAssertFalse(
+      editingDidEndOnExitRecorderAction.wasEventReceived,
+      "Text field editing did end on exit event should not be received.")
+    GREYAssertFalse(
+      editingDidEndRecorderAction.wasEventReceived,
+      "Text field editing did end event should not be received.")
+    GREYAssertFalse(
+      primaryActionTriggeredRecorderAction.wasEventReceived,
+      "Text field primary action triggered event should not be received.")
+
+    EarlGrey.selectElement(with: grey_accessibilityID("TypingTextField"))
+      .perform(GREYReplaceText("Second Swift Test", sendEditingDidEndEvents: false))
+      .assert(grey_text("Second Swift Test"))
+    GREYAssertFalse(
+      editingDidEndOnExitRecorderAction.wasEventReceived,
+      "Text field editing did end on exit event should not be received.")
+    GREYAssertFalse(
+      editingDidEndRecorderAction.wasEventReceived,
+      "Text field editing did end event should not be received.")
+    GREYAssertFalse(
+      primaryActionTriggeredRecorderAction.wasEventReceived,
+      "Text field primary action triggered event should not be received.")
+
+    EarlGrey.selectElement(with: grey_accessibilityID("TypingTextField"))
+      .perform(grey_replaceText("Updated Swift Test", sendEditingDidEndEvents: true))
+      .assert(grey_text("Updated Swift Test"))
+    GREYAssertTrue(
+      editingDidEndOnExitRecorderAction.wasEventReceived,
+      "Text field editing did end on exit event was not received.")
+    GREYAssertTrue(
+      editingDidEndRecorderAction.wasEventReceived,
+      "Text field editing did end event was not received.")
+    GREYAssertTrue(
+      primaryActionTriggeredRecorderAction.wasEventReceived,
+      "Text field primary action triggered event was not received.")
+  }
+
   func testTypingWithDeletion() {
     openTestView(named: "Typing Views")
     EarlGrey.selectElement(with: grey_accessibilityID("TypingTextField"))

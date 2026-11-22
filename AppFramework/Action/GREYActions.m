@@ -321,7 +321,12 @@ static Protocol *gTextInputProtocol;
 }
 
 + (id<GREYAction>)actionForReplaceText:(NSString *)text {
-  return ActionForReplaceText(text);
+  return [self actionForReplaceText:text sendEditingDidEndEvents:YES];
+}
+
++ (id<GREYAction>)actionForReplaceText:(NSString *)text
+               sendEditingDidEndEvents:(BOOL)sendEditingDidEndEvents {
+  return ActionForReplaceText(text, sendEditingDidEndEvents);
 }
 
 + (id<GREYAction>)actionForClearText {
@@ -537,15 +542,16 @@ static Protocol *gTextInputProtocol;
 #pragma mark - Private
 
 /**
- * Set the UITextField text value directly, bypassing the iOS keyboard.
+ * Sets the target element's text value directly, bypassing the iOS keyboard.
  *
- * @param text The text to be typed.
+ * @param text                    The text to set on the target element.
+ * @param sendEditingDidEndEvents Whether `UIControlEventEditingDidEndOnExit` and
+ *                                `UIControlEventEditingDidEnd` should be sent on `UIControl`
+ *                                elements after setting `text`.
  *
- * @return @c YES if the action succeeded, else @c NO. If an action returns @c NO, it does not
- *         mean that the action was not performed at all but somewhere during the action execution
- *         the error occurred and so the UI may be in an unrecoverable state.
+ * @return A `GREYAction` that sets `text` directly on the target element.
  */
-static id<GREYAction> ActionForReplaceText(NSString *text) {
+static id<GREYAction> ActionForReplaceText(NSString *text, BOOL sendEditingDidEndEvents) {
   SEL setTextSelector = NSSelectorFromString(@"setText:");
   NSArray<id<GREYMatcher>> *constraintMatchers = @[
     [GREYMatchers matcherForRespondsToSelector:setTextSelector],
@@ -625,7 +631,7 @@ static id<GREYAction> ActionForReplaceText(NSString *text) {
             }
 
             // Did end editing notifications.
-            if (elementIsUIControl) {
+            if (elementIsUIControl && sendEditingDidEndEvents) {
               [element sendActionsForControlEvents:UIControlEventEditingDidEndOnExit];
               [element sendActionsForControlEvents:UIControlEventEditingDidEnd];
             }
