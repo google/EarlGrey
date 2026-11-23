@@ -20,6 +20,11 @@
 @interface GREYHostApplicationDistantObject (BaseIntegrationTest)
 
 /**
+ * @return @c YES if the host application currently has a foreground active key window.
+ */
+- (BOOL)hasForegroundKeyWindow;
+
+/**
  * Pops all view controllers in the current stack and returns to the root view controller.
  */
 - (void)resetNavigationStack;

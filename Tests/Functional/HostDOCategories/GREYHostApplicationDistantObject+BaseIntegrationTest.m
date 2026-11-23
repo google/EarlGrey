@@ -18,15 +18,28 @@
 
 #import "ExposedForTesting.h"
 
+static UINavigationController *NavigationControllerFromWindow(UIWindow *window) {
+  if ([window.rootViewController isKindOfClass:[UINavigationController class]]) {
+    return (UINavigationController *)window.rootViewController;
+  }
+  return window.rootViewController.navigationController;
+}
+
 @implementation GREYHostApplicationDistantObject (BaseIntegrationTest)
 
+- (BOOL)hasForegroundKeyWindow {
+  return GREYUILibUtils.window != nil;
+}
+
 - (void)resetNavigationStack {
-  UIWindow *delegateWindow = GREYUILibUtils.window;
-  UINavigationController *navController;
-  if ([delegateWindow.rootViewController isKindOfClass:[UINavigationController class]]) {
-    navController = (UINavigationController *)delegateWindow.rootViewController;
-  } else {
-    navController = delegateWindow.rootViewController.navigationController;
+  UINavigationController *navController = NavigationControllerFromWindow(GREYUILibUtils.window);
+  if (!navController) {
+    for (UIWindow *window in GREYUILibUtilsGetAllWindowsFromConnectedScenes()) {
+      navController = NavigationControllerFromWindow(window);
+      if (navController) {
+        break;
+      }
+    }
   }
   if (navController.presentedViewController) {
     [navController dismissViewControllerAnimated:NO completion:nil];

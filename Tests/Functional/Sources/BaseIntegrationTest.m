@@ -37,6 +37,17 @@
     [NSObject edo_disallowRemoteInvocationWithExclusion:@[ [NSArray class], [NSEnumerator class] ]];
     [self.application launch];
   });
+  if (self.application.state != XCUIApplicationStateRunningForeground ||
+      ![[GREYHostApplicationDistantObject sharedInstance] hasForegroundKeyWindow]) {
+    NSLog(@"Host app is not foreground active (state: %tu). Reactivating before test.",
+          self.application.state);
+    [self.application activate];
+    if ([self.application
+            waitForState:XCUIApplicationStateRunningForeground
+                 timeout:GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration)]) {
+      [[GREYHostApplicationDistantObject sharedInstance] resetNavigationStack];
+    }
+  }
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
 }
 

@@ -588,20 +588,20 @@ static BOOL DispatchInApp(NSString *URL, XCUIApplication *application, NSError *
       if (syncSuccessAfterRotation) {
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
         if (@available(iOS 16.0, *)) {
+          UIApplication *sharedApp = [GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication];
           UIWindow *keyWindow =
               [GREY_REMOTE_CLASS_IN_APP(GREYUIWindowProvider) keyWindowForSharedApplication];
-          UIWindowScene *scene = keyWindow.windowScene;
+          __block UIWindowScene *scene = keyWindow.windowScene;
           if (scene.effectiveGeometry.interfaceOrientation == interfaceOrientation) {
             success = YES;
-          } else {
+          } else if (scene || sharedApp.applicationState != UIApplicationStateBackground) {
             // The app can never end up in an orientation that it or the view controller deciding
             // the window's orientation doesn't support, so don't spend the whole interaction
             // timeout waiting for it. Only full screen presentations take over that decision, and
             // on iPad with multitasking enabled (!UIRequiresFullScreen), UIKit ignores the view
             // controller's supportedInterfaceOrientations when rotating the scene.
             UIInterfaceOrientationMask supportedOrientations =
-                [[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication]
-                    supportedInterfaceOrientationsForWindow:keyWindow];
+                [sharedApp supportedInterfaceOrientationsForWindow:keyWindow];
             BOOL requiresFullScreen =
                 currentDevice.userInterfaceIdiom != UIUserInterfaceIdiomPad ||
                 [[[GREY_REMOTE_CLASS_IN_APP(NSBundle) mainBundle]
@@ -632,6 +632,10 @@ static BOOL DispatchInApp(NSString *URL, XCUIApplication *application, NSError *
               GREYCondition *rotationWait = [GREYCondition
                   conditionWithName:@"App Rotation Condition"
                               block:^BOOL {
+                                if (!scene) {
+                                  scene = [[GREY_REMOTE_CLASS_IN_APP(GREYUIWindowProvider)
+                                      keyWindowForSharedApplication] windowScene];
+                                }
                                 return scene.effectiveGeometry.interfaceOrientation ==
                                        interfaceOrientation;
                               }];
@@ -684,23 +688,45 @@ static BOOL DispatchInApp(NSString *URL, XCUIApplication *application, NSError *
                            @"device doesn't support this orientation.";
       } else {
         UIDeviceOrientation appDeviceOrientation = currentDevice.orientation;
+        BOOL hasForegroundScene = YES;
+        UIApplicationState applicationState = UIApplicationStateActive;
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
         if (@available(iOS 16.0, *)) {
           UIWindowScene *scene = [[GREY_REMOTE_CLASS_IN_APP(GREYUIWindowProvider)
               keyWindowForSharedApplication] windowScene];
-          appDeviceOrientation =
-              [GREYConstants deviceOrientationForInterfaceOrientation:scene.effectiveGeometry
-                                                                          .interfaceOrientation];
+          hasForegroundScene = scene != nil;
+          if (hasForegroundScene) {
+            appDeviceOrientation =
+                [GREYConstants deviceOrientationForInterfaceOrientation:scene.effectiveGeometry
+                                                                            .interfaceOrientation];
+          } else {
+            applicationState =
+                [[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] applicationState];
+          }
         }
 #endif  // (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
-        errorDescription = [NSString
-            stringWithFormat:@"Could not rotate application to orientation: %tu. After applying "
-                             @"the orientation, either XCUIDevice orientation (%tu) or application "
-                             @"orientation (%tu) doesn't match the requested orientation.",
-                             deviceOrientation, sharedDevice.orientation, appDeviceOrientation];
-        errorDetails[kErrorDetailRecoverySuggestionKey] =
-            @"Verify if orientation is locked (e.g. shouldAutorotate returns NO, or "
-            @"supportedInterfaceOrientations does not match the target orientation).";
+        if (!hasForegroundScene) {
+          errorDescription = [NSString
+              stringWithFormat:@"Could not rotate application to orientation: %tu because the "
+                               @"application has no foreground active window scene "
+                               @"(UIApplicationState: %ld). XCUIDevice orientation is %tu.",
+                               deviceOrientation, (long)applicationState,
+                               sharedDevice.orientation];
+          errorDetails[kErrorDetailRecoverySuggestionKey] =
+              @"Ensure the application under test is in the foreground and has an active window "
+              @"scene before rotating (for example, activate or foreground the app if it was "
+              @"backgrounded after a SpringBoard restart or displaced by another app).";
+        } else {
+          errorDescription = [NSString
+              stringWithFormat:@"Could not rotate application to orientation: %tu. After applying "
+                               @"the orientation, either XCUIDevice orientation (%tu) or "
+                               @"application orientation (%tu) doesn't match the requested "
+                               @"orientation.",
+                               deviceOrientation, sharedDevice.orientation, appDeviceOrientation];
+          errorDetails[kErrorDetailRecoverySuggestionKey] =
+              @"Verify if orientation is locked (e.g. shouldAutorotate returns NO, or "
+              @"supportedInterfaceOrientations does not match the target orientation).";
+        }
       }
     }
 
