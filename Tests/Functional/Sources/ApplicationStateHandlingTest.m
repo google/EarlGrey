@@ -15,6 +15,7 @@
 //
 
 #import "EarlGrey.h"
+#import "BaseIntegrationTest.h"
 
 @interface ApplicationStateHandlingTest : XCTestCase
 @end
@@ -77,6 +78,44 @@
       [condition waitWithTimeout:GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration)]);
 
   XCTAssertNoThrow([EarlGrey foregroundApplicationWithBundleID:applicationBundleID error:nil]);
+}
+
+- (void)testRotateWhileBackgroundedFailsFastWithDescriptiveError {
+  if (@available(iOS 16.0, *)) {
+    BOOL backgrounded = [EarlGrey backgroundApplication];
+    XCTAssertTrue(backgrounded);
+
+    NSError *rotateError;
+    BOOL rotated = YES;
+    NSTimeInterval elapsedTime = 0;
+    @try {
+      NSTimeInterval startTime = NSProcessInfo.processInfo.systemUptime;
+      rotated = [EarlGrey rotateInterfaceToOrientation:UIInterfaceOrientationLandscapeLeft
+                                                 error:&rotateError];
+      elapsedTime = NSProcessInfo.processInfo.systemUptime - startTime;
+    } @finally {
+      [_application activate];
+      XCTAssertTrue([_application
+          waitForState:XCUIApplicationStateRunningForeground
+               timeout:GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration)]);
+    }
+
+    XCTAssertFalse(rotated);
+    XCTAssertNotNil(rotateError);
+    XCTAssertEqualObjects(rotateError.domain, kGREYSyntheticEventInjectionErrorDomain);
+    XCTAssertEqual(rotateError.code, kGREYOrientationChangeFailedErrorCode);
+    CFTimeInterval interactionTimeout =
+        GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
+    XCTAssertLessThan(elapsedTime, interactionTimeout / 2.0,
+                      @"Rotation while backgrounded should fail fast instead of polling for the "
+                      @"full interaction timeout.");
+    NSString *failureReason = rotateError.userInfo[kErrorFailureReasonKey];
+    NSString *recoverySuggestion = rotateError.userInfo[kErrorDetailRecoverySuggestionKey];
+    XCTAssertTrue([failureReason containsString:@"no foreground active window scene"],
+                  @"Expected no-foreground-scene failure reason, got: %@", failureReason);
+    XCTAssertTrue([recoverySuggestion containsString:@"foreground"],
+                  @"Expected foreground recovery suggestion, got: %@", recoverySuggestion);
+  }
 }
 
 // Flakiness will be seen in these tests since the wait times for launching an app were too small
@@ -248,6 +287,25 @@ static void PerformSampleEarlGreyStatement(void) {
   [GREYConfiguration.sharedConfiguration setValue:@(10)
                                      forConfigKey:kGREYConfigKeyAppLaunchTimeout];
   XCTAssertThrows([application launch]);
+}
+
+@end
+
+/** Verifies that BaseIntegrationTest recovers foreground state and navigation stack in -setUp. */
+@interface BaseIntegrationTestRecoveryTest : BaseIntegrationTest
+@end
+
+@implementation BaseIntegrationTestRecoveryTest
+
+- (void)testSetUpRecoversForegroundAndNavigationStackAfterBackgrounding {
+  [self openTestViewNamed:@"Basic Views"];
+  XCTAssertTrue([EarlGrey backgroundApplication]);
+
+  // Simulate the next test's -setUp running while the host app is still backgrounded.
+  XCTAssertNoThrow([super setUp]);
+  XCTAssertEqual(self.application.state, XCUIApplicationStateRunningForeground);
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")]
+      assertWithMatcher:GREYSufficientlyVisible()];
 }
 
 @end
