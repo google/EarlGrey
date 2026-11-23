@@ -17,6 +17,7 @@
 #import "GREYUILibUtils.h"
 
 #import "GREYAppleInternals.h"
+#import "GREYConstants.h"
 
 UIWindow *GREYUILibUtilsGetApplicationKeyWindow(UIApplication *application) {
   if (@available(iOS 13.0, *)) {
@@ -131,6 +132,70 @@ NSArray<UIWindow *> *GREYUILibUtilsGetAllWindowsFromConnectedScenes() {
 + (NSSet<UIScene *> *)connectedScenes API_AVAILABLE(ios(13.0)) {
   return UIApplication.sharedApplication.connectedScenes;
 }
+
++ (UIWindowScene *)activeWindowScene API_AVAILABLE(ios(13.0)) {
+  UIWindowScene *keyWindowScene = [self window].windowScene;
+  if (keyWindowScene && keyWindowScene.activationState == UISceneActivationStateForegroundActive &&
+      (!keyWindowScene.session ||
+       [keyWindowScene.session.role isEqualToString:UIWindowSceneSessionRoleApplication])) {
+    return keyWindowScene;
+  }
+  UIWindowScene *foregroundInactiveScene = nil;
+  UIWindowScene *anyApplicationScene = nil;
+  UIWindowScene *fallbackScene = nil;
+  for (UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
+    if (![scene isKindOfClass:[UIWindowScene class]]) {
+      continue;
+    }
+    UIWindowScene *windowScene = (UIWindowScene *)scene;
+    BOOL isApplicationScene =
+        !windowScene.session ||
+        [windowScene.session.role isEqualToString:UIWindowSceneSessionRoleApplication];
+    if (isApplicationScene) {
+      if (windowScene.activationState == UISceneActivationStateForegroundActive) {
+        return windowScene;
+      }
+      if (windowScene.activationState == UISceneActivationStateForegroundInactive &&
+          !foregroundInactiveScene) {
+        foregroundInactiveScene = windowScene;
+      } else if (!anyApplicationScene) {
+        anyApplicationScene = windowScene;
+      }
+    } else if (!fallbackScene) {
+      fallbackScene = windowScene;
+    }
+  }
+  return foregroundInactiveScene ?: (anyApplicationScene ?: fallbackScene);
+}
+
+#if TARGET_OS_IOS
++ (BOOL)rotateWindowScene:(UIWindowScene *)scene
+    toInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+              errorHandler:(void (^)(NSString *domain, NSInteger code,
+                                     NSString *localizedDescription))errorHandler
+    API_AVAILABLE(ios(13.0)) {
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
+  if (@available(iOS 16.0, *)) {
+    UIInterfaceOrientationMask mask =
+        [GREYConstants interfaceOrientationMaskForInterfaceOrientation:interfaceOrientation];
+    if (mask == 0 || !scene) {
+      return NO;
+    }
+    UIWindowSceneGeometryPreferencesIOS *prefs =
+        [[UIWindowSceneGeometryPreferencesIOS alloc] initWithInterfaceOrientations:mask];
+    [scene requestGeometryUpdateWithPreferences:prefs
+                                   errorHandler:^(NSError *error) {
+                                     if (errorHandler) {
+                                       errorHandler(error.domain, error.code,
+                                                    error.localizedDescription);
+                                     }
+                                   }];
+    return YES;
+  }
+#endif
+  return NO;
+}
+#endif  // TARGET_OS_IOS
 
 + (CGRect)scaledKeyboardFrame {
   UIWindow *keyboardWindow = GREYUILibUtilsGetKeyboardWindow();

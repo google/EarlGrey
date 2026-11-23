@@ -30,23 +30,29 @@
 }
 
 - (void)tearDown {
-  // Tear down before undoing swizzling.
+  // Run BaseIntegrationTest teardown (restoring the failure handler and resetting the navigation
+  // stack) before unswizzling the portrait lock, which otherwise triggers an immediate rotation to
+  // the current XCUIDevice orientation.
   [super tearDown];
   GREYAssert([[GREYHostApplicationDistantObject sharedInstance] unblockNonPortraitOrientations],
              @"Failed to undo the blocking of non-portrait orientations.");
+  [EarlGrey rotateInterfaceToOrientation:UIInterfaceOrientationPortrait error:nil];
 }
 
 - (void)testRotateToUnsupportedOrientation {
-  UIApplication *sharedApp = [GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication];
-  UIWindowScene *scene = sharedApp.windows.firstObject.windowScene;
+  UIWindowScene *scene = [GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) activeWindowScene];
   if (@available(iOS 16, *)) {
     NSError *error;
-    [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:&error];
+    BOOL success = [EarlGrey rotateInterfaceToOrientation:UIInterfaceOrientationLandscapeLeft
+                                                    error:&error];
+    XCTAssertFalse(success, @"Rotation to unsupported orientation should return NO.");
     XCTAssertNotNil(error, @"Unsupported orientations should error out in iOS 16+.");
     XCTAssertTrue(
         [error.userInfo[@"Recovery Suggestion"] containsString:@"Verify if orientation is locked"]);
+    XCTAssertNotNil(error.userInfo[@"Description"],
+                    @"Error should include underlying geometry update error details.");
 
-    GREYAssertTrue(UIInterfaceOrientationIsPortrait(scene.interfaceOrientation),
+    GREYAssertTrue(UIInterfaceOrientationIsPortrait(scene.effectiveGeometry.interfaceOrientation),
                    @"Interface orientation should remain portrait");
   } else {
     [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:nil];
@@ -60,16 +66,29 @@
 }
 
 - (void)testDeviceChangeWithoutInterfaceChange {
-  UIApplication *sharedApp = [GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication];
-  UIWindowScene *scene = sharedApp.windows.firstObject.windowScene;
+  UIWindowScene *scene = [GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) activeWindowScene];
   if (@available(iOS 16, *)) {
     NSError *error;
-    [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:&error];
+    BOOL success = [EarlGrey rotateInterfaceToOrientation:UIInterfaceOrientationLandscapeLeft
+                                                    error:&error];
+    XCTAssertFalse(success, @"Rotation to unsupported orientation should return NO.");
     XCTAssertNotNil(error, @"Unsupported orientations should error out in iOS 16+.");
     XCTAssertTrue(
         [error.userInfo[@"Recovery Suggestion"] containsString:@"Verify if orientation is locked"]);
+    XCTAssertNotNil(error.userInfo[@"Description"],
+                    @"Error should include underlying geometry update error details.");
+    GREYAssertEqual([XCUIDevice sharedDevice].orientation, UIDeviceOrientationLandscapeRight,
+                    @"Device orientation should now be landscape right");
+    GREYAssertEqual(scene.effectiveGeometry.interfaceOrientation, UIInterfaceOrientationPortrait,
+                    @"Interface orientation should remain portrait");
 
-    GREYAssertEqual(scene.interfaceOrientation, UIInterfaceOrientationPortrait,
+    error = nil;
+    success = [EarlGrey rotateInterfaceToOrientation:UIInterfaceOrientationPortrait error:&error];
+    XCTAssertTrue(success, @"Rotation back to supported portrait orientation should succeed.");
+    XCTAssertNil(error);
+    GREYAssertEqual([XCUIDevice sharedDevice].orientation, UIDeviceOrientationPortrait,
+                    @"Device orientation should now be portrait");
+    GREYAssertEqual(scene.effectiveGeometry.interfaceOrientation, UIInterfaceOrientationPortrait,
                     @"Interface orientation should remain portrait");
   } else {
     [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:nil];
