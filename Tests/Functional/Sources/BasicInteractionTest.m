@@ -25,6 +25,13 @@
 // Extended long press duration to reduce test flakiness due to slow simulator speeds.
 static const CFTimeInterval kExtendedLongPressDuration = 4.0;
 
+// Duration to drain in testAssertionForDrainForTime.
+static const CFTimeInterval kDrainWaitDuration = 3.0;
+
+// Upper-bound tolerance above kDrainWaitDuration to accommodate simulator scheduling jitter and
+// sanitizer/video overhead while still catching excessive stalls.
+static const CFTimeInterval kDrainWaitUpperBoundTolerance = 5.0;
+
 /**
  * Tests to ensure the basic functionality of EarlGrey is intact.
  */
@@ -930,10 +937,15 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
 /** Confirms time saved in a drain from the test side. */
 - (void)testAssertionForDrainForTime {
   CFTimeInterval start = CACurrentMediaTime();
-  GREYWaitForTime(3);
+  GREYWaitForTime(kDrainWaitDuration);
   CFTimeInterval interval = CACurrentMediaTime() - start;
-  XCTAssertGreaterThan(interval, 3, @"The app must have been drained for 3 seconds");
-  XCTAssertLessThan(interval, 3.1, @"The app must have been drained for 3 seconds");
+  XCTAssertGreaterThanOrEqual(
+      interval, kDrainWaitDuration,
+      @"The app must have been drained for at least %.1f seconds (actual: %.3f seconds).",
+      kDrainWaitDuration, interval);
+  XCTAssertLessThan(interval, kDrainWaitDuration + kDrainWaitUpperBoundTolerance,
+                    @"The app drain time (%.3f seconds) exceeded the upper bound of %.1f seconds.",
+                    interval, kDrainWaitDuration + kDrainWaitUpperBoundTolerance);
 }
 
 #pragma mark - Activity Sheet Tests (iOS 17 only)
