@@ -30,12 +30,16 @@
 
 - (void)setUp {
   [super setUp];
-  [self openTestViewNamed:@"Active Animations"];
   _originalAnimationTime = GREY_CONFIG_DOUBLE(kGREYConfigKeyCALayerMaxAnimationDuration);
   [[GREYConfiguration sharedConfiguration] setValue:@(3)
                                        forConfigKey:kGREYConfigKeyCALayerMaxAnimationDuration];
   [[GREYConfiguration sharedConfiguration] setValue:@(YES)
                                        forConfigKey:kGREYConfigKeyIgnoreHiddenAnimations];
+  [self openTestViewNamed:@"Active Animations"];
+  // Wait for the pushed view controller and any system navigation bar animations to settle before
+  // individual tests adjust the max animation duration or interaction timeout.
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"animatingView")]
+      assertWithMatcher:GREYNotNil()];
 }
 
 - (void)tearDown {
@@ -191,7 +195,7 @@
 - (void)testSynchingToTheSlowestAnimationWhenMultipleRecurrentLayersArePresentWithSomeHidden {
   // We test if multiple animations are happening, that the longest one is waited for irrespective
   // of the layer hierarchy. All have repeat count set to 0, which means one animation.
-  [[GREYConfiguration sharedConfiguration] setValue:@(100)
+  [[GREYConfiguration sharedConfiguration] setValue:@(10)
                                        forConfigKey:kGREYConfigKeyCALayerMaxAnimationDuration];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"animatingView")]
       assertWithMatcher:GREYNotNil()];
