@@ -16,7 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import " IWYU pragma: keep. Needed for enums GREYDirection, GREYPinchDirection, GREYContentEdge.
+#import "GREYConstants.h"  // IWYU pragma: keep. Needed for enums GREYDirection, GREYPinchDirection, GREYContentEdge.
 #import "GREYDefines.h"
 
 #if COCOAPODS
