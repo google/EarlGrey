@@ -25,6 +25,7 @@
 #import "GREYAppleInternals.h"
 
 
+#import "EarlGreyImpl+Private.h"
 #import "GREYElementInteractionErrorHandler.h"
 #import "GREYElementInteractionProxy.h"
 #import "GREYRemoteExecutor.h"
@@ -1048,7 +1049,8 @@ static GREYError *CreateRotationError(UIInterfaceOrientation interfaceOrientatio
   return [self buttonInActivitySheetWithID:identifier error:error] != nil;
 }
 
-- (XCUIElement *)buttonInActivitySheetWithID:(NSString *)identifier error:(NSError **)error {
+- (XCUIElement *)buttonInActivitySheetWithID:(NSString *)identifier
+                                       error:(NSError **)error API_AVAILABLE(ios(17)) {
   if ([identifier isEqualToString:@"Close"]) {
     return [self elementInActivitySheetWithID:identifier type:XCUIElementTypeButton error:error];
   }
@@ -1057,7 +1059,7 @@ static GREYError *CreateRotationError(UIInterfaceOrientation interfaceOrientatio
 
 - (XCUIElement *)elementInActivitySheetWithID:(NSString *)identifier
                                          type:(XCUIElementType)type
-                                        error:(NSError **)error {
+                                        error:(NSError **)error API_AVAILABLE(ios(17)) {
   XCUIElement *activitySheet = [self activitySheetWithError:error];
   if (!activitySheet) {
     return nil;

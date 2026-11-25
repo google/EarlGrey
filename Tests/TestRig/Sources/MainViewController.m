@@ -133,10 +133,6 @@ static NSString *gTableViewIdentifier = @"TableViewIdentifier";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   NSString *key = [_controllerKeys objectAtIndex:(NSUInteger)indexPath.row];
-  Class viewController = _nameToControllerMap[key];
-  UIViewController *vc = [[viewController alloc] initWithNibName:NSStringFromClass(viewController)
-                                                          bundle:nil];
-
   if ([key isEqualToString:@"Share Sheet"]) {
     NSArray *items = @[ @"Foo", [NSURL URLWithString:@"https://www.apple.com"] ];
     [self.navigationController
@@ -144,7 +140,13 @@ static NSString *gTableViewIdentifier = @"TableViewIdentifier";
                                                                 applicationActivities:nil]
                      animated:YES
                    completion:nil];
-  } else if ([key isEqualToString:@"Presented Views"]) {
+    return;
+  }
+
+  Class viewController = _nameToControllerMap[key];
+  UIViewController *vc = [[viewController alloc] initWithNibName:NSStringFromClass(viewController)
+                                                          bundle:nil];
+  if ([key isEqualToString:@"Presented Views"]) {
     [self.navigationController presentViewController:vc animated:NO completion:nil];
   } else {
     [UIView transitionWithView:self.navigationController.view

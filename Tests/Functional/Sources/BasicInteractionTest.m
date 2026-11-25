@@ -17,6 +17,8 @@
 #include <stddef.h>
 
 #import "EarlGrey.h"
+#import "EarlGreyImpl+Private.h"
+#import "GREYHostApplicationDistantObject+BaseIntegrationTest.h"
 #import "GREYHostApplicationDistantObject+BasicInteractionTest.h"
 #import "GREYHostApplicationDistantObject+RemoteTest.h"
 #import "GREYHostBackgroundDistantObject+BasicInteractionTest.h"
@@ -24,6 +26,9 @@
 
 // Extended long press duration to reduce test flakiness due to slow simulator speeds.
 static const CFTimeInterval kExtendedLongPressDuration = 4.0;
+// Bounded wait for out-of-process Share Sheet content to populate before performing a single
+// dismiss-and-reopen recovery.
+static const NSTimeInterval kShareSheetContentRecoveryTimeout = 10.0;
 
 // Duration to drain in testAssertionForDrainForTime.
 static const CFTimeInterval kDrainWaitDuration = 3.0;
@@ -963,7 +968,7 @@ static const CFTimeInterval kDrainWaitUpperBoundTolerance = 5.0;
 - (void)testShareSheetWithURL {
   XCTSkipUnless(iOS17_OR_ABOVE());
   if (@available(iOS 17.0, *)) {
-    [self openTestViewNamed:@"Share Sheet"];
+    [self openShareSheetWaitingForContent];
     XCTAssertTrue([EarlGrey activitySheetPresentWithURL:@"apple.com" error:nil]);
     [EarlGrey closeActivitySheetWithError:nil];
   }
@@ -972,7 +977,7 @@ static const CFTimeInterval kDrainWaitUpperBoundTolerance = 5.0;
 - (void)testShareSheetButtonsPresent {
   XCTSkipUnless(iOS17_OR_ABOVE());
   if (@available(iOS 17.0, *)) {
-    [self openTestViewNamed:@"Share Sheet"];
+    [self openShareSheetWaitingForContent];
     XCTAssertTrue([EarlGrey buttonPresentInActivitySheetWithId:@"Copy" error:nil]);
 
     NSError *error;
@@ -985,10 +990,13 @@ static const CFTimeInterval kDrainWaitUpperBoundTolerance = 5.0;
 - (void)testTappingOnShareSheetButtons {
   XCTSkipUnless(iOS17_OR_ABOVE());
   if (@available(iOS 17.0, *)) {
-    [self openTestViewNamed:@"Share Sheet"];
+    XCUIElement *firstActivitySheet = [self openShareSheetWaitingForContent];
     XCTAssertTrue([EarlGrey tapButtonInActivitySheetWithId:@"Copy" error:nil]);
+    XCTAssertTrue([EarlGrey activitySheetAbsentWithError:nil]);
+    XCTAssertTrue(
+        [firstActivitySheet waitForNonExistenceWithTimeout:kShareSheetContentRecoveryTimeout]);
 
-    [self openTestViewNamed:@"Share Sheet"];
+    [self openShareSheetWaitingForContent];
     XCTAssertTrue([EarlGrey tapButtonInActivitySheetWithId:@"More" error:nil]);
 
     [EarlGrey tapElementInActivitySheetWithID:@"Done" error:nil];
@@ -998,6 +1006,37 @@ static const CFTimeInterval kDrainWaitUpperBoundTolerance = 5.0;
 }
 
 #pragma mark - Private
+
+/**
+ * Opens the Share Sheet and waits for its out-of-process content to populate.
+ *
+ * On iOS 26+ simulators, the out-of-process Share Sheet occasionally renders an empty container
+ * frame with no actions or Close button, so `closeActivitySheetWithError:` cannot dismiss it.
+ * When no `StaticText` descendants appear within `kShareSheetContentRecoveryTimeout`, this helper
+ * dismisses the presented controller in-app via `resetNavigationStack`, waits for the remote sheet
+ * container to disappear, and reopens the Share Sheet once.
+ *
+ * @return The presented activity sheet @c XCUIElement.
+ */
+- (XCUIElement *)openShareSheetWaitingForContent API_AVAILABLE(ios(17.0)) {
+  [self openTestViewNamed:@"Share Sheet"];
+  XCUIElement *activitySheet = [EarlGrey activitySheetWithError:nil];
+  XCTAssertNotNil(activitySheet);
+
+  if (![activitySheet.staticTexts.firstMatch
+          waitForExistenceWithTimeout:kShareSheetContentRecoveryTimeout]) {
+    NSLog(@"Share Sheet container had no StaticText elements after %.1fs; resetting navigation "
+          @"stack and reopening once.",
+          kShareSheetContentRecoveryTimeout);
+    [[GREYHostApplicationDistantObject sharedInstance] resetNavigationStack];
+    XCTAssertTrue([EarlGrey activitySheetAbsentWithError:nil]);
+    XCTAssertTrue([activitySheet waitForNonExistenceWithTimeout:kShareSheetContentRecoveryTimeout]);
+    [self openTestViewNamed:@"Share Sheet"];
+    activitySheet = [EarlGrey activitySheetWithError:nil];
+    XCTAssertNotNil(activitySheet);
+  }
+  return activitySheet;
+}
 
 /**
  * Wait for the text to appear on screen.
