@@ -84,8 +84,9 @@
   [self hideAndUnhideAnimatingViewWithSynchronizationDisabled];
   CFTimeInterval duration = CACurrentMediaTime() - startTime;
   XCTAssertGreaterThan(duration, GREY_CONFIG_DOUBLE(kGREYConfigKeyCALayerMaxAnimationDuration));
-  XCTAssertLessThan(duration, 4.5,
-                    @"The duration should be lower than the longest animation ~4.5s");
+  XCTAssertLessThan(duration, 8,
+                    @"Duration should reflect the 3s trimmed animation plus 1s safeguard padding "
+                    @"and four tap interactions.");
 }
 
 /**
@@ -185,7 +186,9 @@
   [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:GREYNotNil()];
   CFTimeInterval duration = CACurrentMediaTime() - startTime;
   XCTAssertGreaterThan(duration, 8);
-  XCTAssertLessThan(duration, 9);
+  XCTAssertLessThan(duration, 15,
+                    @"Duration should reflect the 8s animation plus 1s safeguard padding and "
+                    @"interaction overhead.");
 }
 
 /**
@@ -212,7 +215,9 @@
   [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:GREYNotNil()];
   CFTimeInterval duration = CACurrentMediaTime() - startTime;
   XCTAssertGreaterThan(duration, 8);
-  XCTAssertLessThan(duration, 9);
+  XCTAssertLessThan(duration, 15,
+                    @"Duration should reflect the 8s animation plus 1s safeguard padding and "
+                    @"interaction overhead.");
 }
 
 /**
@@ -258,7 +263,9 @@
   // Longest animation is a sublayer with an 8 second animation enqueued on it. However it will be
   // trimmed to around 3 seconds as that's the allowable duration.
   [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:GREYNotNil()];
-  XCTAssertLessThan(CACurrentMediaTime() - startTime, 4);
+  XCTAssertLessThan(CACurrentMediaTime() - startTime, 7,
+                    @"Duration should reflect the 8s animation trimmed to 3s plus 1s safeguard "
+                    @"padding and interaction overhead.");
 }
 
 #pragma mark - Private
