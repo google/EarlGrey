@@ -17,6 +17,7 @@
 
 #include <float.h>  // IWYU pragma: no_include "__float_float.h"
 #include <limits.h>
+#include <stdatomic.h>
 #include <stddef.h>
 
 #import "UIApplication+ActiveRunLoopMode.h"
@@ -28,6 +29,17 @@
  * runloop drain.
  */
 static const NSUInteger kDefaultMinRunLoopDrains = 2;
+
+/**
+ * Lifecycle state of a condition-checking drain phase. Transitions are one-way from
+ * @c GREYConditionCheckStateRunning to either @c GREYConditionCheckStateMet (on the main thread)
+ * or @c GREYConditionCheckStateTimedOut (on a background caller thread).
+ */
+typedef NS_ENUM(int, GREYConditionCheckState) {
+  GREYConditionCheckStateRunning = 0,
+  GREYConditionCheckStateMet = 1,
+  GREYConditionCheckStateTimedOut = 2,
+};
 
 /**
  * No-op timer handler block.
@@ -120,6 +132,10 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
       return;
     }
 
+    // Mark the condition as checked before evaluating stopConditionBlock and invoking
+    // conditionMetHandler so post-signal runloop passes do not re-enter this observer or keep
+    // waking the main runloop while the caller tears down the observer.
+    conditionChecked = YES;
     conditionMet = stopConditionBlock();
     if (conditionMet) {
       void (^conditionMetHandler)(void) = self.conditionMetHandler;
@@ -128,10 +144,6 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
       }
     }
 
-    // When we signal here and exit the observer, the chances are we could still get notified if
-    // the main thread doesn't yield just yet. We set a flag here to avoid subsequent entrances
-    // into the runloop after the condition has been checked once.
-    conditionChecked = YES;
     if (explicitDrainInMainRunLoop) {
       CFRunLoopStop(CFRunLoopGetMain());
     } else {
@@ -140,8 +152,12 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
   };
 
   void (^wakeUpBlock)(void) = ^{
-    // Never let the runloop sleep while we are draining it for the minimum drains.
-    CFRunLoopWakeUp(CFRunLoopGetMain());
+    // Never let the runloop sleep while we are draining it for the minimum drains. On the main
+    // thread, also wake after conditionChecked so a queued block running a nested runloop that
+    // drains CFRunLoopStop's wakeup cannot stall the outer DBL_MAX wait before it observes stop.
+    if (!conditionChecked || explicitDrainInMainRunLoop) {
+      CFRunLoopWakeUp(CFRunLoopGetMain());
+    }
   };
 
   // Drain the currently active mode in a while loop so that we handle cases where the active mode
@@ -172,8 +188,9 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
           }
         }
       } else {
-        // Wake up the main runloop in the case it is already in the sleep state.
-        wakeUpBlock();
+        // Wake up the main runloop in case it is already sleeping. Call CFRunLoopWakeUp directly
+        // instead of wakeUpBlock() so conditionChecked is only accessed on the main thread.
+        CFRunLoopWakeUp(CFRunLoopGetMain());
         dispatch_semaphore_wait(stopCondition, DISPATCH_TIME_FOREVER);
       }
       [self grey_teardownObserver:drainCountingObserver inMode:activeMode];
@@ -207,14 +224,15 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
                                                forTime:(CFTimeInterval)time {
   NSString *activeMode = [self grey_activeRunLoopMode];
   CFRunLoopTimerRef wakeUpTimer = [self grey_setupWakeUpTimerInMode:activeMode];
-  __block BOOL conditionMet = NO;
+  __block atomic_int phaseState;
+  atomic_init(&phaseState, GREYConditionCheckStateRunning);
   __weak __typeof__(self) weakSelf = self;
 
   // Semaphore to wait for stopConditionBlock to finish.
   dispatch_semaphore_t waitForCondition = dispatch_semaphore_create(0L);
   // Semaphore to wait for conditionMetHandler to finish.
   dispatch_semaphore_t waitForConditionMetHandler = dispatch_semaphore_create(0L);
-  void (^beforeSourcesConditionCheckBlock)(void) = ^{
+  void (^conditionCheckBlock)(void) = ^{
     __typeof__(self) strongSelf = weakSelf;
     // It's possible that this block is still invoked while strongSelf is released if the observer
     // is registered and deregistered from a non-main thread. The main runloop may hold the observer
@@ -223,20 +241,25 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
       return;
     }
 
-    if (!conditionMet && stopConditionBlock()) {
-      // If the semaphore is used, signal that the conidition is met.
-      if (!explicitDrainInMainRunLoop) {
-        dispatch_semaphore_signal(waitForCondition);
-      }
-      conditionMet = YES;
-      void (^conditionMetHandler)(void) = [strongSelf conditionMetHandler];
-      if (conditionMetHandler) {
-        conditionMetHandler();
-      }
-      if (explicitDrainInMainRunLoop) {
-        CFRunLoopStop(CFRunLoopGetMain());
-      } else {
-        dispatch_semaphore_signal(waitForConditionMetHandler);
+    if (atomic_load_explicit(&phaseState, memory_order_acquire) == GREYConditionCheckStateRunning &&
+        stopConditionBlock()) {
+      int expected = GREYConditionCheckStateRunning;
+      if (atomic_compare_exchange_strong_explicit(&phaseState, &expected,
+                                                  GREYConditionCheckStateMet, memory_order_acq_rel,
+                                                  memory_order_acquire)) {
+        // If the semaphore is used, signal that the condition is met.
+        if (!explicitDrainInMainRunLoop) {
+          dispatch_semaphore_signal(waitForCondition);
+        }
+        void (^conditionMetHandler)(void) = [strongSelf conditionMetHandler];
+        if (conditionMetHandler) {
+          conditionMetHandler();
+        }
+        if (explicitDrainInMainRunLoop) {
+          CFRunLoopStop(CFRunLoopGetMain());
+        } else {
+          dispatch_semaphore_signal(waitForConditionMetHandler);
+        }
       }
     }
   };
@@ -249,38 +272,29 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
       return;
     }
 
-    if (preventRunLoopFromSleeping) {
-      CFRunLoopWakeUp(CFRunLoopGetMain());
-    }
-
     // This observer callback is not guaranteed to be called, but we must also check if we should
     // stop the runloop here because we do not want the runloop to go to sleep if we should stop
     // the runloop. A source handled in the last drain may have satisfied the stop condition.
     //
-    // Do not check stopConditionBlock() if stopConditionMet is already true. This will occur if we
-    // stopped the runloop in the beforeSourcesConditionCheckBlock() handler. In this case, we do
-    // not want to check the stop condition again.
-    if (!conditionMet && stopConditionBlock()) {
-      // If the semaphore is used, signal that the conidition is met.
-      if (!explicitDrainInMainRunLoop) {
-        dispatch_semaphore_signal(waitForCondition);
-      }
-      conditionMet = YES;
-      void (^conditionMetHandler)(void) = [strongSelf conditionMetHandler];
-      if (conditionMetHandler) {
-        conditionMetHandler();
-      }
-      if (explicitDrainInMainRunLoop) {
-        CFRunLoopStop(CFRunLoopGetMain());
-      } else {
-        dispatch_semaphore_signal(waitForConditionMetHandler);
-      }
+    // Do not check stopConditionBlock() if the phase has already finished (either condition met or
+    // timed out). For example, if conditionCheckBlock() already met the condition before sources,
+    // we do not want to check the stop condition again.
+    conditionCheckBlock();
+
+    // Only keep waking the main runloop while still spinning with maxSleepInterval == 0, or on the
+    // main thread after conditionMet so a nested runloop draining CFRunLoopStop's wakeup cannot
+    // stall the outer CFRunLoopRunInMode wait.
+    GREYConditionCheckState state =
+        (GREYConditionCheckState)atomic_load_explicit(&phaseState, memory_order_acquire);
+    if ((state == GREYConditionCheckStateRunning && preventRunLoopFromSleeping) ||
+        (state == GREYConditionCheckStateMet && explicitDrainInMainRunLoop)) {
+      CFRunLoopWakeUp(CFRunLoopGetMain());
     }
   };
 
   CFRunLoopObserverRef conditionCheckingObserver =
       [self grey_setupObserverInMode:activeMode
-              withBeforeSourcesBlock:beforeSourcesConditionCheckBlock
+              withBeforeSourcesBlock:conditionCheckBlock
                   beforeWaitingBlock:beforeWaitingConditionCheckBlock
           explicitDrainInMainRunLoop:explicitDrainInMainRunLoop];
   if (explicitDrainInMainRunLoop) {
@@ -297,9 +311,10 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
         break;
       }
 
-      GREYFatalAssertWithMessage(!conditionMet,
-                                 @"If the running the active mode returned finished, the condition "
-                                 @"should not have been met.");
+      GREYFatalAssertWithMessage(
+          atomic_load_explicit(&phaseState, memory_order_acquire) != GREYConditionCheckStateMet,
+          @"If the running the active mode returned finished, the condition "
+          @"should not have been met.");
       // Empty block to trigger the observer to occur in case of no attached sources or timers.
       CFRunLoopPerformBlock(CFRunLoopGetMain(), (CFStringRef)activeMode,
                             ^{
@@ -312,9 +327,20 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
     CFTimeInterval nanoTime = time * NSEC_PER_SEC;
     dispatch_time_t timeout = isinf(nanoTime) ? DISPATCH_TIME_FOREVER
                                               : dispatch_time(DISPATCH_TIME_NOW, (int64_t)nanoTime);
-    BOOL success = dispatch_semaphore_wait(waitForCondition, timeout) == 0;
-    if (success) {
-      // After condition was met, make sure to wait forever until the condition met handler are
+    BOOL waitSucceeded = dispatch_semaphore_wait(waitForCondition, timeout) == 0;
+    BOOL shouldWaitForHandler = waitSucceeded;
+    if (!waitSucceeded) {
+      int expected = GREYConditionCheckStateRunning;
+      if (!atomic_compare_exchange_strong_explicit(&phaseState, &expected,
+                                                   GREYConditionCheckStateTimedOut,
+                                                   memory_order_acq_rel, memory_order_acquire)) {
+        // The main thread transitioned to GREYConditionCheckStateMet right as waitForCondition
+        // timed out; wait for conditionMetHandler to finish before tearing down and returning YES.
+        shouldWaitForHandler = (expected == GREYConditionCheckStateMet);
+      }
+    }
+    if (shouldWaitForHandler) {
+      // After condition was met, make sure to wait forever until the condition met handler is
       // finished. Otherwise, it could cause unexpected behavior as executor thread will move onto
       // the next interaction without fully waiting for the task to finish.
       dispatch_semaphore_wait(waitForConditionMetHandler, DISPATCH_TIME_FOREVER);
@@ -323,7 +349,7 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
   [self grey_teardownObserver:conditionCheckingObserver inMode:activeMode];
   [self grey_teardownTimer:wakeUpTimer inMode:activeMode];
 
-  return conditionMet;
+  return atomic_load_explicit(&phaseState, memory_order_acquire) == GREYConditionCheckStateMet;
 }
 
 /**
